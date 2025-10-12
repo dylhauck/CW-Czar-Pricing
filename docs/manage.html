@@ -20,7 +20,10 @@
       <a class="active" href="manage.html">Manage Settings</a>
       <a href="usage.html">Usage Report</a>
     </nav>
-    <div class="top-actions"></div>
+    <div class="top-actions">
+      <span id="userBadge" class="muted" style="margin-right:8px"></span>
+      <button id="logoutBtn" class="btn-subtle-sm">Logout</button>
+    </div>
   </header>
 
   <section class="titlebar"><div class="titlebar-icon">⚙️</div><h1>MANAGE SETTINGS</h1></section>
@@ -53,8 +56,15 @@
 
   <footer class="bottombar"><div class="smc">© 2025 CW Worldwide. All rights reserved.</div></footer>
 
+  <!-- Auth gate -->
+  <script type="module">
+    import { requireAuth, applyUserToUI } from "./auth.js";
+    requireAuth();
+    applyUserToUI();
+  </script>
+
   <script>
-    // toast helper (same style as index)
+    // toast helper
     function toast(msg, type='success'){
       const root = document.getElementById('toast-root');
       const t = document.createElement('div');
@@ -66,7 +76,6 @@
     const get = k => localStorage.getItem(k) ?? '';
     const set = (k,v) => localStorage.setItem(k,v);
 
-    // preload
     window.addEventListener('DOMContentLoaded', () => {
       document.getElementById('defDiscount').value = get('defDiscount');
       document.getElementById('defFsc').value      = get('defFsc');
