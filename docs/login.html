@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CW Czar Pricing – Login</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    .login-wrap{max-width:420px;margin:56px auto;padding:18px}
+    .login-card{background:#fff;border:1px solid var(--stroke);border-radius:16px;box-shadow:var(--shadow-md);padding:22px}
+    .login-title{display:flex;align-items:center;gap:10px;margin:0 0 8px}
+    .login-sub{color:var(--muted);margin:0 0 14px}
+    .login-actions{display:flex;gap:10px;align-items:center;margin-top:10px}
+    .error{color:#b91c1c;font-size:12px;margin-top:6px}
+    .muted a{color:var(--brand-500);text-decoration:none}
+    .muted a:hover{text-decoration:underline}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <img class="logo" src="assets/logo.svg" alt="" />
+      <span class="brand-text">CW Czar Pricing</span>
+    </div>
+    <nav class="topnav">
+      <a href="index.html">Rate a Shipment</a>
+      <a href="manage.html">Manage Settings</a>
+      <a href="usage.html">Usage Report</a>
+    </nav>
+    <div class="top-actions"></div>
+  </header>
+
+  <div class="login-wrap">
+    <div class="login-card">
+      <h1 class="login-title">Sign in</h1>
+      <p class="login-sub">Use your email and a password to continue.</p>
+
+      <div class="row"><label>Email</label><input id="email" type="text" placeholder="you@company.com" /></div>
+      <div class="row"><label>Password</label><input id="pw" type="password" placeholder="••••••••" /></div>
+      <div id="err" class="error" style="display:none"></div>
+
+      <div class="login-actions">
+        <button id="loginBtn" class="btn-primary">Sign in</button>
+        <button id="demoBtn" class="btn-subtle">Demo login</button>
+      </div>
+
+      <p class="muted" style="margin-top:12px">For production auth, we can wire Firebase/Auth0 later.</p>
+    </div>
+  </div>
+
+  <script type="module">
+    import { login, isLoggedIn } from "./auth.js";
+
+    // If already logged in, bounce to return target (or home)
+    const params = new URLSearchParams(location.search);
+    const ret = params.get("ret") || "index.html";
+    if(isLoggedIn()){ location.replace(ret); }
+
+    const email = document.getElementById("email");
+    const pw    = document.getElementById("pw");
+    const err   = document.getElementById("err");
+
+    function showErr(m){ err.textContent = m; err.style.display = "block"; }
+    function clearErr(){ err.textContent = ""; err.style.display = "none"; }
+
+    // Demo rules (front-end only; NOT secure):
+    // - email required and looks like an email
+    // - password at least 6 chars (or try "demo")
+    function validEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+
+    document.getElementById("loginBtn").addEventListener("click", () => {
+      clearErr();
+      if(!validEmail(email.value)) return showErr("Please enter a valid email.");
+      if((pw.value||"").length < 6) return showErr("Password must be at least 6 characters.");
+      login({ email: email.value, name: email.value.split("@")[0] });
+      location.replace(ret);
+    });
+
+    document.getElementById("demoBtn").addEventListener("click", () => {
+      login({ email: "demo@example.com", name: "Demo" });
+      location.replace(ret);
+    });
+  </script>
+</body>
+</html>
