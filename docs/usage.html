@@ -18,7 +18,10 @@
       <a href="manage.html">Manage Settings</a>
       <a class="active" href="usage.html">Usage Report</a>
     </nav>
-    <div class="top-actions"></div>
+    <div class="top-actions">
+      <span id="userBadge" class="muted" style="margin-right:8px"></span>
+      <button id="logoutBtn" class="btn-subtle-sm">Logout</button>
+    </div>
   </header>
 
   <section class="titlebar"><div class="titlebar-icon">📊</div><h1>USAGE REPORT</h1></section>
@@ -51,6 +54,13 @@
   </main>
 
   <footer class="bottombar"><div class="smc">© 2025 CW Worldwide. All rights reserved.</div></footer>
+
+  <!-- Auth gate -->
+  <script type="module">
+    import { requireAuth, applyUserToUI } from "./auth.js";
+    requireAuth();
+    applyUserToUI();
+  </script>
 
   <script>
     // apply brand from local storage for visual consistency
