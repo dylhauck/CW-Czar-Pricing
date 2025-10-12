@@ -1,0 +1,21 @@
+:root{--green:#1e5b3e;--green-700:#174a33;--green-600:#1c533a;--green-400:#2a7a53;--white:#fff;--bg:#f5f7f6;--text:#1b1f23;--muted:#6b7280;--stroke:#d9e1db;--shadow:0 1px 2px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.06)}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--text);background:var(--bg)}
+.topbar{background:var(--green);color:#fff;display:flex;align-items:center;gap:24px;padding:12px 20px}
+.brand{display:flex;align-items:center;gap:12px}.logo{height:28px}.brand-text{font-weight:700}
+.topnav{display:flex;gap:28px;margin-left:24px;flex:1}.topnav a{color:#fff;text-decoration:none;font-weight:600;padding:8px 0;border-bottom:3px solid transparent}.topnav a.active{border-color:#fff}
+.titlebar{background:linear-gradient(180deg,var(--green-600),var(--green-700));color:#fff;display:flex;align-items:center;gap:16px;padding:18px 24px;margin-bottom:16px;box-shadow:var(--shadow)}
+.titlebar h1{margin:0;font-size:20px}
+.container{display:grid;grid-template-columns:1.1fr .9fr;gap:16px;max-width:1080px;margin:0 auto 32px;padding:0 12px}
+.card{background:#fff;border:1px solid var(--stroke);border-radius:10px;padding:14px 16px;box-shadow:var(--shadow)}
+.row{display:flex;align-items:center;gap:8px;margin:8px 0}.grid{display:grid;gap:12px}.grid-2{grid-template-columns:1fr 1fr}
+.table{border:1px solid var(--stroke);border-radius:8px;overflow:hidden;margin-bottom:6px}
+.table-head,.table-body .table-row{display:grid;grid-template-columns:1fr 1fr 1fr 1fr}
+.table-head{background:#f3f6f4;color:#111827;font-weight:600;font-size:12px;padding:8px}
+.table-row{padding:8px;border-top:1px solid var(--stroke)}
+.btn-primary{background:var(--green);color:#fff;border:1px solid var(--green-700);border-radius:8px;padding:8px 14px;font-weight:700}
+.btn-subtle{background:#e8f1ec;color:#0f3a29;border:1px solid #b4d0c0;border-radius:8px;padding:8px 14px}
+.btn-link{background:none;border:none;color:var(--green-400);font-weight:600;padding:0}
+.bottombar{background:var(--green);color:#e6f2ea;padding:22px 18px;margin-top:28px}
+.smc{text-align:center;margin-top:10px;font-size:12px;color:#d9ebe1}
+.help{font-size:12px;color:var(--muted)} .muted{color:var(--muted)}
+input[type=text],input[type=number]{border:1px solid var(--stroke);border-radius:6px;height:32px;padding:6px 10px;background:#fff;color:var(--text);width:100%}
