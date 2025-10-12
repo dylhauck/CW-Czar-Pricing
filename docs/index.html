@@ -1,4 +1,88 @@
 <!doctype html>
-<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CW Czar Pricing</title><style>body{font-family:Arial,Helvetica,sans-serif;margin:24px}</style></head>
-<body><h1>CW Czar Pricing</h1><p>Docs site is live. Replace this with your engine build when ready.</p></body></html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CW Czar Pricing – Rate a Shipment</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <img class="logo" src="assets/logo.svg" alt="" />
+      <span class="brand-text">CW Czar Pricing</span>
+    </div>
+    <nav class="topnav"><a class="active" href="#">Rate A Shipment</a></nav>
+  </header>
+
+  <section class="titlebar"><div class="titlebar-icon">🚚</div><h1>RATE A SHIPMENT</h1></section>
+
+  <main class="container">
+    <div class="left">
+      <div class="card">
+        <h3>Lane</h3>
+        <div class="row"><label>Origin ZIP</label><input id="originZip" type="text" placeholder="30303" /></div>
+        <div class="row"><label>Destination ZIP</label><input id="destZip" type="text" placeholder="60606" /></div>
+        <div class="row"><label>Upload Rate Table (CSV)</label><input id="rateCsv" type="file" accept=".csv" /></div>
+        <div class="help">CSV columns: origin_zip3,dest_zip3,class,cwt_rate,min_charge (zip3 supports “*”).</div>
+        <div id="csvStatus" class="help"></div>
+      </div>
+
+      <div class="card">
+        <h3>Discounts & Surcharges</h3>
+        <div class="grid grid-2">
+          <div class="row"><label>Discount</label><input id="discountPct" type="text" placeholder="e.g., 70" /></div>
+          <div class="row"><label>Fuel Surcharge</label><input id="fscPct" type="text" placeholder="e.g., 25" /></div>
+          <div class="row"><label>MC Floor</label><input id="mcFloor" type="text" placeholder="optional floor $" /></div>
+          <div class="row"><label>Miles</label><input id="miles" type="text" placeholder="optional" /></div>
+          <div class="row"><label>Accessorials ($)</label><input id="accessorials" type="text" placeholder="0.00" /></div>
+        </div>
+        <div class="help">MC Floor applies after discount, before fuel & accessorials.</div>
+      </div>
+    </div>
+
+    <div class="right">
+      <div class="card">
+        <div class="table">
+          <div class="table-head"><div>Class</div><div>Weight (lb)</div><div>Rate (auto)</div><div>Charge</div></div>
+          <div class="table-body" id="items"></div>
+        </div>
+        <button class="btn-link" id="addRow">+ Add New Row</button>
+
+        <ul class="totals">
+          <li><span>Gross</span><span id="tGross">—</span></li>
+          <li><span>Discount</span><span id="tDisc">—</span></li>
+          <li><span>MC Floor</span><span id="tFloor">—</span></li>
+          <li><span>Fuel Surcharge</span><span id="tFsc">—</span></li>
+          <li><span>Accessorials</span><span id="tAcc">—</span></li>
+          <li><span><b>Net</b></span><span id="tNet"><b>—</b></span></li>
+        </ul>
+
+        <div class="actions">
+          <button class="btn-primary" id="rateBtn">Rate Shipment</button>
+          <button class="btn-subtle" id="clearBtn">Clear</button>
+          <span class="currency">US Dollars</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Optional Density Inputs</h3>
+        <div class="grid grid-2">
+          <div class="row"><label>pallets</label><input id="pallets" type="text" placeholder="optional" /></div>
+          <div class="row"><label>Length (in)</label><input id="len" type="text" /></div>
+          <div class="row"><label>Width (in)</label><input id="wid" type="text" /></div>
+          <div class="row"><label>Height (in)</label><input id="hei" type="text" /></div>
+        </div>
+        <div class="row" style="justify-content:space-between">
+          <div>Density: <span id="densityOut" class="muted">—</span> lb/ft³</div>
+          <div>Dim Weight: <span id="dimOut" class="muted">—</span> lb</div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bottombar"><div class="smc">© 2025 CW Worldwide. All rights reserved.</div></footer>
+  <script src="app.js"></script>
+</body>
+</html>
