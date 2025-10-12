@@ -8,23 +8,44 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 </head>
 <body>
+  <!-- Toasts -->
+  <div id="toast-root" class="toast-root"></div>
+
+  <!-- Top Bar -->
   <header class="topbar">
     <div class="brand">
       <img class="logo" src="assets/logo.svg" alt="" />
       <span class="brand-text">CW Czar Pricing</span>
     </div>
-    <nav class="topnav"><a class="active" href="#">Rate A Shipment</a></nav>
+
+    <nav class="topnav">
+      <a class="active" href="#">Rate a Shipment</a>
+      <a href="#" aria-disabled="true">Manage Settings</a>
+      <a href="#" aria-disabled="true">Usage Report</a>
+    </nav>
+
+    <div class="top-actions">
+      <button id="openUpload" class="btn-subtle-sm">Upload Rate Table</button>
+    </div>
   </header>
 
+  <!-- Title -->
   <section class="titlebar"><div class="titlebar-icon">🚚</div><h1>RATE A SHIPMENT</h1></section>
 
+  <!-- Main -->
   <main class="container">
     <div class="left">
       <div class="card">
         <h3>Lane</h3>
         <div class="row"><label>Origin ZIP</label><input id="originZip" type="text" placeholder="30303" /></div>
         <div class="row"><label>Destination ZIP</label><input id="destZip" type="text" placeholder="60606" /></div>
-        <div class="row"><label>Upload Rate Table (CSV)</label><input id="rateCsv" type="file" accept=".csv" /></div>
+        <div class="row">
+          <label>Upload Rate Table (CSV)</label>
+          <div class="inline-upload">
+            <input id="rateCsv" type="file" accept=".csv" />
+            <button id="openUpload2" class="btn-link">Open modal</button>
+          </div>
+        </div>
         <div class="help">CSV columns: origin_zip3,dest_zip3,class,cwt_rate,min_charge (zip3 supports “*”).</div>
         <div id="csvStatus" class="help"></div>
       </div>
@@ -49,6 +70,8 @@
           <div class="table-body" id="items"></div>
         </div>
         <button class="btn-link" id="addRow">+ Add New Row</button>
+
+        <p class="help" style="margin:6px 0 0 2px">Enter NMFC Class and Weight, then click “Rate Shipment”.</p>
 
         <ul class="totals">
           <li><span>Gross</span><span id="tGross">—</span></li>
@@ -83,6 +106,28 @@
   </main>
 
   <footer class="bottombar"><div class="smc">© 2025 CW Worldwide. All rights reserved.</div></footer>
+
+  <!-- Upload Modal -->
+  <dialog id="uploadModal" class="modal">
+    <form method="dialog" class="modal-card" id="uploadForm">
+      <div class="modal-head">
+        <div class="modal-title"><img src="assets/upload.svg" alt="" width="18" height="18" /> Upload Rate Table</div>
+        <button class="modal-close" value="cancel" aria-label="Close">✕</button>
+      </div>
+
+      <div id="dropZone" class="dropzone" tabindex="0">
+        <strong>Drag & drop</strong> your CSV here or click to select.
+        <input id="modalFile" type="file" accept=".csv" hidden />
+      </div>
+      <div class="help">Required headers: <code>origin_zip3,dest_zip3,class,cwt_rate,min_charge</code></div>
+
+      <div class="modal-actions">
+        <button class="btn-subtle" value="cancel">Cancel</button>
+        <button id="modalImport" class="btn-primary" value="default">Import</button>
+      </div>
+    </form>
+  </dialog>
+
   <script src="app.js"></script>
 </body>
 </html>
