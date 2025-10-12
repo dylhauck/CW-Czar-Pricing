@@ -19,13 +19,15 @@
     </div>
 
     <nav class="topnav">
-      <a class="active" href="#">Rate a Shipment</a>
-      <a href="#" aria-disabled="true">Manage Settings</a>
-      <a href="#" aria-disabled="true">Usage Report</a>
+      <a class="active" href="index.html">Rate a Shipment</a>
+      <a href="manage.html">Manage Settings</a>
+      <a href="usage.html">Usage Report</a>
     </nav>
 
     <div class="top-actions">
-      <button id="openUpload" class="btn-subtle-sm">Upload Rate Table</button>
+      <button id="openUpload" class="btn-subtle-sm" style="margin-right:8px">Upload Rate Table</button>
+      <span id="userBadge" class="muted" style="margin-right:8px"></span>
+      <button id="logoutBtn" class="btn-subtle-sm">Logout</button>
     </div>
   </header>
 
@@ -127,6 +129,13 @@
       </div>
     </form>
   </dialog>
+
+  <!-- Auth gate -->
+  <script type="module">
+    import { requireAuth, applyUserToUI } from "./auth.js";
+    requireAuth();
+    applyUserToUI();
+  </script>
 
   <script src="app.js"></script>
 </body>
