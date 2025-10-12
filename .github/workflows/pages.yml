@@ -3,6 +3,10 @@ name: Deploy GitHub Pages (docs)
 on:
   push:
     branches: [ main ]
+    paths:
+      - 'docs/**'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -26,7 +30,7 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
-      - name: Upload artifact
+      - name: Upload artifact (docs folder)
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./docs
