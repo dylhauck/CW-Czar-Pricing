@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CW Czar Pricing – Rate a Shipment</title>
 
-  <link rel="stylesheet" href="./styles.css?v=20" />
+  <link rel="stylesheet" href="./styles.css?v=21" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <style>
@@ -25,17 +25,8 @@
       padding: 15px 40px;
     }
 
-    .brand-text {
-      font-weight: 700;
-      font-size: 1.25rem;
-    }
-
-    .topnav a {
-      margin-right: 20px;
-      color: white;
-      text-decoration: none;
-      font-weight: 500;
-    }
+    .brand-text { font-weight: 700; font-size: 1.25rem; }
+    .topnav a { margin-right: 20px; color: white; text-decoration: none; font-weight: 500; }
 
     main.container {
       max-width: 1100px;
@@ -46,7 +37,7 @@
       padding: 40px 60px;
     }
 
-    /* Centered shared title */
+    /* shared centered title */
     .title-center {
       text-align: center;
       color: #0f3a29;
@@ -145,30 +136,16 @@
     }
 
     @media (max-width: 900px) {
-      main.container {
-        padding: 30px;
-      }
-
-      .rate-wrapper {
-        flex-direction: column;
-        gap: 30px;
-      }
-
-      .results-section {
-        border-left: none;
-        border-top: 2px solid #d1d5db;
-        padding-left: 0;
-        padding-top: 20px;
-      }
+      main.container { padding: 30px; }
+      .rate-wrapper { flex-direction: column; gap: 30px; }
+      .results-section { border-left: none; border-top: 2px solid #d1d5db; padding-left: 0; padding-top: 20px; }
     }
   </style>
 </head>
 
 <body>
   <header class="topbar">
-    <div class="brand">
-      <span class="brand-text">CW Czar Pricing</span>
-    </div>
+    <div class="brand"><span class="brand-text">CW Czar Pricing</span></div>
     <nav class="topnav">
       <a href="index.html" class="active">Rate a Shipment</a>
       <a href="manage.html">Manage Settings</a>
@@ -213,6 +190,8 @@
           <button id="addAccessorialBtn" type="button" class="btn-subtle">Add</button>
         </div>
 
+        <div id="accChosen" style="margin:8px 0 4px;min-height:6px;"></div>
+
         <label>Discount (%)</label>
         <input id="discountPct" type="text" placeholder="e.g., 70" />
 
@@ -236,9 +215,7 @@
     </div>
   </main>
 
-  <footer>
-    © 2025 CW Czar Pricing. All Rights Reserved.
-  </footer>
+  <footer>© 2025 CW Czar Pricing. All Rights Reserved.</footer>
 
   <!-- Auth check -->
   <script type="module">
@@ -247,7 +224,95 @@
     applyUserToUI();
   </script>
 
-  <!-- Main logic -->
+  <!-- Your main pricing logic -->
   <script src="./app.js?v=3"></script>
+
+  <!-- Per-user Saved Accessorials: populate dropdown, add chips, update totals -->
+  <script>
+  (function(){
+    const $ = (id) => document.getElementById(id);
+    const sel  = $('savedAccessorial');
+    const add  = $('addAccessorialBtn');
+    const acc  = $('accessorials');
+    const clr  = $('clearBtn');
+    const chips= $('accChosen');
+
+    if(!sel || !add || !acc) return;
+
+    const KEY_BASE = 'CWCZAR_ACCESSORIALS';
+    function getCurrentUserEmail(){
+      try{
+        const u = JSON.parse(localStorage.getItem('cwczar.user') || 'null');
+        return (u?.email || 'anon').toLowerCase();
+      }catch{ return 'anon'; }
+    }
+    function userKey(){ return `${KEY_BASE}:${getCurrentUserEmail()}`; }
+
+    function toNum(v){
+      const n = parseFloat(String(v ?? '').replace(/[^0-9.\\-]/g,''));
+      return isNaN(n) ? 0 : n;
+    }
+    function loadSaved(){
+      try { return JSON.parse(localStorage.getItem(userKey())) || []; }
+      catch { return []; }
+    }
+
+    function populate(){
+      const items = loadSaved();
+      sel.innerHTML = '';
+      if(!items.length){
+        sel.innerHTML = '<option value="">No saved accessorials</option>';
+        return;
+      }
+      sel.insertAdjacentHTML('beforeend','<option value="">Choose…</option>');
+      items.forEach(i => {
+        const opt = document.createElement('option');
+        opt.value = i.name;
+        opt.textContent = `${i.name} ($${Number(i.price).toFixed(2)})`;
+        opt.dataset.price = i.price;
+        sel.appendChild(opt);
+      });
+    }
+
+    const chosen = new Map(); // name -> price
+    function renderChips(){
+      chips.innerHTML = '';
+      chosen.forEach((price, name) => {
+        const chip = document.createElement('span');
+        chip.style.cssText = 'display:inline-block;margin:2px 6px 0 0;padding:4px 8px;border:1px solid #c8dfd1;border-radius:999px;background:#eef6f1;color:#0f3a29;font-weight:600;cursor:pointer';
+        chip.title = 'Remove';
+        chip.textContent = `${name} ($${Number(price).toFixed(2)}) ×`;
+        chip.addEventListener('click', () => {
+          chosen.delete(name);
+          acc.value = (toNum(acc.value) - toNum(price)).toFixed(2);
+          renderChips();
+        });
+        chips.appendChild(chip);
+      });
+    }
+
+    add.addEventListener('click', () => {
+      const opt = sel.options[sel.selectedIndex];
+      const name = opt?.value;
+      if(!name) return;
+      const price = toNum(opt.dataset.price);
+      if(!chosen.has(name)){
+        chosen.set(name, price);
+        acc.value = (toNum(acc.value) + price).toFixed(2);
+        renderChips();
+      }
+    });
+
+    if(clr){
+      clr.addEventListener('click', () => {
+        chosen.clear();
+        renderChips();
+      });
+    }
+
+    populate();
+    renderChips();
+  })();
+  </script>
 </body>
 </html>
