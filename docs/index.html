@@ -1,332 +1,96 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CW Czar Pricing – Rate a Shipment</title>
-  <link rel="stylesheet" href="./styles.css?v=6" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css?v=9">
 </head>
 <body>
-  <div id="toast-root" class="toast-root"></div>
-
   <header class="topbar">
     <div class="brand">
-      <img class="logo" src="assets/logo.svg" alt="" />
+      <img src="./assets/logo.svg" alt="CW Czar Pricing Logo" class="logo" />
       <span class="brand-text">CW Czar Pricing</span>
     </div>
     <nav class="topnav">
-      <a class="active" href="index.html">Rate a Shipment</a>
+      <a href="index.html" class="active">Rate a Shipment</a>
       <a href="manage.html">Manage Settings</a>
       <a href="usage.html">Usage Report</a>
     </nav>
     <div class="top-actions">
-      <button id="openUpload" class="btn-subtle-sm" style="margin-right:8px">Upload Rate Table</button>
-      <span id="userBadge" class="muted" style="margin-right:8px"></span>
+      <span id="userBadge" class="user-badge"></span>
       <button id="logoutBtn" class="btn-subtle-sm">Logout</button>
     </div>
   </header>
 
-  <section class="titlebar"><div class="titlebar-icon">🚚</div><h1>RATE A SHIPMENT</h1></section>
-
   <main class="container">
-    <div class="left">
-      <div class="card">
-        <h3>Lane</h3>
-        <div class="row"><label>Origin ZIP</label><input id="originZip" type="text" placeholder="30303" /></div>
-        <div class="row"><label>Destination ZIP</label><input id="destZip" type="text" placeholder="60606" /></div>
-        <div class="row">
-          <label>Upload Rate Table (CSV)</label>
-          <div class="inline-upload">
-            <input id="rateCsv" type="file" accept=".csv" />
-            <button id="openUpload2" class="btn-link" type="button">Open modal</button>
-          </div>
-        </div>
-        <div class="help">CSV columns: origin_zip3,dest_zip3,class,cwt_rate,min_charge (zip3 supports “*”).</div>
-        <div id="csvStatus" class="help"></div>
+    <section class="left card">
+      <h2>Rate a Shipment</h2>
+      <div class="row">
+        <label>Origin ZIP</label>
+        <input type="number" id="origin" placeholder="e.g., 30303" />
       </div>
-
-      <div class="card">
-        <h3>Discounts & Surcharges</h3>
-        <div class="grid grid-2">
-          <div class="row"><label>Discount</label><input id="discountPct" type="text" placeholder="e.g., 70" /></div>
-          <div class="row"><label>Fuel Surcharge</label><input id="fscPct" type="text" placeholder="e.g., 25" /></div>
-          <div class="row"><label>MC Floor</label><input id="mcFloor" type="text" placeholder="optional floor $" /></div>
-          <div class="row"><label>Miles</label><input id="miles" type="text" placeholder="optional" /></div>
-          <div class="row"><label>Accessorials ($)</label><input id="accessorials" type="text" placeholder="0.00" /></div>
-        </div>
-        <div class="help">MC Floor applies after discount, before fuel & accessorials.</div>
+      <div class="row">
+        <label>Destination ZIP</label>
+        <input type="number" id="destination" placeholder="e.g., 60606" />
       </div>
-    </div>
-
-    <div class="right">
-      <div class="card">
-        <div class="table">
-          <div class="table-head"><div>Class</div><div>Weight (lb)</div><div>Rate (auto)</div><div>Charge</div></div>
-          <div class="table-body" id="items"></div>
-        </div>
-        <button class="btn-link" id="addRow" type="button">+ Add New Row</button>
-
-        <p class="help" style="margin:6px 0 0 2px">Enter NMFC Class and Weight, then click “Rate Shipment”.</p>
-
-        <ul class="totals">
-          <li><span>Gross</span><span id="tGross">—</span></li>
-          <li><span>Discount</span><span id="tDisc">—</span></li>
-          <li><span>MC Floor</span><span id="tFloor">—</span></li>
-          <li><span>Fuel Surcharge</span><span id="tFsc">—</span></li>
-          <li><span>Accessorials</span><span id="tAcc">—</span></li>
-          <li><span><b>Net</b></span><span id="tNet"><b>—</b></span></li>
-        </ul>
-
-        <div class="actions">
-          <button class="btn-primary" id="rateBtn" type="button">Rate Shipment</button>
-          <button class="btn-subtle" id="clearBtn" type="button">Clear</button>
-          <span class="currency">US Dollars</span>
-        </div>
+      <div class="row">
+        <label>Class</label>
+        <input type="number" id="class" placeholder="e.g., 70" />
       </div>
-
-      <div class="card">
-        <h3>Optional Density Inputs</h3>
-        <div class="grid grid-2">
-          <div class="row"><label>pallets</label><input id="pallets" type="text" placeholder="optional" /></div>
-          <div class="row"><label>Length (in)</label><input id="len" type="text" /></div>
-          <div class="row"><label>Width (in)</label><input id="wid" type="text" /></div>
-          <div class="row"><label>Height (in)</label><input id="hei" type="text" /></div>
-        </div>
-        <div class="row" style="justify-content:space-between">
-          <div>Density: <span id="densityOut" class="muted">—</span> lb/ft³</div>
-          <div>Dim Weight: <span id="dimOut" class="muted">—</span> lb</div>
-        </div>
+      <div class="row">
+        <label>Weight (lb)</label>
+        <input type="number" id="weight" placeholder="e.g., 500" />
       </div>
-    </div>
+      <div class="row">
+        <label>Miles</label>
+        <input type="number" id="miles" placeholder="optional" />
+      </div>
+      <div class="row">
+        <label>Fuel Surcharge (%)</label>
+        <input type="number" id="fuel" placeholder="e.g., 25" />
+      </div>
+      <div class="row">
+        <label>MC Floor ($)</label>
+        <input type="number" id="floor" placeholder="optional floor $" />
+      </div>
+      <div class="row">
+        <label>Accessorials ($)</label>
+        <input type="number" id="accessorials" placeholder="0.00" />
+      </div>
+      <div class="row">
+        <label>Discount (%)</label>
+        <input type="number" id="discount" placeholder="e.g., 70" />
+      </div>
+      <div class="actions">
+        <button class="btn-primary" id="rateBtn">Rate Shipment</button>
+        <button class="btn-subtle" id="clearBtn">Clear</button>
+        <span class="currency">US Dollars</span>
+      </div>
+    </section>
+
+    <section class="right card">
+      <h3>Results</h3>
+      <ul class="totals">
+        <li><span>Gross</span><span id="grossVal">—</span></li>
+        <li><span>Discount</span><span id="discVal">—</span></li>
+        <li><span>MC Floor</span><span id="floorVal">—</span></li>
+        <li><span>Fuel Surcharge</span><span id="fuelVal">—</span></li>
+        <li><span>Accessorials</span><span id="accVal">—</span></li>
+        <li><strong>Net</strong><strong id="netVal">—</strong></li>
+      </ul>
+    </section>
   </main>
 
-  <footer class="bottombar"><div class="smc">© 2025 CW Worldwide, Inc. All rights reserved.</div></footer>
+  <footer class="bottombar">
+    <p class="smc">© 2025 CW Czar Pricing. All Rights Reserved.</p>
+  </footer>
 
-  <!-- Upload Modal -->
-  <dialog id="uploadModal" class="modal">
-    <form method="dialog" class="modal-card" id="uploadForm">
-      <div class="modal-head">
-        <div class="modal-title"><img src="assets/upload.svg" alt="" width="18" height="18" /> Upload Rate Table</div>
-        <button class="modal-close" value="cancel" aria-label="Close">✕</button>
-      </div>
-
-      <div id="dropZone" class="dropzone" tabindex="0">
-        <strong>Drag & drop</strong> your CSV here or click to select.
-        <input id="modalFile" type="file" accept=".csv" hidden />
-      </div>
-      <div class="help">Required headers: <code>origin_zip3,dest_zip3,class,cwt_rate,min_charge</code></div>
-
-      <div class="modal-actions">
-        <button class="btn-subtle" value="cancel">Cancel</button>
-        <button id="modalImport" class="btn-primary" value="default">Import</button>
-      </div>
-    </form>
-  </dialog>
-
-  <!-- Auth gate -->
   <script type="module">
-    import { requireAuth, applyUserToUI } from "./auth.js";
+    import { requireAuth, applyUserToUI } from "./auth.js?v=1";
     requireAuth();
     applyUserToUI();
   </script>
-
-  <!-- Pricing App -->
-  <script>
-    // --- Utilities ---
-    const zip3 = z => (z||"").toString().slice(0,3);
-    const toNum = v => { const n = parseFloat((v||"").toString().replace(/[^0-9.\-]/g,"")); return isNaN(n)?0:n; };
-    const fmt   = n => (n==null||isNaN(n)? "—" : Number(n).toFixed(2));
-
-    function toast(msg, type='success'){
-      const root = document.getElementById('toast-root');
-      const t = document.createElement('div');
-      t.className = `toast ${type}`;
-      t.textContent = msg;
-      root.appendChild(t);
-      setTimeout(()=>{ t.style.opacity='0'; t.style.transform='translateY(2px)'; setTimeout(()=>t.remove(), 300); }, 2800);
-    }
-
-    function parseCSV(text){
-      const lines = text.replace(/\r/g,'').split('\n').filter(Boolean);
-      if(!lines.length) return [];
-      const header = split(lines[0]).map(h=>h.trim().toLowerCase());
-      const out=[]; for(let i=1;i<lines.length;i++){ const cells=split(lines[i]); const o={}; header.forEach((h,j)=>o[h]=(cells[j]||'').trim()); out.push(o); }
-      return out;
-      function split(line){ const cells=[]; let cur='',q=false; for(const ch of line){ if(ch=='"'){q=!q; continue;} if(ch==','&&!q){cells.push(cur); cur='';} else cur+=ch;} cells.push(cur); return cells; }
-    }
-
-    // --- State ---
-    let RATE_TABLE=[];
-
-    // --- Lookup ---
-    function lookupRate(originZip, destZip, cls){
-      const o=zip3(originZip), d=zip3(destZip), c=(cls||'').toString().trim();
-      let row = RATE_TABLE.find(r => r.origin_zip3===o && r.dest_zip3===d && (r.class===c || r.class===c.replace(/^0+/,'')));
-      if(row) return row;
-      row = RATE_TABLE.find(r => (r.origin_zip3==='*'||r.origin_zip3===o) && (r.dest_zip3==='*'||r.dest_zip3===d) && (r.class===c || r.class===c.replace(/^0+/,'')));
-      return row || null;
-    }
-
-    // --- UI ---
-    function addRow(){
-      const body = document.getElementById('items');
-      const row=document.createElement('div');
-      row.className='table-row';
-      row.innerHTML = `
-        <div><input class="cls" type="text" placeholder="70"></div>
-        <div><input class="wgt" type="text" placeholder="500"></div>
-        <div class="rate">—</div>
-        <div class="chg">—</div>`;
-      body.appendChild(row);
-
-      const clsI=row.querySelector('.cls'), wgtI=row.querySelector('.wgt');
-      clsI.addEventListener('blur', ()=>validateField(clsI, v=>!!v));
-      wgtI.addEventListener('blur', ()=>validateField(wgtI, v=>toNum(v)>0));
-    }
-
-    function validateField(el, fn){ const ok=fn(el.value); el.classList.toggle('is-invalid', !ok); return ok; }
-
-    // --- Calc ---
-    function calcTotals(){
-      const rows=[...document.querySelectorAll('#items .table-row')];
-      if(!rows.length){ addRow(); toast('Add at least one Class & Weight row.','error'); return; }
-      let valid=true;
-      rows.forEach(r=>{
-        const c=r.querySelector('.cls'), w=r.querySelector('.wgt');
-        valid &= validateField(c, v=>!!v);
-        valid &= validateField(w, v=>toNum(v)>0);
-      });
-      if(!valid){ toast('Please correct highlighted fields.','error'); return; }
-
-      const origin=document.getElementById('originZip').value;
-      const dest=document.getElementById('destZip').value;
-      let gross=0;
-
-      rows.forEach(r=>{
-        const cls=r.querySelector('.cls').value;
-        const wgt=toNum(r.querySelector('.wgt').value);
-        let rate=null, chg=null;
-        const hit=lookupRate(origin,dest,cls);
-        if(hit){
-          const cwt=toNum(hit.cwt_rate), minc=toNum(hit.min_charge);
-          rate=cwt; chg=Math.max(minc, cwt*(wgt/100));
-        }
-        r.querySelector('.rate').textContent = (rate==null?'—':fmt(rate));
-        r.querySelector('.chg').textContent  = (chg==null?'—':fmt(chg));
-        if(chg!=null) gross+=chg;
-      });
-
-      const discPct=toNum(document.getElementById('discountPct').value)/100;
-      const fscPct =toNum(document.getElementById('fscPct').value)/100;
-      let disc=gross*discPct;
-
-      const floor=toNum(document.getElementById('mcFloor').value);
-      if(floor>0 && (gross-disc)<floor){ disc=Math.max(0, gross-floor); }
-
-      const fsc=(gross-disc)*fscPct;
-      const acc=toNum(document.getElementById('accessorials').value);
-      const net=gross - disc + fsc + acc;
-
-      document.getElementById('tGross').textContent=fmt(gross);
-      document.getElementById('tDisc').textContent =fmt(disc);
-      document.getElementById('tFloor').textContent=floor>0?fmt(floor):'—';
-      document.getElementById('tFsc').textContent  =fmt(fsc);
-      document.getElementById('tAcc').textContent  =fmt(acc);
-      document.getElementById('tNet').textContent  =fmt(net);
-
-      toast('Shipment rated.');
-    }
-
-    function calcDensity(){
-      const pcs=Math.max(1, toNum(document.getElementById('pallets').value)||1);
-      const L=toNum(document.getElementById('len').value);
-      const W=toNum(document.getElementById('wid').value);
-      const H=toNum(document.getElementById('hei').value);
-      const totalWeight=[...document.querySelectorAll('#items .wgt')].reduce((s,el)=>s+toNum(el.value),0);
-      const cubicIn = (L&&W&&H)? (L*W*H*pcs) : 0;
-      const ft3 = cubicIn ? cubicIn/1728 : 0;
-      const density = (totalWeight && ft3)? totalWeight/ft3 : 0;
-      document.getElementById('densityOut').textContent = density ? density.toFixed(2) : '—';
-      const dim = cubicIn ? cubicIn/139 : 0;
-      document.getElementById('dimOut').textContent = dim ? dim.toFixed(1) : '—';
-    }
-
-    // --- Modal + CSV ingest ---
-    function openModal(){ document.getElementById('uploadModal').showModal(); }
-    function attachUploadModal(){
-      const dz=document.getElementById('dropZone');
-      const fileInput=document.getElementById('modalFile');
-      const importBtn=document.getElementById('modalImport');
-
-      dz.addEventListener('click', ()=>fileInput.click());
-      dz.addEventListener('dragover', e=>{e.preventDefault(); dz.classList.add('hover');});
-      dz.addEventListener('dragleave', ()=>dz.classList.remove('hover'));
-      dz.addEventListener('drop', async e=>{
-        e.preventDefault(); dz.classList.remove('hover');
-        const f=e.dataTransfer.files?.[0]; if(f) await loadCsvFile(f);
-      });
-
-      fileInput.addEventListener('change', async e=>{
-        const f=e.target.files?.[0]; if(f) await loadCsvFile(f);
-      });
-
-      importBtn.addEventListener('click', e=>{
-        if(!RATE_TABLE.length){ e.preventDefault(); toast('Please select a CSV first.','error'); return; }
-        toast('Rate table imported.');
-      });
-    }
-
-    async function loadCsvFile(file){
-      const text=await file.text();
-      const rows=parseCSV(text);
-      RATE_TABLE=rows.map(r=>({
-        origin_zip3:(r.origin_zip3||r.origin||r.o_zip3||'').toString().slice(0,3),
-        dest_zip3:(r.dest_zip3||r.destination||r.d_zip3||'').toString().slice(0,3),
-        class:(r.class||r.nmfc_class||'').toString(),
-        cwt_rate:r.cwt_rate||r.cwt||r.rate||r.base_rate||'',
-        min_charge:r.min_charge||r.min||r.mnc||'0'
-      })).filter(r=>r.origin_zip3 && r.dest_zip3 && r.class);
-      document.getElementById('csvStatus').textContent = `Loaded ${RATE_TABLE.length} rows.`;
-      toast(`Loaded ${RATE_TABLE.length} rows.`, RATE_TABLE.length ? 'success' : 'error');
-    }
-
-    // --- Wire ---
-    window.addEventListener('DOMContentLoaded', ()=>{
-      document.getElementById('addRow').addEventListener('click', addRow);
-      document.getElementById('rateBtn').addEventListener('click', calcTotals);
-      document.getElementById('clearBtn').addEventListener('click', ()=>{
-        document.getElementById('items').innerHTML='';
-        ['discountPct','fscPct','accessorials','originZip','destZip','pallets','len','wid','hei','mcFloor','miles']
-          .forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
-        calcDensity();
-        ['tGross','tDisc','tFloor','tFsc','tAcc','tNet'].forEach(id=>document.getElementById(id).textContent='—');
-        toast('Cleared.');
-      });
-      ['pallets','len','wid','hei'].forEach(id=>{
-        const el=document.getElementById(id); if(el) el.addEventListener('input', calcDensity);
-      });
-
-      document.getElementById('openUpload').addEventListener('click', openModal);
-      document.getElementById('openUpload2').addEventListener('click', openModal);
-      attachUploadModal();
-
-      document.getElementById('rateCsv').addEventListener('change', async ev=>{
-        const f=ev.target.files?.[0]; if(!f) return;
-        await loadCsvFile(f);
-      });
-
-      // Prefill from Manage Settings
-      document.getElementById('discountPct').value = localStorage.getItem('defDiscount') || '';
-      document.getElementById('fscPct').value      = localStorage.getItem('defFsc') || '';
-      document.getElementById('mcFloor').value     = localStorage.getItem('defFloor') || '';
-      document.getElementById('accessorials').value= localStorage.getItem('defAcc') || '';
-
-      const brandText = localStorage.getItem('brandName');
-      if(brandText){ document.querySelector('.brand-text').textContent = brandText; }
-
-      addRow();
-    });
-  </script>
+  <script src="./app.js?v=9"></script>
 </body>
 </html>
