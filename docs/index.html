@@ -5,36 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CW Czar Pricing – Rate a Shipment</title>
 
-  <!-- Updated stylesheet link -->
+  <!-- Main theme -->
   <link rel="stylesheet" href="./styles.css?v=16" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
-  <!-- Minimal fallback if styles.css fails -->
+  <!-- Small layout helper for the 2-column grid -->
   <style>
-    body{background:#f8faf9;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.5;margin:0}
-    header.topbar{display:flex;justify-content:space-between;align-items:center;background:#0f3a29;color:#fff;padding:14px 20px}
-    header .brand-text{font-weight:700;font-size:1.2rem}
-    .topnav a{color:#fff;text-decoration:none;margin:0 10px;font-weight:500}
-    .topnav a:hover{text-decoration:underline}
-    .container{max-width:1100px;margin:24px auto;padding:0 16px}
-    .card{background:#fff;border:1px solid #e5e7eb;border-radius:16px;box-shadow:0 2px 6px rgba(0,0,0,.08);padding:22px}
-    h2{color:#0f3a29;margin-top:0}
-    .row{display:flex;gap:10px;margin:10px 0;align-items:center}
-    .row label{min-width:150px;font-weight:600;color:#374151}
-    input,select{font:inherit;width:100%;height:38px;border:1px solid #e5e7eb;border-radius:10px;padding:6px 10px}
-    .actions{display:flex;gap:10px;margin-top:8px}
-    .btn-primary{background:#0f3a29;color:#fff;border:none;border-radius:10px;padding:10px 16px;font-weight:600;cursor:pointer}
-    .btn-primary:hover{background:#15543d}
-    .btn-subtle{background:#e9f5ec;color:#0f3a29;border:1px solid #c8dfd1;border-radius:10px;padding:10px 16px;font-weight:600;cursor:pointer}
-    .btn-subtle:hover{background:#d9f0e0}
-    .totals{list-style:none;padding:0;margin:8px 0}
-    .totals li{display:flex;justify-content:space-between;border-bottom:1px dashed #e5e7eb;padding:6px 0}
-    footer.bottombar{text-align:center;padding:14px;color:#555;margin-top:24px;font-size:0.9rem}
+    .two-col {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr; /* left inputs / right results */
+      gap: 24px;
+      align-items: start;
+    }
+    @media (max-width: 900px){
+      .two-col { grid-template-columns: 1fr; }
+    }
+    .results-card h3 { margin-top: 0; }
   </style>
-</head>
 
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
 <body>
-  <!-- Header -->
+  <!-- Top bar -->
   <header class="topbar">
     <div class="brand">
       <span class="brand-text">CW Czar Pricing</span>
@@ -51,61 +42,67 @@
     </div>
   </header>
 
-  <!-- Main Content -->
   <main class="container">
-    <section class="card">
-      <h2>Rate a Shipment</h2>
+    <div class="two-col">
+      <!-- LEFT: Inputs -->
+      <section class="card">
+        <h2>Rate a Shipment</h2>
 
-      <div class="row"><label>Origin ZIP</label><input id="originZip" type="text" placeholder="e.g., 30303" /></div>
-      <div class="row"><label>Destination ZIP</label><input id="destZip" type="text" placeholder="e.g., 60606" /></div>
-      <div class="row"><label>Class</label><input id="class" type="text" placeholder="e.g., 70" /></div>
-      <div class="row"><label>Weight (lb)</label><input id="weight" type="text" placeholder="e.g., 500" /></div>
-      <div class="row"><label>Miles</label><input id="miles" type="text" placeholder="optional" /></div>
-      <div class="row"><label>Fuel Surcharge (%)</label><input id="fscPct" type="text" placeholder="e.g., 25" /></div>
-      <div class="row"><label>MC Floor ($)</label><input id="mcFloor" type="text" placeholder="optional" /></div>
-      <div class="row"><label>Accessorials ($)</label><input id="accessorials" type="text" placeholder="0.00" /></div>
+        <div class="row"><label>Origin ZIP</label><input id="originZip" type="text" placeholder="e.g., 30303" /></div>
+        <div class="row"><label>Destination ZIP</label><input id="destZip" type="text" placeholder="e.g., 60606" /></div>
+        <div class="row"><label>Class</label><input id="class" type="text" placeholder="e.g., 70" /></div>
+        <div class="row"><label>Weight (lb)</label><input id="weight" type="text" placeholder="e.g., 500" /></div>
+        <div class="row"><label>Miles</label><input id="miles" type="text" placeholder="optional" /></div>
+        <div class="row"><label>Fuel Surcharge (%)</label><input id="fscPct" type="text" placeholder="e.g., 25" /></div>
+        <div class="row"><label>MC Floor ($)</label><input id="mcFloor" type="text" placeholder="optional" /></div>
 
-      <div class="row">
-        <label>Select Saved Accessorial</label>
-        <div style="display:flex;gap:8px;width:100%;">
-          <select id="savedAccessorial" style="flex:1;border:1px solid #e5e7eb;border-radius:10px;padding:6px 10px;"></select>
-          <button id="addAccessorialBtn" class="btn-subtle">Add</button>
+        <div class="row"><label>Accessorials ($)</label><input id="accessorials" type="text" placeholder="0.00" /></div>
+
+        <div class="row">
+          <label>Select Saved Accessorial</label>
+          <div style="display:flex;gap:8px;width:100%;">
+            <select id="savedAccessorial" style="flex:1;border:1px solid #e5e7eb;border-radius:10px;padding:6px 10px;"></select>
+            <button id="addAccessorialBtn" type="button" class="btn-subtle">Add</button>
+          </div>
         </div>
-      </div>
 
-      <div id="chosenAccessorials" class="help" style="margin-top:6px;"></div>
+        <div id="chosenAccessorials" class="help" style="margin-top:6px;"></div>
 
-      <div class="row"><label>Discount (%)</label><input id="discountPct" type="text" placeholder="e.g., 70" /></div>
+        <div class="row"><label>Discount (%)</label><input id="discountPct" type="text" placeholder="e.g., 70" /></div>
 
-      <div class="actions">
-        <button id="rateBtn" class="btn-primary">Rate Shipment</button>
-        <button id="clearBtn" class="btn-subtle">Clear</button>
-      </div>
+        <div class="actions">
+          <button id="rateBtn" class="btn-primary">Rate Shipment</button>
+          <button id="clearBtn" class="btn-subtle" type="button">Clear</button>
+        </div>
+      </section>
 
-      <hr style="margin:20px 0;">
-      <h3>Results</h3>
-      <ul class="totals">
-        <li><span>Gross</span><span id="tGross">—</span></li>
-        <li><span>Discount</span><span id="tDisc">—</span></li>
-        <li><span>MC Floor</span><span id="tFloor">—</span></li>
-        <li><span>Fuel Surcharge</span><span id="tFsc">—</span></li>
-        <li><span>Accessorials</span><span id="tAcc">—</span></li>
-        <li><strong>Net</strong><strong id="tNet">—</strong></li>
-      </ul>
-    </section>
+      <!-- RIGHT: Results -->
+      <section class="card results-card">
+        <h3>Results</h3>
+        <ul class="totals">
+          <li><span>Gross</span><span id="tGross">—</span></li>
+          <li><span>Discount</span><span id="tDisc">—</span></li>
+          <li><span>MC Floor</span><span id="tFloor">—</span></li>
+          <li><span>Fuel Surcharge</span><span id="tFsc">—</span></li>
+          <li><span>Accessorials</span><span id="tAcc">—</span></li>
+          <li><strong>Net</strong><strong id="tNet">—</strong></li>
+        </ul>
+      </section>
+    </div>
   </main>
 
-  <!-- Footer -->
   <footer class="bottombar">
-    <p>© 2025 CW Czar Pricing. All Rights Reserved.</p>
+    <p class="smc">© 2025 CW Czar Pricing. All Rights Reserved.</p>
   </footer>
 
-  <!-- Scripts -->
+  <!-- Auth gate -->
   <script type="module">
     import { requireAuth, applyUserToUI } from "./auth.js?v=3";
     requireAuth();
     applyUserToUI();
   </script>
+
+  <!-- App logic (saved accessorials + rating math) -->
   <script src="./app.js?v=3"></script>
 </body>
 </html>
