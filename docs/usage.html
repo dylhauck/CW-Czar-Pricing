@@ -1,72 +1,43 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CW Czar Pricing – Usage Report</title>
-  <link rel="stylesheet" href="./styles.css?v=6" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <title>Usage Report – CW Czar Pricing</title>
+  <link rel="stylesheet" href="./styles.css?v=9">
 </head>
 <body>
   <header class="topbar">
     <div class="brand">
-      <img class="logo" src="assets/logo.svg" alt="" />
+      <img src="./assets/logo.svg" alt="Logo" class="logo" />
       <span class="brand-text">CW Czar Pricing</span>
     </div>
     <nav class="topnav">
       <a href="index.html">Rate a Shipment</a>
       <a href="manage.html">Manage Settings</a>
-      <a class="active" href="usage.html">Usage Report</a>
+      <a href="usage.html" class="active">Usage Report</a>
     </nav>
     <div class="top-actions">
-      <span id="userBadge" class="muted" style="margin-right:8px"></span>
+      <span id="userBadge"></span>
       <button id="logoutBtn" class="btn-subtle-sm">Logout</button>
     </div>
   </header>
 
-  <section class="titlebar"><div class="titlebar-icon">📊</div><h1>USAGE REPORT</h1></section>
-
   <main class="container">
-    <div class="card">
-      <h3>Summary (Demo)</h3>
-      <div class="grid grid-2">
-        <div class="row"><label>Total Shipments Rated</label><input type="text" value="142" readonly /></div>
-        <div class="row"><label>Average Discount (%)</label><input type="text" value="65.4" readonly /></div>
-        <div class="row"><label>Average FSC (%)</label><input type="text" value="23.1" readonly /></div>
-        <div class="row"><label>Last Import</label><input type="text" value="2025-05-01 10:22 UTC" readonly /></div>
-      </div>
-      <p class="help">Replace these with real metrics later (CSV/API).</p>
-    </div>
-
-    <div class="card">
-      <h3>Recent Activity</h3>
-      <div class="table">
-        <div class="table-head">
-          <div>Date</div><div>Origin → Dest</div><div>Class/Weight</div><div>Net ($)</div>
-        </div>
-        <div class="table-body" id="activity">
-          <div class="table-row"><div>2025-05-01</div><div>303 → 606</div><div>70 / 650</div><div>248.50</div></div>
-          <div class="table-row"><div>2025-05-01</div><div>112 → 981</div><div>85 / 2200</div><div>624.10</div></div>
-          <div class="table-row"><div>2025-04-30</div><div>750 → 904</div><div>92.5 / 900</div><div>295.30</div></div>
-        </div>
-      </div>
-    </div>
+    <section class="card">
+      <h2>Usage Report</h2>
+      <p>This section will display usage analytics and rate lookup activity.</p>
+    </section>
   </main>
 
-  <footer class="bottombar"><div class="smc">© 2025 CW Worldwide. All rights reserved.</div></footer>
+  <footer class="bottombar">
+    <p class="smc">© 2025 CW Czar Pricing</p>
+  </footer>
 
-  <!-- Auth gate -->
   <script type="module">
-    import { requireAuth, applyUserToUI } from "./auth.js";
-    requireAuth(); applyUserToUI();
-  </script>
-
-  <script>
-    // Apply brand from local storage for visual consistency
-    const brandText = localStorage.getItem('brandName');
-    if(brandText){ document.addEventListener('DOMContentLoaded', ()=> {
-      document.querySelector('.brand-text').textContent = brandText;
-    });}
+    import { requireAuth, applyUserToUI } from "./auth.js?v=1";
+    requireAuth();
+    applyUserToUI();
   </script>
 </body>
 </html>
