@@ -4,33 +4,105 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CW Worldwide Czar Pricing – Login</title>
-  <link rel="stylesheet" href="./styles.css?v=15" />
+  <link rel="stylesheet" href="./styles.css?v=16" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
-    .login-wrap{max-width:520px;margin:56px auto;padding:18px}
-    .login-card{background:#fff;border:1px solid var(--stroke);border-radius:16px;box-shadow:var(--shadow-md);padding:22px}
-    .login-title{margin:0 0 8px}
-    .login-sub{color:var(--muted);margin:0 0 14px}
-    .row{display:flex;gap:10px;margin:10px 0;align-items:center}
-    .row label{min-width:120px}
-    .error{color:#b91c1c;font-size:12px;margin-top:6px;display:none}
-    .success{color:#14532d;font-size:12px;margin-top:6px;display:none}
-    .login-actions{display:flex;gap:10px;align-items:center;margin-top:10px;flex-wrap:wrap}
+    body {
+      background: #f8faf9;
+      font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header.topbar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #0f3a29;
+      padding: 20px 0;
+      color: white;
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .login-wrap {
+      max-width: 520px;
+      margin: 60px auto;
+      padding: 18px;
+    }
+    .login-card {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      padding: 24px;
+    }
+    .login-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .login-sub {
+      color: #6b7280;
+      margin-bottom: 16px;
+    }
+    .row {
+      display: flex;
+      gap: 10px;
+      margin: 10px 0;
+      align-items: center;
+    }
+    .row label {
+      min-width: 120px;
+      color: #374151;
+    }
+    input {
+      flex: 1;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 8px 10px;
+      font-size: 0.95rem;
+    }
+    .btn-primary, .btn-subtle {
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-primary {
+      background: #0f3a29;
+      color: white;
+    }
+    .btn-subtle {
+      background: #e9f5ec;
+      color: #0f3a29;
+      border: 1px solid #c8dfd1;
+    }
+    .login-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+    .muted {
+      color: #6b7280;
+      font-size: 0.9rem;
+      margin-top: 12px;
+    }
+    .logo-container {
+      text-align: center;
+      margin-top: 40px;
+    }
+    .logo-container img {
+      width: 260px;
+      height: auto;
+    }
   </style>
 </head>
+
 <body>
-  <!-- Centered Header -->
-  <header class="topbar" style="
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:#0f3a29;
-    padding:20px 0;
-    box-shadow:none;
-  ">
-    <h1 style="color:#fff;font-weight:700;font-size:1.6rem;margin:0;letter-spacing:.5px;">
-      CW Worldwide Czar Pricing
-    </h1>
+  <header class="topbar">
+    CW Worldwide Czar Pricing
   </header>
 
   <main class="login-wrap">
@@ -38,11 +110,11 @@
       <h1 class="login-title">Welcome</h1>
       <p class="login-sub">Sign in or create an account to continue.</p>
 
-      <!-- SIGN IN FORM -->
+      <!-- Sign in form -->
       <div id="panelSignIn">
         <div class="row"><label>Email</label><input id="siEmail" type="email" placeholder="you@company.com" /></div>
         <div class="row"><label>Password</label><input id="siPw" type="password" placeholder="••••••••" /></div>
-        <div id="siErr" class="error"></div>
+        <div id="siErr" style="color:red;font-size:0.85rem;margin-top:4px;"></div>
 
         <div class="login-actions">
           <button id="loginBtn" class="btn-primary" type="button">Sign in</button>
@@ -51,23 +123,27 @@
         </div>
       </div>
 
-      <!-- CREATE ACCOUNT FORM -->
+      <!-- Create account form -->
       <div id="panelCreate" style="display:none;">
         <div class="row"><label>Name</label><input id="suName" type="text" placeholder="Full name" /></div>
         <div class="row"><label>Email</label><input id="suEmail" type="email" placeholder="you@company.com" /></div>
         <div class="row"><label>Password</label><input id="suPw" type="password" placeholder="At least 6 characters" /></div>
-        <div id="suErr" class="error"></div>
-        <div id="suOk" class="success"></div>
+        <div id="suErr" style="color:red;font-size:0.85rem;margin-top:4px;"></div>
+        <div id="suOk" style="color:green;font-size:0.85rem;margin-top:4px;"></div>
         <div class="login-actions">
           <button id="createSubmit" class="btn-primary" type="button">Create account</button>
           <button id="cancelCreate" class="btn-subtle" type="button">Cancel</button>
         </div>
       </div>
 
-      <p class="muted" style="margin-top:12px">
-        Note: This is a demo-only front-end authentication system. For production, we’ll connect to Firebase/Auth0.
+      <p class="muted">
+        Note: This is a demo-only front-end auth. For production, we'll switch to Firebase/Auth0.
       </p>
     </section>
+
+    <div class="logo-container">
+      <img src="./cwlogo.webp" alt="CW Worldwide Logo" />
+    </div>
   </main>
 
   <script type="module">
@@ -77,19 +153,18 @@
     const ret = params.get("ret") || "index.html";
     if (isLoggedIn()) location.replace(ret);
 
-    // Elements
     const siEmail = document.getElementById("siEmail");
-    const siPw    = document.getElementById("siPw");
-    const siErr   = document.getElementById("siErr");
-    const suName  = document.getElementById("suName");
+    const siPw = document.getElementById("siPw");
+    const siErr = document.getElementById("siErr");
+    const suName = document.getElementById("suName");
     const suEmail = document.getElementById("suEmail");
-    const suPw    = document.getElementById("suPw");
-    const suErr   = document.getElementById("suErr");
-    const suOk    = document.getElementById("suOk");
+    const suPw = document.getElementById("suPw");
+    const suErr = document.getElementById("suErr");
+    const suOk = document.getElementById("suOk");
+
     const panelSignIn = document.getElementById("panelSignIn");
     const panelCreate = document.getElementById("panelCreate");
 
-    // Toggle panels
     document.getElementById("createBtn").addEventListener("click", () => {
       panelSignIn.style.display = "none";
       panelCreate.style.display = "block";
@@ -99,57 +174,57 @@
       panelSignIn.style.display = "block";
     });
 
-    const showErr = (el,msg)=>{ el.textContent = msg; el.style.display = "block"; };
-    const clearErr = (el)=>{ el.textContent = ""; el.style.display = "none"; };
-    const validEmail = v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+    const showErr = (el, msg) => { el.textContent = msg; };
+    const clearErr = (el) => { el.textContent = ""; };
+    const validEmail = (v) => /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(v);
 
     // Sign in
-    document.getElementById("loginBtn").addEventListener("click", async ()=>{
+    document.getElementById("loginBtn").addEventListener("click", async () => {
       clearErr(siErr);
-      try{
+      try {
         await signIn({ email: siEmail.value, password: siPw.value });
         location.replace(ret);
-      }catch(e){ showErr(siErr, e.message || "Sign in failed."); }
-    });
-
-    // DEMO LOGIN - guaranteed redirect to index.html
-    const AUTH_KEY = "cwczar.auth";
-    const USER_KEY = "cwczar.user";
-    function forceSessionAsDemo(){
-      localStorage.setItem(AUTH_KEY, JSON.stringify(true));
-      localStorage.setItem(USER_KEY, JSON.stringify({
-        email: "demo@example.com",
-        name: "Demo User",
-        t: Date.now()
-      }));
-    }
-
-    document.getElementById("demoBtn").addEventListener("click", async ()=>{
-      try {
-        await signIn({ email:"demo@example.com", password:"demopass" });
-      } catch {
-        try {
-          await signUp({ name:"Demo User", email:"demo@example.com", password:"demopass" });
-        } catch (e) {
-          console.warn("Demo signUp failed, forcing session:", e);
-        }
+      } catch (e) {
+        showErr(siErr, e.message || "Sign in failed.");
       }
-      forceSessionAsDemo();
-      location.replace("index.html");
     });
 
     // Create account
-    document.getElementById("createSubmit").addEventListener("click", async ()=>{
-      suErr.style.display='none'; suOk.style.display='none';
-      if(!suName.value.trim()) return showErr(suErr,"Name is required.");
-      if(!validEmail(suEmail.value)) return showErr(suErr,"Enter a valid email.");
-      if((suPw.value||"").length < 6) return showErr(suErr,"Password must be at least 6 characters.");
-      try{
+    document.getElementById("createSubmit").addEventListener("click", async () => {
+      suErr.textContent = "";
+      suOk.textContent = "";
+      if (!suName.value.trim()) return showErr(suErr, "Name is required.");
+      if (!validEmail(suEmail.value)) return showErr(suErr, "Enter a valid email.");
+      if ((suPw.value || "").length < 6) return showErr(suErr, "Password must be at least 6 characters.");
+      try {
         await signUp({ name: suName.value, email: suEmail.value, password: suPw.value });
-        suOk.textContent = "Account created. Redirecting…"; suOk.style.display='block';
-        setTimeout(()=>location.replace(ret), 800);
-      }catch(e){ showErr(suErr, e.message || "Could not create account."); }
+        suOk.textContent = "Account created. Redirecting…";
+        setTimeout(() => location.replace(ret), 800);
+      } catch (e) {
+        showErr(suErr, e.message || "Could not create account.");
+      }
     });
+  </script>
+
+  <!-- ✅ Bulletproof demo login (bypasses all imports) -->
+  <script>
+    (function () {
+      var btn = document.getElementById('demoBtn');
+      if (!btn) return;
+      btn.addEventListener('click', function () {
+        try {
+          localStorage.setItem('cwczar.auth', 'true');
+          localStorage.setItem('cwczar.user', JSON.stringify({
+            email: 'demo@example.com',
+            name: 'Demo User',
+            t: Date.now()
+          }));
+        } catch (e) {
+          console.warn('Could not set localStorage for demo:', e);
+        }
+        location.href = 'index.html';
+      });
+    })();
   </script>
 </body>
 </html>
