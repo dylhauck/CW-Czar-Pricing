@@ -1,225 +1,138 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CW Czar Pricing – Rate a Shipment</title>
-  <link rel="stylesheet" href="./styles.css?v=13" />
+  <title>CW Worldwide Czar Pricing – Login</title>
+  <link rel="stylesheet" href="./styles.css?v=14" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    .login-wrap{max-width:520px;margin:56px auto;padding:18px}
+    .login-card{background:#fff;border:1px solid var(--stroke);border-radius:16px;box-shadow:var(--shadow-md);padding:22px}
+    .login-title{margin:0 0 8px}
+    .login-sub{color:var(--muted);margin:0 0 14px}
+    .row{display:flex;gap:10px;margin:10px 0;align-items:center}
+    .row label{min-width:120px}
+    .error{color:#b91c1c;font-size:12px;margin-top:6px;display:none}
+    .success{color:#14532d;font-size:12px;margin-top:6px;display:none}
+    .login-actions{display:flex;gap:10px;align-items:center;margin-top:10px;flex-wrap:wrap}
+  </style>
 </head>
 <body>
-  <!-- Top bar -->
-  <header class="topbar">
-    <div class="brand">
-      <img src="./assets/logo.svg" alt="" class="logo" style="height:28px" />
-      <span class="brand-text">CW Czar Pricing</span>
-    </div>
-    <nav class="topnav">
-      <a href="index.html" class="active">Rate a Shipment</a>
-      <a href="manage.html">Manage Settings</a>
-      <a href="usage.html">Usage Report</a>
-      <a href="accessorials.html">Accessorials</a>
-    </nav>
-    <div class="top-actions">
-      <span id="userBadge" class="muted" style="margin-right:8px"></span>
-      <button id="logoutBtn" class="btn-subtle-sm">Logout</button>
-    </div>
+  <!-- Centered Header -->
+  <header class="topbar" style="
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#0f3a29;
+    padding:20px 0;
+    box-shadow:none;
+  ">
+    <h1 style="color:#fff;font-weight:700;font-size:1.6rem;margin:0;letter-spacing:.5px;">
+      CW Worldwide Czar Pricing
+    </h1>
   </header>
 
-  <main class="container">
-    <!-- LEFT: inputs -->
-    <section class="left card">
-      <h2>Rate a Shipment</h2>
+  <main class="login-wrap">
+    <section class="login-card">
+      <h1 class="login-title">Welcome</h1>
+      <p class="login-sub">Sign in or create an account to continue.</p>
 
-      <div class="row">
-        <label>Origin ZIP</label>
-        <input type="number" id="originZip" placeholder="e.g., 30303" />
-      </div>
+      <!-- SIGN IN FORM -->
+      <div id="panelSignIn">
+        <div class="row"><label>Email</label><input id="siEmail" type="email" placeholder="you@company.com" /></div>
+        <div class="row"><label>Password</label><input id="siPw" type="password" placeholder="••••••••" /></div>
+        <div id="siErr" class="error"></div>
 
-      <div class="row">
-        <label>Destination ZIP</label>
-        <input type="number" id="destZip" placeholder="e.g., 60606" />
-      </div>
-
-      <div class="row">
-        <label>Class</label>
-        <input type="number" id="class" placeholder="e.g., 70" />
-      </div>
-
-      <div class="row">
-        <label>Weight (lb)</label>
-        <input type="number" id="weight" placeholder="e.g., 500" />
-      </div>
-
-      <div class="row">
-        <label>Miles</label>
-        <input type="number" id="miles" placeholder="optional" />
-      </div>
-
-      <div class="row">
-        <label>Fuel Surcharge (%)</label>
-        <input type="number" id="fscPct" placeholder="e.g., 25" />
-      </div>
-
-      <div class="row">
-        <label>MC Floor ($)</label>
-        <input type="number" id="mcFloor" placeholder="optional floor $" />
-      </div>
-
-      <!-- Accessorials: free-form + saved selector -->
-      <div class="row">
-        <label>Accessorials ($)</label>
-        <input type="number" id="accessorials" placeholder="0.00" />
-      </div>
-
-      <div class="row">
-        <label>Select Saved Accessorial</label>
-        <div style="display:flex; gap:8px; width:100%;">
-          <select id="savedAccessorial" style="flex:1; height:38px; border:1px solid #e5e7eb; border-radius:10px; padding:6px 10px;"></select>
-          <button id="addAccessorialBtn" type="button" class="btn-subtle">Add</button>
+        <div class="login-actions">
+          <button id="loginBtn" class="btn-primary" type="button">Sign in</button>
+          <button id="createBtn" class="btn-subtle" type="button">Create account</button>
+          <button id="demoBtn" class="btn-subtle" type="button">Demo login</button>
         </div>
       </div>
 
-      <!-- Chips of chosen saved accessorials -->
-      <div id="chosenAccessorials" class="help" style="margin-top:6px;"></div>
-
-      <div class="row">
-        <label>Discount (%)</label>
-        <input type="number" id="discountPct" placeholder="e.g., 70" />
+      <!-- CREATE ACCOUNT FORM -->
+      <div id="panelCreate" style="display:none;">
+        <div class="row"><label>Name</label><input id="suName" type="text" placeholder="Full name" /></div>
+        <div class="row"><label>Email</label><input id="suEmail" type="email" placeholder="you@company.com" /></div>
+        <div class="row"><label>Password</label><input id="suPw" type="password" placeholder="At least 6 characters" /></div>
+        <div id="suErr" class="error"></div>
+        <div id="suOk" class="success"></div>
+        <div class="login-actions">
+          <button id="createSubmit" class="btn-primary" type="button">Create account</button>
+          <button id="cancelCreate" class="btn-subtle" type="button">Cancel</button>
+        </div>
       </div>
 
-      <div class="actions">
-        <button class="btn-primary" id="rateBtn">Rate Shipment</button>
-        <button class="btn-subtle" id="clearBtn">Clear</button>
-        <span class="currency">US Dollars</span>
-      </div>
-    </section>
-
-    <!-- RIGHT: results -->
-    <section class="right card">
-      <h3>Results</h3>
-      <ul class="totals">
-        <li><span>Gross</span><span id="tGross">—</span></li>
-        <li><span>Discount</span><span id="tDisc">—</span></li>
-        <li><span>MC Floor</span><span id="tFloor">—</span></li>
-        <li><span>Fuel Surcharge</span><span id="tFsc">—</span></li>
-        <li><span>Accessorials</span><span id="tAcc">—</span></li>
-        <li><strong>Net</strong><strong id="tNet">—</strong></li>
-      </ul>
+      <p class="muted" style="margin-top:12px">
+        Note: This is a demo-only front-end authentication system. For production, we’ll connect to Firebase/Auth0.
+      </p>
     </section>
   </main>
 
-  <footer class="bottombar">
-    <p class="smc">© 2025 CW Czar Pricing. All Rights Reserved.</p>
-  </footer>
-
-  <!-- Auth gate -->
   <script type="module">
-    import { requireAuth, applyUserToUI } from "./auth.js?v=2";
-    requireAuth();
-    applyUserToUI();
-  </script>
+    import { login, isLoggedIn, signUp, signIn } from "./auth.js?v=2";
 
-  <!-- App logic (includes saved accessorials support) -->
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const KEY = "CWCZAR_ACCESSORIALS";
+    const params = new URLSearchParams(location.search);
+    const ret = params.get("ret") || "index.html";
+    if (isLoggedIn()) location.replace(ret);
 
-      const toNum = v => {
-        const n = parseFloat(String(v ?? "").replace(/[^0-9.\-]/g,""));
-        return isNaN(n) ? 0 : n;
-      };
+    // Elements
+    const siEmail = document.getElementById("siEmail");
+    const siPw    = document.getElementById("siPw");
+    const siErr   = document.getElementById("siErr");
+    const suName  = document.getElementById("suName");
+    const suEmail = document.getElementById("suEmail");
+    const suPw    = document.getElementById("suPw");
+    const suErr   = document.getElementById("suErr");
+    const suOk    = document.getElementById("suOk");
+    const panelSignIn = document.getElementById("panelSignIn");
+    const panelCreate = document.getElementById("panelCreate");
 
-      const loadSaved = () => { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch { return []; } };
-      let chosen = []; // {name, price}
+    // Toggle between panels
+    document.getElementById("createBtn").addEventListener("click", () => {
+      panelSignIn.style.display = "none";
+      panelCreate.style.display = "block";
+    });
+    document.getElementById("cancelCreate").addEventListener("click", () => {
+      panelCreate.style.display = "none";
+      panelSignIn.style.display = "block";
+    });
 
-      function populateSavedSelect(){
-        const sel = document.getElementById("savedAccessorial");
-        if(!sel) return;
-        const items = loadSaved();
-        sel.innerHTML = "";
-        if(items.length === 0){
-          sel.innerHTML = `<option value="">No saved accessorials</option>`;
-          return;
-        }
-        sel.insertAdjacentHTML("beforeend", `<option value="">Choose…</option>`);
-        items.forEach(i => {
-          const opt = document.createElement("option");
-          opt.value = i.name;
-          opt.textContent = `${i.name} ($${Number(i.price).toFixed(2)})`;
-          opt.dataset.price = i.price;
-          sel.appendChild(opt);
-        });
+    const showErr = (el,msg)=>{ el.textContent = msg; el.style.display = "block"; };
+    const clearErr = (el)=>{ el.textContent = ""; el.style.display = "none"; };
+    const validEmail = v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+
+    // Sign in
+    document.getElementById("loginBtn").addEventListener("click", async ()=>{
+      clearErr(siErr);
+      try{
+        await signIn({ email: siEmail.value, password: siPw.value });
+        location.replace(ret);
+      }catch(e){ showErr(siErr, e.message || "Sign in failed."); }
+    });
+
+    // Demo login — always go to index.html
+    document.getElementById("demoBtn").addEventListener("click", async ()=>{
+      try{
+        await signIn({ email:"demo@example.com", password:"demopass" });
+      }catch{
+        await signUp({ name:"Demo User", email:"demo@example.com", password:"demopass" });
       }
+      location.replace("index.html");
+    });
 
-      function renderChosen(){
-        const holder = document.getElementById("chosenAccessorials");
-        if(!holder) return;
-        holder.innerHTML = chosen.map((c, idx) => `
-          <span style="display:inline-block;margin:2px 6px 0 0;padding:4px 8px;border:1px solid #c8dfd1;border-radius:999px;background:#eef6f1;color:#0f3a29;font-weight:600">
-            ${c.name} ($${Number(c.price).toFixed(2)}) <button data-x="${idx}" style="margin-left:6px;border:none;background:none;color:#0f3a29;cursor:pointer" title="Remove">×</button>
-          </span>`).join("");
-      }
-
-      document.getElementById("chosenAccessorials")?.addEventListener("click", (e) => {
-        const i = e.target?.dataset?.x;
-        if(i !== undefined){
-          chosen.splice(+i, 1);
-          renderChosen();
-        }
-      });
-
-      document.getElementById("addAccessorialBtn")?.addEventListener("click", () => {
-        const sel = document.getElementById("savedAccessorial");
-        const name = sel?.value;
-        if(!name) return;
-        const price = toNum(sel.options[sel.selectedIndex].dataset.price);
-        if(!chosen.find(c => c.name === name)){
-          chosen.push({ name, price });
-          renderChosen();
-        }
-      });
-
-      document.getElementById("rateBtn").addEventListener("click", () => {
-        const weight   = toNum(document.getElementById("weight").value);
-        const baseRate = toNum(document.getElementById("class").value);
-        const discount = toNum(document.getElementById("discountPct").value);
-        const floor    = toNum(document.getElementById("mcFloor").value);
-        const fscPct   = toNum(document.getElementById("fscPct").value);
-        const freeAcc  = toNum(document.getElementById("accessorials").value);
-
-        const gross = weight * (baseRate / 100);
-        let afterDisc = gross * (1 - discount / 100);
-        if(floor > 0 && afterDisc < floor) afterDisc = floor;
-
-        const fsc = gross * (fscPct / 100);
-
-        const savedAccTotal = chosen.reduce((s, c) => s + toNum(c.price), 0);
-        const accTotal = freeAcc + savedAccTotal;
-
-        const net = afterDisc + fsc + accTotal;
-
-        const set = (id, v) => { const el = document.getElementById(id); if(el) el.textContent = isNaN(v) ? "—" : Number(v).toFixed(2); };
-        set("tGross", gross);
-        set("tDisc",  Math.max(0, gross - afterDisc));
-        set("tFloor", floor || NaN);
-        set("tFsc",   fsc);
-        set("tAcc",   accTotal);
-        set("tNet",   net);
-      });
-
-      document.getElementById("clearBtn").addEventListener("click", () => {
-        document.querySelectorAll("input").forEach(i => i.value = "");
-        ["tGross","tDisc","tFloor","tFsc","tAcc","tNet"].forEach(id => {
-          const el = document.getElementById(id); if(el) el.textContent = "—";
-        });
-        chosen = [];
-        renderChosen();
-      });
-
-      // init
-      populateSavedSelect();
-      renderChosen();
+    // Create account
+    document.getElementById("createSubmit").addEventListener("click", async ()=>{
+      suErr.style.display='none'; suOk.style.display='none';
+      if(!suName.value.trim()) return showErr(suErr,"Name is required.");
+      if(!validEmail(suEmail.value)) return showErr(suErr,"Enter a valid email.");
+      if((suPw.value||"").length < 6) return showErr(suErr,"Password must be at least 6 characters.");
+      try{
+        await signUp({ name: suName.value, email: suEmail.value, password: suPw.value });
+        suOk.textContent = "Account created. Redirecting…"; suOk.style.display='block';
+        setTimeout(()=>location.replace(ret), 800);
+      }catch(e){ showErr(suErr, e.message || "Could not create account."); }
     });
   </script>
 </body>
