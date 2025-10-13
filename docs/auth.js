@@ -1,5 +1,5 @@
 // Demo-only front-end auth with localStorage + Web Crypto (SHA-256)
-// NOT for production; use a real backend or Firebase/Auth0 later.
+// NOT for production use. For production, use a real backend or Firebase/Auth0.
 
 const AUTH_KEY  = "cwczar.auth";
 const USER_KEY  = "cwczar.user";
@@ -37,35 +37,25 @@ export function applyUserToUI(){
   if(lo){ lo.addEventListener("click", logout); }
 }
 
-// ---- Password hashing helpers (SHA-256 with per-user salt) ----
+/* ---------- Password hashing helpers (SHA-256 with per-user salt) ---------- */
 async function sha256(buf){
   const hash = await crypto.subtle.digest("SHA-256", buf);
   return new Uint8Array(hash);
 }
-function toBase64(u8){
-  return btoa(String.fromCharCode(...u8));
-}
+function toBase64(u8){ return btoa(String.fromCharCode(...u8)); }
 function fromBase64(b64){
-  const bin = atob(b64);
-  return new Uint8Array([...bin].map(c => c.charCodeAt(0)));
+  const bin = atob(b64); return new Uint8Array([...bin].map(c => c.charCodeAt(0)));
 }
-function strToUtf8(str){
-  return new TextEncoder().encode(str);
-}
-function concatU8(a,b){
-  const out = new Uint8Array(a.length + b.length);
-  out.set(a,0); out.set(b,a.length);
-  return out;
-}
+function strToUtf8(str){ return new TextEncoder().encode(str); }
+function concatU8(a,b){ const out=new Uint8Array(a.length+b.length); out.set(a,0); out.set(b,a.length); return out; }
+
 async function hashPassword(password, saltU8){
-  // hash = SHA-256( salt || UTF8(password) )
   const pwU8 = strToUtf8(password);
   const combined = concatU8(saltU8, pwU8);
-  const h = await sha256(combined);
-  return h;
+  return await sha256(combined);
 }
 
-// ---- Public API for the login page ----
+/* ----------------------- Public API for login page ------------------------ */
 export async function signUp({ name, email, password }){
   email = (email||"").trim().toLowerCase();
   if(!name || !email || !password) throw new Error("All fields are required.");
@@ -85,7 +75,7 @@ export async function signUp({ name, email, password }){
   };
   setUsers(users);
 
-  // Auto-login after signup:
+  // Auto-login after signup
   localStorage.setItem(AUTH_KEY, JSON.stringify(true));
   localStorage.setItem(USER_KEY, JSON.stringify({ email, name: users[email].name, t: Date.now() }));
   return true;
