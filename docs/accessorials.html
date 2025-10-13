@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CW Czar Pricing – Accessorials</title>
+  <link rel="stylesheet" href="./styles.css?v=13" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-text">CW Czar Pricing</span></div>
+    <nav class="topnav">
+      <a href="index.html">Rate a Shipment</a>
+      <a href="manage.html">Manage Settings</a>
+      <a href="usage.html">Usage Report</a>
+      <a class="active" href="accessorials.html">Accessorials</a>
+    </nav>
+    <div class="top-actions">
+      <span id="userBadge" class="muted"></span>
+      <button id="logoutBtn" class="btn-subtle-sm">Logout</button>
+    </div>
+  </header>
+
+  <section class="titlebar"><h1>ACCESSORIALS</h1></section>
+
+  <main class="container">
+    <div class="card">
+      <h3>Add / Edit Accessorial</h3>
+      <div class="grid grid-2">
+        <div class="row"><label>Name</label><input id="accName" type="text" placeholder="e.g., Liftgate" /></div>
+        <div class="row"><label>Price ($)</label><input id="accPrice" type="text" placeholder="e.g., 45" /></div>
+      </div>
+      <div class="actions">
+        <button id="saveAcc" class="btn-primary">Save</button>
+        <button id="clearAcc" class="btn-subtle">Clear</button>
+      </div>
+      <p class="help">Saved locally in your browser for quick selection on the Rate a Shipment page.</p>
+    </div>
+
+    <div class="card">
+      <h3>Saved Accessorials</h3>
+      <div class="table">
+        <div class="table-head">
+          <div>Name</div><div>Price ($)</div><div>—</div><div>—</div>
+        </div>
+        <div id="accList" class="table-body">
+          <!-- rows injected by script -->
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bottombar"><div class="smc">© 2025 CW Worldwide. All rights reserved.</div></footer>
+
+  <script type="module">
+    import { requireAuth, applyUserToUI } from "./auth.js?v=1";
+    requireAuth(); applyUserToUI();
+
+    const KEY = "CWCZAR_ACCESSORIALS";
+
+    const toNum = v => {
+      const n = parseFloat(String(v).replace(/[^0-9.\-]/g,""));
+      return isNaN(n) ? 0 : n;
+    };
+
+    function loadAll(){
+      try { return JSON.parse(localStorage.getItem(KEY)) || []; }
+      catch { return []; }
+    }
+    function saveAll(list){ localStorage.setItem(KEY, JSON.stringify(list)); }
+
+    function render(){
+      const list = loadAll();
+      const body = document.getElementById("accList");
+      body.innerHTML = "";
+      list.forEach((item, idx) => {
+        const row = document.createElement("div");
+        row.className = "table-row";
+        row.style.gridTemplateColumns = "1fr 1fr 100px 100px";
+        row.innerHTML = `
+          <div>${item.name}</div>
+          <div>${item.price.toFixed(2)}</div>
+          <div><button class="btn-subtle" data-edit="${idx}">Edit</button></div>
+          <div><button class="btn-subtle" data-del="${idx}">Delete</button></div>
+        `;
+        body.appendChild(row);
+      });
+    }
+
+    function clearForm(){
+      accName.value = "";
+      accPrice.value = "";
+      accName.focus();
+    }
+
+    document.getElementById("saveAcc").addEventListener("click", () => {
+      const name = accName.value.trim();
+      const price = toNum(accPrice.value);
+      if(!name){ alert("Name required."); return; }
+      const list = loadAll();
+
+      // If editing existing (match by name, case-insensitive)
+      const i = list.findIndex(x => x.name.toLowerCase() === name.toLowerCase());
+      if(i >= 0) list[i] = { name, price };
+      else list.push({ name, price });
+
+      saveAll(list);
+      render();
+      clearForm();
+    });
+
+    document.getElementById("clearAcc").addEventListener("click", clearForm);
+
+    document.getElementById("accList").addEventListener("click", (e) => {
+      const t = e.target;
+      const list = loadAll();
+      if(t.dataset.edit){
+        const item = list[+t.dataset.edit];
+        accName.value = item.name;
+        accPrice.value = item.price;
+      }
+      if(t.dataset.del){
+        if(confirm("Delete this accessorial?")){
+          list.splice(+t.dataset.del, 1);
+          saveAll(list);
+          render();
+        }
+      }
+    });
+
+    // init
+    render();
+  </script>
+</body>
+</html>
