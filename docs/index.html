@@ -5,70 +5,211 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CW Czar Pricing – Rate a Shipment</title>
 
-  <!-- Main theme -->
-  <link rel="stylesheet" href="./styles.css?v=16" />
-
-  <!-- Small layout helper for the 2-column grid -->
-  <style>
-    .two-col {
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr; /* left inputs / right results */
-      gap: 24px;
-      align-items: start;
-    }
-    @media (max-width: 900px){
-      .two-col { grid-template-columns: 1fr; }
-    }
-    .results-card h3 { margin-top: 0; }
-  </style>
-
+  <link rel="stylesheet" href="./styles.css?v=18" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    body {
+      background: #f8faf9;
+      font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    header.topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #0f3a29;
+      color: white;
+      padding: 15px 40px;
+    }
+
+    .brand-text {
+      font-weight: 700;
+      font-size: 1.25rem;
+    }
+
+    .topnav a {
+      margin-right: 20px;
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 50px auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      padding: 40px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .rate-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 50px;
+      width: 100%;
+    }
+
+    .form-section, .results-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-section h2 {
+      color: #0f3a29;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    label {
+      font-weight: 600;
+      color: #111827;
+      display: block;
+      margin-top: 10px;
+    }
+
+    input, select {
+      width: 100%;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 8px 10px;
+      font-size: 0.95rem;
+      margin-top: 4px;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .btn-primary {
+      background: #0f3a29;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .btn-subtle {
+      background: #e9f5ec;
+      color: #0f3a29;
+      border: 1px solid #c8dfd1;
+      border-radius: 8px;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .results-section {
+      border-left: 2px solid #d1d5db;
+      padding-left: 40px;
+    }
+
+    .results-section h3 {
+      color: #0f3a29;
+      margin-top: 0;
+      margin-bottom: 10px;
+      text-align: left;
+    }
+
+    .results-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .results-list li {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px dotted #d1d5db;
+    }
+
+    footer {
+      text-align: center;
+      color: #6b7280;
+      font-size: 0.9rem;
+      margin-top: 50px;
+      padding-bottom: 20px;
+    }
+
+    @media (max-width: 900px) {
+      .rate-wrapper {
+        flex-direction: column;
+        gap: 30px;
+      }
+
+      .results-section {
+        border-left: none;
+        border-top: 2px solid #d1d5db;
+        padding-left: 0;
+        padding-top: 20px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <!-- Top bar -->
   <header class="topbar">
     <div class="brand">
       <span class="brand-text">CW Czar Pricing</span>
     </div>
     <nav class="topnav">
-      <a class="active" href="index.html">Rate a Shipment</a>
+      <a href="index.html" class="active">Rate a Shipment</a>
       <a href="manage.html">Manage Settings</a>
       <a href="usage.html">Usage Report</a>
       <a href="accessorials.html">Accessorials</a>
     </nav>
-    <div class="top-actions">
-      <span id="userBadge" class="muted"></span>
-      <button id="logoutBtn" class="btn-subtle-sm">Logout</button>
-    </div>
   </header>
 
   <main class="container">
-    <div class="two-col">
-      <!-- LEFT: Inputs -->
-      <section class="card">
+    <div class="rate-wrapper">
+      <!-- LEFT FORM -->
+      <section class="form-section">
         <h2>Rate a Shipment</h2>
 
-        <div class="row"><label>Origin ZIP</label><input id="originZip" type="text" placeholder="e.g., 30303" /></div>
-        <div class="row"><label>Destination ZIP</label><input id="destZip" type="text" placeholder="e.g., 60606" /></div>
-        <div class="row"><label>Class</label><input id="class" type="text" placeholder="e.g., 70" /></div>
-        <div class="row"><label>Weight (lb)</label><input id="weight" type="text" placeholder="e.g., 500" /></div>
-        <div class="row"><label>Miles</label><input id="miles" type="text" placeholder="optional" /></div>
-        <div class="row"><label>Fuel Surcharge (%)</label><input id="fscPct" type="text" placeholder="e.g., 25" /></div>
-        <div class="row"><label>MC Floor ($)</label><input id="mcFloor" type="text" placeholder="optional" /></div>
+        <label>Origin ZIP</label>
+        <input id="originZip" type="text" placeholder="e.g., 30303" />
 
-        <div class="row"><label>Accessorials ($)</label><input id="accessorials" type="text" placeholder="0.00" /></div>
+        <label>Destination ZIP</label>
+        <input id="destZip" type="text" placeholder="e.g., 60606" />
 
-        <div class="row">
-          <label>Select Saved Accessorial</label>
-          <div style="display:flex;gap:8px;width:100%;">
-            <select id="savedAccessorial" style="flex:1;border:1px solid #e5e7eb;border-radius:10px;padding:6px 10px;"></select>
-            <button id="addAccessorialBtn" type="button" class="btn-subtle">Add</button>
-          </div>
+        <label>Class</label>
+        <input id="class" type="text" placeholder="e.g., 70" />
+
+        <label>Weight (lb)</label>
+        <input id="weight" type="text" placeholder="e.g., 500" />
+
+        <label>Miles</label>
+        <input id="miles" type="text" placeholder="optional" />
+
+        <label>Fuel Surcharge (%)</label>
+        <input id="fscPct" type="text" placeholder="e.g., 25" />
+
+        <label>MC Floor ($)</label>
+        <input id="mcFloor" type="text" placeholder="optional" />
+
+        <label>Accessorials ($)</label>
+        <input id="accessorials" type="text" placeholder="0.00" />
+
+        <label>Select Saved Accessorial</label>
+        <div style="display:flex;gap:8px;">
+          <select id="savedAccessorial" style="flex:1;"></select>
+          <button id="addAccessorialBtn" type="button" class="btn-subtle">Add</button>
         </div>
 
-        <div id="chosenAccessorials" class="help" style="margin-top:6px;"></div>
-
-        <div class="row"><label>Discount (%)</label><input id="discountPct" type="text" placeholder="e.g., 70" /></div>
+        <label>Discount (%)</label>
+        <input id="discountPct" type="text" placeholder="e.g., 70" />
 
         <div class="actions">
           <button id="rateBtn" class="btn-primary">Rate Shipment</button>
@@ -76,10 +217,10 @@
         </div>
       </section>
 
-      <!-- RIGHT: Results -->
-      <section class="card results-card">
+      <!-- RIGHT RESULTS -->
+      <section class="results-section">
         <h3>Results</h3>
-        <ul class="totals">
+        <ul class="results-list">
           <li><span>Gross</span><span id="tGross">—</span></li>
           <li><span>Discount</span><span id="tDisc">—</span></li>
           <li><span>MC Floor</span><span id="tFloor">—</span></li>
@@ -91,18 +232,18 @@
     </div>
   </main>
 
-  <footer class="bottombar">
-    <p class="smc">© 2025 CW Czar Pricing. All Rights Reserved.</p>
+  <footer>
+    © 2025 CW Czar Pricing. All Rights Reserved.
   </footer>
 
-  <!-- Auth gate -->
+  <!-- Auth check -->
   <script type="module">
     import { requireAuth, applyUserToUI } from "./auth.js?v=3";
     requireAuth();
     applyUserToUI();
   </script>
 
-  <!-- App logic (saved accessorials + rating math) -->
+  <!-- Main logic -->
   <script src="./app.js?v=3"></script>
 </body>
 </html>
