@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CW Czar Pricing – Login</title>
-  <link rel="stylesheet" href="./styles.css?v=12" />
+  <title>CW Worldwide Czar Pricing – Login</title>
+  <link rel="stylesheet" href="./styles.css?v=14" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     .login-wrap{max-width:520px;margin:56px auto;padding:18px}
@@ -19,18 +19,19 @@
   </style>
 </head>
 <body>
-  <header class="topbar"
-  style="
+  <!-- Centered Header -->
+  <header class="topbar" style="
     display:flex;
     justify-content:center;
     align-items:center;
     background:#0f3a29;
     padding:20px 0;
-    box-shadow:none;">
-  <h1 style="color:#fff;font-weight:700;font-size:1.6rem;margin:0;letter-spacing:.5px;">
-    CW Worldwide Czar Pricing
-  </h1>
-</header>
+    box-shadow:none;
+  ">
+    <h1 style="color:#fff;font-weight:700;font-size:1.6rem;margin:0;letter-spacing:.5px;">
+      CW Worldwide Czar Pricing
+    </h1>
+  </header>
 
   <main class="login-wrap">
     <section class="login-card">
@@ -50,7 +51,7 @@
         </div>
       </div>
 
-      <!-- CREATE ACCOUNT FORM (toggles in) -->
+      <!-- CREATE ACCOUNT FORM -->
       <div id="panelCreate" style="display:none;">
         <div class="row"><label>Name</label><input id="suName" type="text" placeholder="Full name" /></div>
         <div class="row"><label>Email</label><input id="suEmail" type="email" placeholder="you@company.com" /></div>
@@ -63,17 +64,14 @@
         </div>
       </div>
 
-      <p class="muted" style="margin-top:12px">Note: This is a demo-only front-end auth. For production we’ll switch to Firebase/Auth0.</p>
+      <p class="muted" style="margin-top:12px">
+        Note: This is a demo-only front-end authentication system. For production, we’ll connect to Firebase/Auth0.
+      </p>
     </section>
-    <div style="text-align:center; margin-top:40px;">
-  <img src="assets/cwlogo.webp"
-       alt="CW Worldwide logo"
-       style="width:340px; max-width:90%; opacity:0.95;" />
-</div>
   </main>
 
   <script type="module">
-    import { login, isLoggedIn, signUp, signIn } from "./auth.js?v=1";
+    import { login, isLoggedIn, signUp, signIn } from "./auth.js?v=2";
 
     const params = new URLSearchParams(location.search);
     const ret = params.get("ret") || "index.html";
@@ -83,17 +81,15 @@
     const siEmail = document.getElementById("siEmail");
     const siPw    = document.getElementById("siPw");
     const siErr   = document.getElementById("siErr");
-
     const suName  = document.getElementById("suName");
     const suEmail = document.getElementById("suEmail");
     const suPw    = document.getElementById("suPw");
     const suErr   = document.getElementById("suErr");
     const suOk    = document.getElementById("suOk");
-
     const panelSignIn = document.getElementById("panelSignIn");
     const panelCreate = document.getElementById("panelCreate");
 
-    // Toggle
+    // Toggle between panels
     document.getElementById("createBtn").addEventListener("click", () => {
       panelSignIn.style.display = "none";
       panelCreate.style.display = "block";
@@ -116,14 +112,14 @@
       }catch(e){ showErr(siErr, e.message || "Sign in failed."); }
     });
 
-    // Demo
+    // Demo login — always go to index.html
     document.getElementById("demoBtn").addEventListener("click", async ()=>{
       try{
         await signIn({ email:"demo@example.com", password:"demopass" });
       }catch{
-        await signUp({ name:"Demo", email:"demo@example.com", password:"demopass" });
+        await signUp({ name:"Demo User", email:"demo@example.com", password:"demopass" });
       }
-      location.replace(ret);
+      location.replace("index.html");
     });
 
     // Create account
