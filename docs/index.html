@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Rate a Shipment | CW LTL Rate Base</title>
+  <title>CW Czar Pricing – Rate a Shipment</title>
 
-  <link rel="stylesheet" href="./styles.css?v=21" />
+  <link rel="stylesheet" href="./styles.css?v=23" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <style>
@@ -37,7 +37,6 @@
       padding: 40px 60px;
     }
 
-    /* shared centered title */
     .title-center {
       text-align: center;
       color: #0f3a29;
@@ -106,19 +105,43 @@
       font-weight: 600;
     }
 
-    .results-section {
-      flex: 1;
-      border-left: 2px solid #d1d5db;
-      padding-left: 50px;
-      margin-top: 8px;
-    }
+    .right-col { flex: 1; border-left: 2px solid #d1d5db; padding-left: 50px; margin-top: 8px; }
 
+    /* Density card */
+    .density-card {
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 18px;
+      background: #f8faf9;
+    }
+    .density-card h3 {
+      margin: 0 0 10px;
+      font-size: 1.05rem;
+      color: #0f3a29;
+    }
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    .density-meta {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+      font-weight: 600;
+      color: #0f3a29;
+    }
+    .density-note { color: #6b7280; font-size: .85rem; margin-top: 6px; }
+    .density-actions { margin-top: 10px; }
+
+    /* Results list */
     .results-list {
       list-style: none;
       padding: 0;
       margin: 0;
     }
-
     .results-list li {
       display: flex;
       justify-content: space-between;
@@ -138,7 +161,9 @@
     @media (max-width: 900px) {
       main.container { padding: 30px; }
       .rate-wrapper { flex-direction: column; gap: 30px; }
-      .results-section { border-left: none; border-top: 2px solid #d1d5db; padding-left: 0; padding-top: 20px; }
+      .right-col { border-left: none; border-top: 2px solid #d1d5db; padding-left: 0; padding-top: 20px; }
+      .grid-4 { grid-template-columns: repeat(2, 1fr); }
+      .density-meta { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -201,8 +226,43 @@
         </div>
       </section>
 
-      <!-- RIGHT RESULTS -->
-      <section class="results-section">
+      <!-- RIGHT COLUMN -->
+      <section class="right-col">
+        <!-- Optional Density Inputs -->
+        <div class="density-card" id="densityBox">
+          <h3>Optional Density Inputs</h3>
+          <div class="grid-4">
+            <div>
+              <label for="densPallets">pallets</label>
+              <input id="densPallets" type="number" min="1" step="1" placeholder="e.g., 1" />
+            </div>
+            <div>
+              <label for="densLen">Length (in)</label>
+              <input id="densLen" type="number" step="0.01" placeholder="e.g., 48" />
+            </div>
+            <div>
+              <label for="densWid">Width (in)</label>
+              <input id="densWid" type="number" step="0.01" placeholder="e.g., 40" />
+            </div>
+            <div>
+              <label for="densHt">Height (in)</label>
+              <input id="densHt" type="number" step="0.01" placeholder="e.g., 60" />
+            </div>
+          </div>
+
+          <div class="density-meta">
+            <div>Cubic Ft: <span id="densCft">—</span></div>
+            <div>Density (lb/ft³): <span id="densLbft">—</span></div>
+            <div>Suggested Class: <span id="densClass">—</span></div>
+          </div>
+
+          <div class="density-actions">
+            <button class="btn-subtle" id="densCalcBtn" type="button">Calc Density</button>
+          </div>
+          <div class="density-note">Uses the Weight (lb) entered on the left.</div>
+        </div>
+
+        <!-- Totals -->
         <ul class="results-list">
           <li><span>Gross</span><span id="tGross">—</span></li>
           <li><span>Discount</span><span id="tDisc">—</span></li>
@@ -215,7 +275,7 @@
     </div>
   </main>
 
-  <footer>© 2025 CW LTL Rate Base. All Rights Reserved.</footer>
+  <footer>© 2025 CW Czar Pricing. All Rights Reserved.</footer>
 
   <!-- Auth check -->
   <script type="module">
@@ -249,7 +309,7 @@
     function userKey(){ return `${KEY_BASE}:${getCurrentUserEmail()}`; }
 
     function toNum(v){
-      const n = parseFloat(String(v ?? '').replace(/[^0-9.\\-]/g,''));
+      const n = parseFloat(String(v ?? '').replace(/[^0-9.\-]/g,''));
       return isNaN(n) ? 0 : n;
     }
     function loadSaved(){
@@ -313,6 +373,78 @@
     populate();
     renderChips();
   })();
+  </script>
+
+  <!-- Density calculator -->
+  <script>
+    (function(){
+      const $ = (id) => document.getElementById(id);
+      const w   = $('weight');            // uses left Weight (lb)
+      const p   = $('densPallets');
+      const L   = $('densLen');
+      const W   = $('densWid');
+      const H   = $('densHt');
+      const cft = $('densCft');
+      const den = $('densLbft');
+      const cls = $('densClass');
+      const btn = $('densCalcBtn');
+
+      function toNum(v){
+        const n = parseFloat(String(v ?? '').replace(/[^0-9.\-]/g,''));
+        return isNaN(n) ? 0 : n;
+      }
+
+      function classFromDensity(d) {
+  if (d < 1)   return "400";
+  if (d < 2)   return "300";
+  if (d < 4)   return "250";
+  if (d < 6)   return "175";
+  if (d < 8)   return "125";
+  if (d < 10)  return "100";
+  if (d < 12)  return "92.5";
+  if (d < 15)  return "85";
+  if (d < 22.5)return "70";
+  if (d < 30)  return "65";
+  if (d < 35)  return "60";
+  if (d < 50)  return "55";
+  return "50"; // 50 or greater
+}
+
+      function calc(){
+        const pallets = Math.max(1, Math.floor(toNum(p.value) || 1));
+        const len = toNum(L.value);
+        const wid = toNum(W.value);
+        const ht  = toNum(H.value);
+        const weight = toNum(w.value);
+
+        if (!len || !wid || !ht) {
+          cft.textContent = "—";
+          den.textContent = "—";
+          cls.textContent = "—";
+          return;
+        }
+
+        const cubicFeet = (len * wid * ht * pallets) / 1728; // in³ -> ft³
+        cft.textContent = cubicFeet.toFixed(2);
+
+        if (!weight) {
+          den.textContent = "—";
+          cls.textContent = "—";
+          return;
+        }
+
+        const density = weight / cubicFeet;
+        den.textContent = density.toFixed(2);
+        cls.textContent = classFromDensity(density);
+      }
+
+      ['input','change'].forEach(evt => {
+        [w,p,L,W,H].forEach(el => el && el.addEventListener(evt, calc));
+      });
+      btn && btn.addEventListener('click', calc);
+
+      calc(); // initial
+    })();
   </script>
 </body>
 </html>
