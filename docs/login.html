@@ -4,9 +4,14 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CW Czar Pricing – Login</title>
-  <link rel="stylesheet" href="./styles.css?v=11" />
+  <link rel="stylesheet" href="./styles.css?v=10" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
+    .tabs{display:flex;gap:8px;margin-bottom:12px}
+    .tab{border:1px solid var(--stroke);background:#fff;border-radius:10px;padding:8px 12px;cursor:pointer;font-weight:700}
+    .tab.active{background:#eef6f1;border-color:#c8dfd1;color:#0f3a29}
+    .panel{display:none}
+    .panel.active{display:block}
     .login-wrap{max-width:520px;margin:56px auto;padding:18px}
     .login-card{background:#fff;border:1px solid var(--stroke);border-radius:16px;box-shadow:var(--shadow-md);padding:22px}
     .login-title{margin:0 0 8px}
@@ -15,7 +20,7 @@
     .row label{min-width:120px}
     .error{color:#b91c1c;font-size:12px;margin-top:6px;display:none}
     .success{color:#14532d;font-size:12px;margin-top:6px;display:none}
-    .login-actions{display:flex;gap:10px;align-items:center;margin-top:10px;flex-wrap:wrap}
+    .login-actions{display:flex;gap:10px;align-items:center;margin-top:10px}
   </style>
 </head>
 <body>
@@ -29,6 +34,7 @@
       <a href="manage.html">Manage Settings</a>
       <a href="usage.html">Usage Report</a>
     </nav>
+    <div class="top-actions"></div>
   </header>
 
   <main class="login-wrap">
@@ -36,29 +42,31 @@
       <h1 class="login-title">Welcome</h1>
       <p class="login-sub">Sign in or create an account to continue.</p>
 
-      <!-- Sign In Form -->
+      <div class="tabs">
+        <button class="tab active" id="tabSignIn" type="button">Sign In</button>
+        <button class="tab" id="tabCreate" type="button">Create Account</button>
+      </div>
+
+      <!-- Sign In -->
       <div id="panelSignIn" class="panel active">
         <div class="row"><label>Email</label><input id="siEmail" type="email" placeholder="you@company.com" /></div>
         <div class="row"><label>Password</label><input id="siPw" type="password" placeholder="••••••••" /></div>
         <div id="siErr" class="error"></div>
-
         <div class="login-actions">
           <button id="loginBtn" class="btn-primary" type="button">Sign in</button>
-          <button id="createBtn" class="btn-subtle" type="button">Create account</button>
           <button id="demoBtn" class="btn-subtle" type="button">Demo login</button>
         </div>
       </div>
 
-      <!-- Create Account Form (shown dynamically) -->
-      <div id="panelCreate" class="panel" style="display:none;">
+      <!-- Create Account -->
+      <div id="panelCreate" class="panel">
         <div class="row"><label>Name</label><input id="suName" type="text" placeholder="Full name" /></div>
         <div class="row"><label>Email</label><input id="suEmail" type="email" placeholder="you@company.com" /></div>
         <div class="row"><label>Password</label><input id="suPw" type="password" placeholder="At least 6 characters" /></div>
         <div id="suErr" class="error"></div>
         <div id="suOk" class="success"></div>
         <div class="login-actions">
-          <button id="createSubmit" class="btn-primary" type="button">Create account</button>
-          <button id="cancelCreate" class="btn-subtle" type="button">Cancel</button>
+          <button id="createBtn" class="btn-primary" type="button">Create account</button>
         </div>
       </div>
 
@@ -69,68 +77,69 @@
   <script type="module">
     import { login, isLoggedIn, signUp, signIn } from "./auth.js?v=1";
 
+    // Return path handling
     const params = new URLSearchParams(location.search);
     const ret = params.get("ret") || "index.html";
-    if (isLoggedIn()) location.replace(ret);
+    if (isLoggedIn()) { location.replace(ret); }
 
+    // Tabs
+    const tabSignIn  = document.getElementById('tabSignIn');
+    const tabCreate  = document.getElementById('tabCreate');
+    const pSignIn    = document.getElementById('panelSignIn');
+    const pCreate    = document.getElementById('panelCreate');
+    function showSignIn(){ tabSignIn.classList.add('active'); tabCreate.classList.remove('active'); pSignIn.classList.add('active'); pCreate.classList.remove('active'); }
+    function showCreate(){ tabCreate.classList.add('active'); tabSignIn.classList.remove('active'); pCreate.classList.add('active'); pSignIn.classList.remove('active'); }
+    tabSignIn.addEventListener('click', showSignIn);
+    tabCreate.addEventListener('click', showCreate);
+
+    // Sign In
     const siEmail = document.getElementById("siEmail");
-    const siPw = document.getElementById("siPw");
-    const siErr = document.getElementById("siErr");
-    const suErr = document.getElementById("suErr");
-    const suOk  = document.getElementById("suOk");
-    const suName = document.getElementById("suName");
-    const suEmail = document.getElementById("suEmail");
-    const suPw = document.getElementById("suPw");
+    const siPw    = document.getElementById("siPw");
+    const siErr   = document.getElementById("siErr");
+    function showErr(el,msg){ el.textContent = msg; el.style.display = 'block'; }
+    function clearErr(el){ el.textContent = ""; el.style.display = 'none'; }
 
-    const panelSignIn = document.getElementById("panelSignIn");
-    const panelCreate = document.getElementById("panelCreate");
-
-    function showSignIn(){
-      panelCreate.style.display="none";
-      panelSignIn.style.display="block";
-    }
-    function showCreate(){
-      panelSignIn.style.display="none";
-      panelCreate.style.display="block";
-    }
-
-    document.getElementById("createBtn").addEventListener("click", showCreate);
-    document.getElementById("cancelCreate").addEventListener("click", showSignIn);
-
-    function showErr(el,msg){ el.textContent=msg; el.style.display="block"; }
-    function clearErr(el){ el.textContent=""; el.style.display="none"; }
-    const validEmail = v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-
-    // Sign in
-    document.getElementById("loginBtn").addEventListener("click", async ()=>{
+    document.getElementById("loginBtn").addEventListener("click", async () => {
       clearErr(siErr);
       try{
         await signIn({ email: siEmail.value, password: siPw.value });
         location.replace(ret);
-      }catch(e){ showErr(siErr, e.message || "Sign in failed."); }
+      }catch(e){
+        showErr(siErr, e.message || "Sign in failed.");
+      }
     });
 
-    // Create account
-    document.getElementById("createSubmit").addEventListener("click", async ()=>{
-      suErr.style.display='none'; suOk.style.display='none';
+    document.getElementById("demoBtn").addEventListener("click", async () => {
+      // Create a demo user silently if not present, then sign in
+      try{
+        await signIn({ email: "demo@example.com", password: "demopass" });
+      }catch{
+        await signUp({ name: "Demo", email: "demo@example.com", password: "demopass" });
+      }
+      location.replace(ret);
+    });
+
+    // Create Account
+    const suName  = document.getElementById("suName");
+    const suEmail = document.getElementById("suEmail");
+    const suPw    = document.getElementById("suPw");
+    const suErr   = document.getElementById("suErr");
+    const suOk    = document.getElementById("suOk");
+
+    function validEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+
+    document.getElementById("createBtn").addEventListener("click", async () => {
+      suErr.style.display = 'none'; suOk.style.display = 'none'; suErr.textContent = ""; suOk.textContent = "";
       if(!suName.value.trim()) return showErr(suErr, "Name is required.");
       if(!validEmail(suEmail.value)) return showErr(suErr, "Enter a valid email.");
       if((suPw.value||"").length < 6) return showErr(suErr, "Password must be at least 6 characters.");
       try{
         await signUp({ name: suName.value, email: suEmail.value, password: suPw.value });
-        suOk.textContent="Account created. Redirecting…"; suOk.style.display='block';
-        setTimeout(()=>location.replace(ret), 800);
-      }catch(e){ showErr(suErr, e.message || "Could not create account."); }
-    });
-
-    // Demo login
-    document.getElementById("demoBtn").addEventListener("click", async ()=>{
-      try{
-        await signIn({ email:"demo@example.com", password:"demopass" });
-      }catch{
-        await signUp({ name:"Demo", email:"demo@example.com", password:"demopass" });
+        suOk.textContent = "Account created. Redirecting…"; suOk.style.display = 'block';
+        setTimeout(()=>location.replace(ret), 600);
+      }catch(e){
+        showErr(suErr, e.message || "Could not create account.");
       }
-      location.replace(ret);
     });
   </script>
 </body>
