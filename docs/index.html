@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CW Czar Pricing – Rate a Shipment</title>
 
-  <link rel="stylesheet" href="./styles.css?v=19" />
+  <link rel="stylesheet" href="./styles.css?v=20" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <style>
@@ -37,11 +37,22 @@
       font-weight: 500;
     }
 
-    .container {
-      display: flex;
-      justify-content: center;
-      margin: 60px auto;
+    main.container {
       max-width: 1100px;
+      margin: 60px auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      padding: 40px 60px;
+    }
+
+    /* Centered shared title */
+    .title-center {
+      text-align: center;
+      color: #0f3a29;
+      font-weight: 700;
+      font-size: 1.6rem;
+      margin-bottom: 30px;
     }
 
     .rate-wrapper {
@@ -49,10 +60,6 @@
       justify-content: center;
       align-items: flex-start;
       gap: 60px;
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-      padding: 40px 60px;
       width: 100%;
     }
 
@@ -61,14 +68,6 @@
       max-width: 420px;
       display: flex;
       flex-direction: column;
-      align-items: center;
-    }
-
-    .form-section h2 {
-      color: #0f3a29;
-      margin-bottom: 20px;
-      text-align: center;
-      font-weight: 700;
     }
 
     label {
@@ -120,7 +119,7 @@
       flex: 1;
       border-left: 2px solid #d1d5db;
       padding-left: 50px;
-      margin-top: 12px;
+      margin-top: 8px;
     }
 
     .results-list {
@@ -146,10 +145,13 @@
     }
 
     @media (max-width: 900px) {
+      main.container {
+        padding: 30px;
+      }
+
       .rate-wrapper {
         flex-direction: column;
-        align-items: center;
-        padding: 30px;
+        gap: 30px;
       }
 
       .results-section {
@@ -157,7 +159,6 @@
         border-top: 2px solid #d1d5db;
         padding-left: 0;
         padding-top: 20px;
-        width: 100%;
       }
     }
   </style>
@@ -177,11 +178,11 @@
   </header>
 
   <main class="container">
+    <h2 class="title-center">Rate a Shipment</h2>
+
     <div class="rate-wrapper">
       <!-- LEFT FORM -->
       <section class="form-section">
-        <h2>Rate a Shipment</h2>
-
         <label>Origin ZIP</label>
         <input id="originZip" type="text" placeholder="e.g., 30303" />
 
