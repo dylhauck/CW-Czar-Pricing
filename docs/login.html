@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CW Worldwide Czar Pricing – Login</title>
-  <link rel="stylesheet" href="./styles.css?v=14" />
+  <link rel="stylesheet" href="./styles.css?v=15" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     .login-wrap{max-width:520px;margin:56px auto;padding:18px}
@@ -71,7 +71,7 @@
   </main>
 
   <script type="module">
-    import { login, isLoggedIn, signUp, signIn } from "./auth.js?v=2";
+    import { signUp, signIn, isLoggedIn } from "./auth.js?v=3";
 
     const params = new URLSearchParams(location.search);
     const ret = params.get("ret") || "index.html";
@@ -89,7 +89,7 @@
     const panelSignIn = document.getElementById("panelSignIn");
     const panelCreate = document.getElementById("panelCreate");
 
-    // Toggle between panels
+    // Toggle panels
     document.getElementById("createBtn").addEventListener("click", () => {
       panelSignIn.style.display = "none";
       panelCreate.style.display = "block";
@@ -112,13 +112,29 @@
       }catch(e){ showErr(siErr, e.message || "Sign in failed."); }
     });
 
-    // Demo login — always go to index.html
+    // DEMO LOGIN - guaranteed redirect to index.html
+    const AUTH_KEY = "cwczar.auth";
+    const USER_KEY = "cwczar.user";
+    function forceSessionAsDemo(){
+      localStorage.setItem(AUTH_KEY, JSON.stringify(true));
+      localStorage.setItem(USER_KEY, JSON.stringify({
+        email: "demo@example.com",
+        name: "Demo User",
+        t: Date.now()
+      }));
+    }
+
     document.getElementById("demoBtn").addEventListener("click", async ()=>{
-      try{
+      try {
         await signIn({ email:"demo@example.com", password:"demopass" });
-      }catch{
-        await signUp({ name:"Demo User", email:"demo@example.com", password:"demopass" });
+      } catch {
+        try {
+          await signUp({ name:"Demo User", email:"demo@example.com", password:"demopass" });
+        } catch (e) {
+          console.warn("Demo signUp failed, forcing session:", e);
+        }
       }
+      forceSessionAsDemo();
       location.replace("index.html");
     });
 
