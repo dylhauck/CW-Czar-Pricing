@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CW Czar Pricing – Rate a Shipment</title>
 
-  <link rel="stylesheet" href="./styles.css?v=18" />
+  <link rel="stylesheet" href="./styles.css?v=19" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <style>
@@ -38,40 +38,44 @@
     }
 
     .container {
-      max-width: 1100px;
-      margin: 50px auto;
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-      padding: 40px;
       display: flex;
       justify-content: center;
+      margin: 60px auto;
+      max-width: 1100px;
     }
 
     .rate-wrapper {
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      gap: 50px;
+      gap: 60px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      padding: 40px 60px;
       width: 100%;
     }
 
-    .form-section, .results-section {
+    .form-section {
       flex: 1;
+      max-width: 420px;
       display: flex;
       flex-direction: column;
+      align-items: center;
     }
 
     .form-section h2 {
       color: #0f3a29;
       margin-bottom: 20px;
       text-align: center;
+      font-weight: 700;
     }
 
     label {
       font-weight: 600;
       color: #111827;
       display: block;
+      width: 100%;
       margin-top: 10px;
     }
 
@@ -89,6 +93,7 @@
       justify-content: center;
       gap: 10px;
       margin-top: 20px;
+      width: 100%;
     }
 
     .btn-primary {
@@ -112,15 +117,10 @@
     }
 
     .results-section {
+      flex: 1;
       border-left: 2px solid #d1d5db;
-      padding-left: 40px;
-    }
-
-    .results-section h3 {
-      color: #0f3a29;
-      margin-top: 0;
-      margin-bottom: 10px;
-      text-align: left;
+      padding-left: 50px;
+      margin-top: 12px;
     }
 
     .results-list {
@@ -134,6 +134,7 @@
       justify-content: space-between;
       padding: 6px 0;
       border-bottom: 1px dotted #d1d5db;
+      font-size: 1rem;
     }
 
     footer {
@@ -147,7 +148,8 @@
     @media (max-width: 900px) {
       .rate-wrapper {
         flex-direction: column;
-        gap: 30px;
+        align-items: center;
+        padding: 30px;
       }
 
       .results-section {
@@ -155,10 +157,12 @@
         border-top: 2px solid #d1d5db;
         padding-left: 0;
         padding-top: 20px;
+        width: 100%;
       }
     }
   </style>
 </head>
+
 <body>
   <header class="topbar">
     <div class="brand">
@@ -203,7 +207,7 @@
         <input id="accessorials" type="text" placeholder="0.00" />
 
         <label>Select Saved Accessorial</label>
-        <div style="display:flex;gap:8px;">
+        <div style="display:flex;gap:8px;width:100%;">
           <select id="savedAccessorial" style="flex:1;"></select>
           <button id="addAccessorialBtn" type="button" class="btn-subtle">Add</button>
         </div>
@@ -219,7 +223,6 @@
 
       <!-- RIGHT RESULTS -->
       <section class="results-section">
-        <h3>Results</h3>
         <ul class="results-list">
           <li><span>Gross</span><span id="tGross">—</span></li>
           <li><span>Discount</span><span id="tDisc">—</span></li>
