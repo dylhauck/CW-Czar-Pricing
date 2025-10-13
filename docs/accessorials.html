@@ -1,175 +1,287 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CW Czar Pricing – Accessorials</title>
-  <link rel="stylesheet" href="./styles.css?v=22" />
+
+  <link rel="stylesheet" href="./styles.css?v=21" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
   <style>
-    main.container { max-width: 960px; margin: 50px auto; }
-    .grid-2 { display:grid; grid-template-columns: 1fr 1fr; gap:14px; }
-    @media (max-width: 800px){ .grid-2 { grid-template-columns: 1fr; } }
-    .card{ background:#fff; border:1px solid #e5e7eb; border-radius:16px; padding:20px; box-shadow:0 2px 8px rgba(0,0,0,.06); }
-    .card h2{ margin:0 0 14px; color:#0f3a29; }
-    label{ font-weight:600; color:#111827; display:block; margin-bottom:6px; }
-    input{ width:100%; height:40px; border:1px solid #e5e7eb; border-radius:10px; padding:6px 10px; font:inherit; }
-    .actions{ display:flex; gap:10px; margin-top:10px; }
-    .btn-primary{ background:#0f3a29; color:#fff; border:none; border-radius:10px; padding:10px 16px; font-weight:600; cursor:pointer; }
-    .btn-subtle{ background:#e9f5ec; color:#0f3a29; border:1px solid #c8dfd1; border-radius:10px; padding:10px 16px; font-weight:600; cursor:pointer; }
-    .table{ width:100%; border:1px solid #e5e7eb; border-radius:12px; overflow:hidden; }
-    .thead, .row{ display:grid; grid-template-columns: 1.2fr 0.6fr 100px 100px; }
-    .thead{ background:#f8faf9; font-weight:700; color:#0f3a29; }
-    .cell{ padding:12px 14px; border-bottom:1px solid #edf2f7; }
-    .right{ text-align:right; }
-    .muted{ color:#6b7280; }
+    body {
+      background: #f8faf9;
+      font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    header.topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #0f3a29;
+      color: white;
+      padding: 15px 40px;
+    }
+
+    .brand-text { font-weight: 700; font-size: 1.25rem; }
+    .topnav a { margin-right: 20px; color: white; text-decoration: none; font-weight: 500; }
+
+    main.container {
+      max-width: 1100px;
+      margin: 60px auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      padding: 40px 60px;
+    }
+
+    h2 {
+      color: #0f3a29;
+      font-weight: 700;
+      font-size: 1.6rem;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: 600;
+      color: #111827;
+      display: block;
+      width: 100%;
+      margin-top: 12px;
+    }
+
+    input {
+      width: 100%;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 8px 10px;
+      font-size: 0.95rem;
+      margin-top: 4px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 0.5fr;
+      gap: 20px;
+      align-items: end;
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .btn-primary {
+      background: #0f3a29;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .btn-subtle {
+      background: #e9f5ec;
+      color: #0f3a29;
+      border: 1px solid #c8dfd1;
+      border-radius: 8px;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .note {
+      color: #6b7280;
+      font-size: 0.9rem;
+      margin-top: 10px;
+    }
+
+    .table {
+      width: 100%;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 30px;
+    }
+
+    .thead, .row {
+      display: grid;
+      grid-template-columns: 1.2fr 0.6fr 90px 90px;
+      align-items: center;
+    }
+
+    .thead {
+      background: #f8faf9;
+      font-weight: 700;
+      color: #0f3a29;
+    }
+
+    .cell {
+      padding: 12px 14px;
+      border-bottom: 1px solid #edf2f7;
+    }
+
+    .right { text-align: right; }
+    .muted { color: #6b7280; }
+
+    .cell button {
+      width: 100%;
+      display: block;
+      text-align: center;
+      border-radius: 8px;
+    }
+
+    footer {
+      text-align: center;
+      color: #6b7280;
+      font-size: 0.9rem;
+      margin-top: 50px;
+      padding-bottom: 20px;
+    }
+
+    @media (max-width: 900px) {
+      main.container { padding: 30px; }
+      .form-row { grid-template-columns: 1fr; }
+      .thead, .row { grid-template-columns: 1fr 1fr; }
+    }
   </style>
 </head>
+
 <body>
-  <!-- Top bar -->
   <header class="topbar">
     <div class="brand"><span class="brand-text">CW Czar Pricing</span></div>
     <nav class="topnav">
       <a href="index.html">Rate a Shipment</a>
       <a href="manage.html">Manage Settings</a>
       <a href="usage.html">Usage Report</a>
-      <a class="active" href="accessorials.html">Accessorials</a>
+      <a href="accessorials.html" class="active">Accessorials</a>
     </nav>
-    <div class="top-actions">
-      <span id="userBadge" class="muted"></span>
-      <button id="logoutBtn" class="btn-subtle-sm">Logout</button>
-    </div>
   </header>
 
   <main class="container">
-    <div class="card" style="margin-bottom:18px;">
-      <h2>Accessorials</h2>
-      <div class="grid-2">
-        <div>
-          <label for="accName">Name</label>
-          <input id="accName" type="text" placeholder="e.g., Liftgate" />
-        </div>
-        <div>
-          <label for="accPrice">Price ($)</label>
-          <input id="accPrice" type="text" placeholder="e.g., 45" />
-        </div>
+    <h2>Accessorials</h2>
+
+    <div class="form-row">
+      <div>
+        <label for="accName">Name</label>
+        <input id="accName" type="text" placeholder="Limited Access" />
       </div>
-      <div class="actions">
-        <button id="saveAcc" class="btn-primary" type="button">Save</button>
-        <button id="clearAcc" class="btn-subtle" type="button">Clear</button>
-        <span id="msg" class="muted" style="margin-left:8px;"></span>
+      <div>
+        <label for="accPrice">Price ($)</label>
+        <input id="accPrice" type="number" placeholder="75" />
       </div>
-      <p class="muted" style="margin-top:10px;">
-        Saved accessorials appear on the Rate a Shipment page in the “Select Saved Accessorial” list.
-      </p>
     </div>
 
-    <div class="card">
-      <div class="table">
-        <div class="thead">
-          <div class="cell">Name</div>
-          <div class="cell right">Price ($)</div>
-          <div class="cell">Edit</div>
-          <div class="cell">Delete</div>
-        </div>
-        <div id="accList"></div>
+    <div class="actions">
+      <button id="saveBtn" class="btn-primary">Save</button>
+      <button id="clearBtn" class="btn-subtle">Clear</button>
+      <span id="status" class="muted"></span>
+    </div>
+
+    <p class="note">Saved accessorials appear on the Rate a Shipment page in the “Select Saved Accessorial” list.</p>
+
+    <div class="table">
+      <div class="thead">
+        <div class="cell">Name</div>
+        <div class="cell right">Price ($)</div>
+        <div class="cell">Edit</div>
+        <div class="cell">Delete</div>
       </div>
+      <div id="accList"></div>
     </div>
   </main>
 
   <footer class="bottombar">
-    <p class="smc">© 2025 CW Czar Pricing. All Rights Reserved.</p>
+    <p>© 2025 CW Czar Pricing. All Rights Reserved.</p>
   </footer>
 
   <script type="module">
-    import { requireAuth, applyUserToUI, currentUser } from "./auth.js?v=3";
+    import { requireAuth, currentUser } from "./auth.js";
     requireAuth();
-    applyUserToUI();
 
-    // ----- Per-user key helpers -----
     const KEY_BASE = "CWCZAR_ACCESSORIALS";
-    const getUser = () => currentUser() || JSON.parse(localStorage.getItem("cwczar.user")||"null");
-    const userKey = () => {
-      const u = getUser();
-      const id = (u?.email || "anon").toLowerCase();
-      return `${KEY_BASE}:${id}`;
-    };
+    const accList = document.getElementById("accList");
+    const accName = document.getElementById("accName");
+    const accPrice = document.getElementById("accPrice");
+    const saveBtn = document.getElementById("saveBtn");
+    const clearBtn = document.getElementById("clearBtn");
+    const status = document.getElementById("status");
 
-    const $ = id => document.getElementById(id);
-    const toNum = v => {
-      const n = parseFloat(String(v ?? "").replace(/[^0-9.\-]/g,""));
-      return isNaN(n) ? 0 : n;
-    };
+    function getUserKey() {
+      const u = JSON.parse(localStorage.getItem("cwczar.user") || "null");
+      return `${KEY_BASE}:${(u?.email || "anon").toLowerCase()}`;
+    }
 
-    const loadAll = () => { try { return JSON.parse(localStorage.getItem(userKey())) || []; } catch { return []; } };
-    const saveAll = list => localStorage.setItem(userKey(), JSON.stringify(list));
+    function load() {
+      try { return JSON.parse(localStorage.getItem(getUserKey())) || []; }
+      catch { return []; }
+    }
 
-    function render(){
-      const list = loadAll();
-      const wrap = $("accList");
-      wrap.innerHTML = "";
-      if(list.length === 0){
-        const empty = document.createElement("div");
-        empty.className = "cell";
-        empty.style.gridColumn = "1 / -1";
-        empty.textContent = "No accessorials saved yet.";
-        wrap.appendChild(empty);
-        return;
-      }
-      list.forEach((item, idx) => {
+    function saveAll(items) {
+      localStorage.setItem(getUserKey(), JSON.stringify(items));
+    }
+
+    function render() {
+      const items = load();
+      accList.innerHTML = "";
+      items.forEach((i, idx) => {
         const row = document.createElement("div");
         row.className = "row";
         row.innerHTML = `
-          <div class="cell">${item.name}</div>
-          <div class="cell right">${Number(item.price).toFixed(2)}</div>
-          <div class="cell"><button class="btn-subtle" data-edit="${idx}">Edit</button></div>
-          <div class="cell"><button class="btn-subtle" data-del="${idx}">Delete</button></div>
+          <div class="cell">${i.name}</div>
+          <div class="cell right">${Number(i.price).toFixed(2)}</div>
+          <div class="cell"><button class="btn-subtle edit" data-idx="${idx}">Edit</button></div>
+          <div class="cell"><button class="btn-subtle delete" data-idx="${idx}">Delete</button></div>
         `;
-        wrap.appendChild(row);
+        accList.appendChild(row);
+      });
+      bindRowButtons();
+    }
+
+    function bindRowButtons() {
+      document.querySelectorAll(".edit").forEach(btn => {
+        btn.onclick = () => {
+          const i = load()[btn.dataset.idx];
+          accName.value = i.name;
+          accPrice.value = i.price;
+        };
+      });
+      document.querySelectorAll(".delete").forEach(btn => {
+        btn.onclick = () => {
+          const arr = load();
+          arr.splice(btn.dataset.idx, 1);
+          saveAll(arr);
+          render();
+        };
       });
     }
 
-    function clearForm(){
-      $("accName").value = "";
-      $("accPrice").value = "";
-      $("accName").focus();
-      $("msg").textContent = "";
-    }
-
-    $("saveAcc").addEventListener("click", () => {
-      const name = $("accName").value.trim();
-      const price = toNum($("accPrice").value);
-      if(!name){ $("msg").textContent = "Name is required."; return; }
-
-      const list = loadAll();
-      const i = list.findIndex(x => x.name.toLowerCase() === name.toLowerCase());
-      if(i >= 0) list[i] = { name, price };
-      else list.push({ name, price });
-
-      saveAll(list);
-      $("msg").textContent = "Saved.";
+    saveBtn.onclick = () => {
+      const name = accName.value.trim();
+      const price = parseFloat(accPrice.value);
+      if (!name || isNaN(price)) return alert("Please enter valid name and price.");
+      const arr = load();
+      const existing = arr.find(a => a.name.toLowerCase() === name.toLowerCase());
+      if (existing) existing.price = price;
+      else arr.push({ name, price });
+      saveAll(arr);
+      accName.value = "";
+      accPrice.value = "";
+      status.textContent = "Saved.";
+      setTimeout(() => (status.textContent = ""), 2000);
       render();
-    });
+    };
 
-    $("clearAcc").addEventListener("click", clearForm);
+    clearBtn.onclick = () => {
+      accName.value = "";
+      accPrice.value = "";
+    };
 
-    $("accList").addEventListener("click", (e) => {
-      const t = e.target;
-      if(t.dataset.edit){
-        const item = loadAll()[+t.dataset.edit];
-        $("accName").value = item.name;
-        $("accPrice").value = item.price;
-        $("msg").textContent = "Editing…";
-      }
-      if(t.dataset.del){
-        const list = loadAll();
-        list.splice(+t.dataset.del, 1);
-        saveAll(list);
-        render();
-      }
-    });
-
-    // init
     render();
   </script>
 </body>
