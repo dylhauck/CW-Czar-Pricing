@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CW Czar Pricing – Accessorials</title>
-  <link rel="stylesheet" href="./styles.css?v=21" />
+  <link rel="stylesheet" href="./styles.css?v=22" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     main.container { max-width: 960px; margin: 50px auto; }
@@ -60,7 +60,7 @@
         <span id="msg" class="muted" style="margin-left:8px;"></span>
       </div>
       <p class="muted" style="margin-top:10px;">
-        Saved accessorials will appear on the Rate a Shipment page in the “Select Saved Accessorial” list.
+        Saved accessorials appear on the Rate a Shipment page in the “Select Saved Accessorial” list.
       </p>
     </div>
 
@@ -82,19 +82,27 @@
   </footer>
 
   <script type="module">
-    import { requireAuth, applyUserToUI } from "./auth.js?v=3";
+    import { requireAuth, applyUserToUI, currentUser } from "./auth.js?v=3";
     requireAuth();
     applyUserToUI();
 
-    const KEY = "CWCZAR_ACCESSORIALS";
+    // ----- Per-user key helpers -----
+    const KEY_BASE = "CWCZAR_ACCESSORIALS";
+    const getUser = () => currentUser() || JSON.parse(localStorage.getItem("cwczar.user")||"null");
+    const userKey = () => {
+      const u = getUser();
+      const id = (u?.email || "anon").toLowerCase();
+      return `${KEY_BASE}:${id}`;
+    };
+
     const $ = id => document.getElementById(id);
     const toNum = v => {
       const n = parseFloat(String(v ?? "").replace(/[^0-9.\-]/g,""));
       return isNaN(n) ? 0 : n;
     };
 
-    const loadAll = () => { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch { return []; } };
-    const saveAll = list => localStorage.setItem(KEY, JSON.stringify(list));
+    const loadAll = () => { try { return JSON.parse(localStorage.getItem(userKey())) || []; } catch { return []; } };
+    const saveAll = list => localStorage.setItem(userKey(), JSON.stringify(list));
 
     function render(){
       const list = loadAll();
