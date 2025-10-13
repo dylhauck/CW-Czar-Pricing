@@ -1,111 +1,43 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CW Czar Pricing – Manage Settings</title>
-  <link rel="stylesheet" href="styles.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <title>Manage Settings – CW Czar Pricing</title>
+  <link rel="stylesheet" href="./styles.css?v=9">
 </head>
 <body>
-  <div id="toast-root" class="toast-root"></div>
-
   <header class="topbar">
     <div class="brand">
-      <img class="logo" src="assets/logo.svg" alt="" />
+      <img src="./assets/logo.svg" alt="Logo" class="logo" />
       <span class="brand-text">CW Czar Pricing</span>
     </div>
     <nav class="topnav">
       <a href="index.html">Rate a Shipment</a>
-      <a class="active" href="manage.html">Manage Settings</a>
+      <a href="manage.html" class="active">Manage Settings</a>
       <a href="usage.html">Usage Report</a>
     </nav>
     <div class="top-actions">
-      <span id="userBadge" class="muted" style="margin-right:8px"></span>
+      <span id="userBadge"></span>
       <button id="logoutBtn" class="btn-subtle-sm">Logout</button>
     </div>
   </header>
 
-  <section class="titlebar"><div class="titlebar-icon">⚙️</div><h1>MANAGE SETTINGS</h1></section>
-
   <main class="container">
-    <div class="card">
-      <h3>Defaults</h3>
-      <div class="grid grid-2">
-        <div class="row"><label>Default Discount (%)</label><input id="defDiscount" type="text" placeholder="e.g., 70" /></div>
-        <div class="row"><label>Default Fuel Surcharge (%)</label><input id="defFsc" type="text" placeholder="e.g., 25" /></div>
-        <div class="row"><label>Default MC Floor ($)</label><input id="defFloor" type="text" placeholder="optional" /></div>
-        <div class="row"><label>Default Accessorials ($)</label><input id="defAcc" type="text" placeholder="optional" /></div>
-      </div>
-      <div class="actions">
-        <button class="btn-primary" id="saveBtn">Save Settings</button>
-        <button class="btn-subtle" id="clearBtn">Clear</button>
-      </div>
-      <p class="help">Saved to your browser (local storage). The Rate page can prefill from these values.</p>
-    </div>
-
-    <div class="card">
-      <h3>Appearance</h3>
-      <div class="row"><label>Brand Name</label><input id="brandName" type="text" placeholder="CW Czar Pricing" /></div>
-      <div class="actions">
-        <button class="btn-primary" id="applyBrand">Apply</button>
-      </div>
-      <p class="help">Updates the brand text shown in the top bar on all pages (stored locally).</p>
-    </div>
+    <section class="card">
+      <h2>Manage Settings</h2>
+      <p>Here you can adjust configuration options for your pricing system. (UI placeholder for admin tools.)</p>
+    </section>
   </main>
 
-  <footer class="bottombar"><div class="smc">© 2025 CW Worldwide. All rights reserved.</div></footer>
+  <footer class="bottombar">
+    <p class="smc">© 2025 CW Czar Pricing</p>
+  </footer>
 
-  <!-- Auth gate -->
   <script type="module">
-    import { requireAuth, applyUserToUI } from "./auth.js";
+    import { requireAuth, applyUserToUI } from "./auth.js?v=1";
     requireAuth();
     applyUserToUI();
-  </script>
-
-  <script>
-    // toast helper
-    function toast(msg, type='success'){
-      const root = document.getElementById('toast-root');
-      const t = document.createElement('div');
-      t.className = `toast ${type}`;
-      t.textContent = msg;
-      root.appendChild(t);
-      setTimeout(()=>{ t.style.opacity='0'; t.style.transform='translateY(2px)'; setTimeout(()=>t.remove(), 300); }, 2800);
-    }
-    const get = k => localStorage.getItem(k) ?? '';
-    const set = (k,v) => localStorage.setItem(k,v);
-
-    window.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('defDiscount').value = get('defDiscount');
-      document.getElementById('defFsc').value      = get('defFsc');
-      document.getElementById('defFloor').value    = get('defFloor');
-      document.getElementById('defAcc').value      = get('defAcc');
-      document.getElementById('brandName').value   = get('brandName') || 'CW Czar Pricing';
-
-      document.getElementById('saveBtn').addEventListener('click', () => {
-        set('defDiscount', document.getElementById('defDiscount').value);
-        set('defFsc',      document.getElementById('defFsc').value);
-        set('defFloor',    document.getElementById('defFloor').value);
-        set('defAcc',      document.getElementById('defAcc').value);
-        toast('Settings saved.');
-      });
-
-      document.getElementById('clearBtn').addEventListener('click', () => {
-        ['defDiscount','defFsc','defFloor','defAcc'].forEach(k=>localStorage.removeItem(k));
-        document.querySelectorAll('input').forEach(i=>i.value='');
-        toast('Defaults cleared.');
-      });
-
-      document.getElementById('applyBrand').addEventListener('click', () => {
-        set('brandName', document.getElementById('brandName').value || 'CW Czar Pricing');
-        toast('Brand name saved.');
-      });
-
-      // apply brand text immediately
-      const brandText = localStorage.getItem('brandName');
-      if(brandText){ document.querySelector('.brand-text').textContent = brandText; }
-    });
   </script>
 </body>
 </html>
