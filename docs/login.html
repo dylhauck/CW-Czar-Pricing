@@ -4,150 +4,82 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CW Worldwide Czar Pricing – Login</title>
-  <link rel="stylesheet" href="./styles.css?v=17" />
+
+  <link rel="stylesheet" href="./styles.css?v=22" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
   <style>
-    body {
-      background: #f8faf9;
-      font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-    header.topbar {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #0f3a29;
-      padding: 20px 0;
-      color: white;
-      font-size: 1.5rem;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-    }
-    .login-wrap {
-      max-width: 520px;
-      margin: 60px auto;
-      padding: 18px;
-    }
-    .login-card {
-      background: white;
-      border: 1px solid #e5e7eb;
-      border-radius: 16px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-      padding: 24px;
-    }
-    .login-title {
-      font-size: 1.8rem;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-    .login-sub {
-      color: #6b7280;
-      margin-bottom: 16px;
-    }
-    .row {
-      display: flex;
-      gap: 10px;
-      margin: 10px 0;
-      align-items: center;
-    }
-    .row label {
-      min-width: 120px;
-      color: #374151;
-    }
-    input {
-      flex: 1;
-      border: 1px solid #e5e7eb;
-      border-radius: 10px;
-      padding: 8px 10px;
-      font-size: 0.95rem;
-    }
-    .btn-primary, .btn-subtle {
-      border-radius: 10px;
-      padding: 10px 16px;
-      font-weight: 600;
-      cursor: pointer;
-      border: none;
-    }
-    .btn-primary {
-      background: #0f3a29;
-      color: white;
-    }
-    .btn-subtle {
-      background: #e9f5ec;
-      color: #0f3a29;
-      border: 1px solid #c8dfd1;
-    }
-    .login-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 14px;
-    }
-    .muted {
-      color: #6b7280;
-      font-size: 0.9rem;
-      margin-top: 12px;
-    }
-    .logo-container {
-      text-align: center;
-      margin-top: 40px;
-    }
-    .logo-container img {
-      width: 260px;
-      height: auto;
-    }
+    body{background:#f8faf9;font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;margin:0}
+    header.topbar{display:flex;justify-content:center;align-items:center;background:#0f3a29;padding:20px 0;color:#fff;font-size:1.5rem;font-weight:700;letter-spacing:.5px}
+    .login-wrap{max-width:520px;margin:60px auto 30px;padding:18px}
+    .login-card{background:#fff;border:1px solid #e5e7eb;border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,.08);padding:24px}
+    .login-title{font-size:1.8rem;font-weight:700;margin-bottom:10px}
+    .login-sub{color:#6b7280;margin-bottom:16px}
+    .row{display:flex;gap:10px;margin:10px 0;align-items:center}
+    .row label{min-width:120px;color:#374151}
+    input{flex:1;border:1px solid #e5e7eb;border-radius:10px;padding:8px 10px;font-size:.95rem}
+    .btn-primary,.btn-subtle{border-radius:10px;padding:10px 16px;font-weight:600;cursor:pointer;border:none}
+    .btn-primary{background:#0f3a29;color:#fff}
+    .btn-subtle{background:#e9f5ec;color:#0f3a29;border:1px solid #c8dfd1}
+    .login-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+    .muted{color:#6b7280;font-size:.9rem;margin-top:12px}
+    /* logo block as you confirmed working */
+    .logo-container{ text-align:center; margin-top:40px; }
+    .logo-container img{ width:340px; max-width:90%; opacity:.95; height:auto }
+    /* centered footer like accessorials */
+    footer.bottombar{ text-align:center; color:#6b7280; font-size:.9rem; margin: 10px 0 30px }
   </style>
 </head>
 
 <body>
-  <header class="topbar">
-    CW Worldwide Czar Pricing
-  </header>
+  <header class="topbar">CW Worldwide Czar Pricing</header>
 
   <main class="login-wrap">
     <section class="login-card">
       <h1 class="login-title">Welcome</h1>
       <p class="login-sub">Sign in or create an account to continue.</p>
 
-      <!-- Sign in form -->
+      <!-- Sign in -->
       <div id="panelSignIn">
         <div class="row"><label>Email</label><input id="siEmail" type="email" placeholder="you@company.com" /></div>
         <div class="row"><label>Password</label><input id="siPw" type="password" placeholder="••••••••" /></div>
-        <div id="siErr" style="color:red;font-size:0.85rem;margin-top:4px;"></div>
+        <div id="siErr" style="color:red;font-size:.85rem;margin-top:4px;"></div>
 
         <div class="login-actions">
-          <button id="loginBtn" class="btn-primary" type="button">Sign in</button>
-          <button id="createBtn" class="btn-subtle" type="button">Create account</button>
-          <button id="demoBtn" class="btn-subtle" type="button">Demo login</button>
+          <button id="loginBtn"  class="btn-primary" type="button">Sign in</button>
+          <button id="createBtn" class="btn-subtle"  type="button">Create account</button>
+          <button id="demoBtn"   class="btn-subtle"  type="button">Demo login</button>
         </div>
       </div>
 
-      <!-- Create account form -->
+      <!-- Create account -->
       <div id="panelCreate" style="display:none;">
         <div class="row"><label>Name</label><input id="suName" type="text" placeholder="Full name" /></div>
         <div class="row"><label>Email</label><input id="suEmail" type="email" placeholder="you@company.com" /></div>
         <div class="row"><label>Password</label><input id="suPw" type="password" placeholder="At least 6 characters" /></div>
-        <div id="suErr" style="color:red;font-size:0.85rem;margin-top:4px;"></div>
-        <div id="suOk" style="color:green;font-size:0.85rem;margin-top:4px;"></div>
+        <div id="suErr" style="color:red;font-size:.85rem;margin-top:4px;"></div>
+        <div id="suOk"  style="color:green;font-size:.85rem;margin-top:4px;"></div>
         <div class="login-actions">
           <button id="createSubmit" class="btn-primary" type="button">Create account</button>
           <button id="cancelCreate" class="btn-subtle" type="button">Cancel</button>
         </div>
       </div>
 
-      <p class="muted">
-        Note: This is a demo-only front-end auth. For production, we'll switch to Firebase/Auth0.
-      </p>
+      <p class="muted">Note: This is a demo-only front-end auth. For production, we'll switch to Firebase/Auth0.</p>
     </section>
 
-    <div style="text-align:center; margin-top:40px;">
-  <img src="assets/cwlogo.webp"
-       alt="CW Worldwide logo"
-       style="width:340px; max-width:90%; opacity:0.95;" />
-</div>
+    <!-- Your logo (path fixed to /assets) -->
+    <div class="logo-container">
+      <img src="assets/cwlogo.webp" alt="CW Worldwide logo" />
+    </div>
   </main>
 
+  <!-- centered footer -->
+  <footer class="bottombar">
+    <p>© 2025 CW Czar Pricing. All Rights Reserved.</p>
+  </footer>
+
+  <!-- App auth wiring -->
   <script type="module">
     import { signUp, signIn, isLoggedIn } from "./auth.js?v=3";
 
@@ -156,13 +88,13 @@
     if (isLoggedIn()) location.replace(ret);
 
     const siEmail = document.getElementById("siEmail");
-    const siPw = document.getElementById("siPw");
-    const siErr = document.getElementById("siErr");
-    const suName = document.getElementById("suName");
+    const siPw    = document.getElementById("siPw");
+    const siErr   = document.getElementById("siErr");
+    const suName  = document.getElementById("suName");
     const suEmail = document.getElementById("suEmail");
-    const suPw = document.getElementById("suPw");
-    const suErr = document.getElementById("suErr");
-    const suOk = document.getElementById("suOk");
+    const suPw    = document.getElementById("suPw");
+    const suErr   = document.getElementById("suErr");
+    const suOk    = document.getElementById("suOk");
 
     const panelSignIn = document.getElementById("panelSignIn");
     const panelCreate = document.getElementById("panelCreate");
@@ -178,7 +110,7 @@
 
     const showErr = (el, msg) => { el.textContent = msg; };
     const clearErr = (el) => { el.textContent = ""; };
-    const validEmail = (v) => /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(v);
+    const validEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 
     // Sign in
     document.getElementById("loginBtn").addEventListener("click", async () => {
@@ -193,10 +125,9 @@
 
     // Create account
     document.getElementById("createSubmit").addEventListener("click", async () => {
-      suErr.textContent = "";
-      suOk.textContent = "";
-      if (!suName.value.trim()) return showErr(suErr, "Name is required.");
-      if (!validEmail(suEmail.value)) return showErr(suErr, "Enter a valid email.");
+      suErr.textContent = ""; suOk.textContent = "";
+      if (!suName.value.trim())          return showErr(suErr, "Name is required.");
+      if (!validEmail(suEmail.value))    return showErr(suErr, "Enter a valid email.");
       if ((suPw.value || "").length < 6) return showErr(suErr, "Password must be at least 6 characters.");
       try {
         await signUp({ name: suName.value, email: suEmail.value, password: suPw.value });
@@ -208,7 +139,7 @@
     });
   </script>
 
-  <!-- ✅ Demo login always works -->
+  <!-- Bullet-proof Demo login -->
   <script>
     (function () {
       var btn = document.getElementById('demoBtn');
@@ -218,12 +149,10 @@
           localStorage.setItem('cwczar.auth', 'true');
           localStorage.setItem('cwczar.user', JSON.stringify({
             email: 'demo@example.com',
-            name: 'Demo User',
+            name:  'Demo User',
             t: Date.now()
           }));
-        } catch (e) {
-          console.warn('Could not set localStorage for demo:', e);
-        }
+        } catch (e) {}
         location.href = 'index.html';
       });
     })();
