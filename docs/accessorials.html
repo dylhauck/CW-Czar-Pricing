@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CW Czar Pricing – Accessorials</title>
 
-  <link rel="stylesheet" href="./styles.css?v=21" />
+  <link rel="stylesheet" href="./styles.css?v=22" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <style>
@@ -83,17 +83,28 @@
       padding: 10px 16px;
       cursor: pointer;
       font-weight: 600;
+      transition: background 0.15s;
     }
+    .btn-primary:hover { background: #144a33; }
 
     .btn-subtle {
       background: #e9f5ec;
       color: #0f3a29;
       border: 1px solid #c8dfd1;
       border-radius: 8px;
-      padding: 10px 16px;
+      padding: 9px 0;
       cursor: pointer;
       font-weight: 600;
+      text-align: center;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      line-height: 1.2;
+      transition: background 0.15s;
     }
+
+    .btn-subtle:hover { background: #d8ecdf; }
 
     .note {
       color: #6b7280;
@@ -128,13 +139,6 @@
 
     .right { text-align: right; }
     .muted { color: #6b7280; }
-
-    .cell button {
-      width: 100%;
-      display: block;
-      text-align: center;
-      border-radius: 8px;
-    }
 
     footer {
       text-align: center;
@@ -197,11 +201,11 @@
   </main>
 
   <footer class="bottombar">
-    <p>© 2025 CW LTL Rate Base. All Rights Reserved.</p>
+    <p>© 2025 CW Czar Pricing. All Rights Reserved.</p>
   </footer>
 
   <script type="module">
-    import { requireAuth, currentUser } from "./auth.js";
+    import { requireAuth } from "./auth.js";
     requireAuth();
 
     const KEY_BASE = "CWCZAR_ACCESSORIALS";
