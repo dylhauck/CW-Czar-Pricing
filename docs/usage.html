@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CW Czar Pricing – Usage Report</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="./styles.css?v=6" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 </head>
 <body>
@@ -44,7 +44,7 @@
         <div class="table-head">
           <div>Date</div><div>Origin → Dest</div><div>Class/Weight</div><div>Net ($)</div>
         </div>
-        <div class="table-body">
+        <div class="table-body" id="activity">
           <div class="table-row"><div>2025-05-01</div><div>303 → 606</div><div>70 / 650</div><div>248.50</div></div>
           <div class="table-row"><div>2025-05-01</div><div>112 → 981</div><div>85 / 2200</div><div>624.10</div></div>
           <div class="table-row"><div>2025-04-30</div><div>750 → 904</div><div>92.5 / 900</div><div>295.30</div></div>
@@ -58,12 +58,11 @@
   <!-- Auth gate -->
   <script type="module">
     import { requireAuth, applyUserToUI } from "./auth.js";
-    requireAuth();
-    applyUserToUI();
+    requireAuth(); applyUserToUI();
   </script>
 
   <script>
-    // apply brand from local storage for visual consistency
+    // Apply brand from local storage for visual consistency
     const brandText = localStorage.getItem('brandName');
     if(brandText){ document.addEventListener('DOMContentLoaded', ()=> {
       document.querySelector('.brand-text').textContent = brandText;
