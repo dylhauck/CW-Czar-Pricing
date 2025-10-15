@@ -3,43 +3,110 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CW LTL Rate Base | Settings</title>
+  <title>CW LTL Rate Base | Manage Settings</title>
+
+  <!-- Shared global CSS -->
   <link rel="stylesheet" href="./styles.css?v=25" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Inline header equalizer -->
+  <style>
+    header.topbar, header.topbar * {
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif !important;
+      line-height: 1 !important;
+    }
+    header.topbar {
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      background: #0f3a29 !important;
+      color: #fff !important;
+      padding: 15px 40px !important;
+      flex-wrap: wrap !important;
+      min-height: 64px !important;
+    }
+    .brand-text {
+      font-weight: 700 !important;
+      font-size: 1.4rem !important;
+      letter-spacing: 0.5px !important;
+    }
+    .topnav {
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      flex: 1 !important;
+      gap: 25px !important;
+    }
+    .topnav a {
+      color: #fff !important;
+      text-decoration: none !important;
+      font-weight: 500 !important;
+      font-size: 1rem !important;
+    }
+    .topnav a.active, .topnav a:hover {
+      text-decoration: underline !important;
+      opacity: 0.85 !important;
+    }
+    .account {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: flex-end !important;
+    }
+    .account-link {
+      color: #fff !important;
+      text-decoration: none !important;
+      font-weight: 600 !important;
+      padding: 8px 16px !important;
+      background: rgba(255,255,255,0.1) !important;
+      border-radius: 6px !important;
+    }
+    .account-link:hover { background: rgba(255,255,255,0.25) !important; }
+  </style>
 </head>
 
 <body>
   <header class="topbar">
     <div class="brand"><span class="brand-text">CW Czar Pricing</span></div>
-
     <nav class="topnav">
       <a href="index.html">Rate a Shipment</a>
       <a href="manage.html" class="active">Manage Settings</a>
       <a href="usage.html">Usage Report</a>
       <a href="accessorials.html">Accessorials</a>
     </nav>
-
     <div class="account">
       <a href="account.html" class="account-link">My Account</a>
     </div>
   </header>
 
   <main class="container">
-    <!-- Manage Settings content here -->
-    <section class="card">
-      <h2>Manage Settings</h2>
-      <p>Here you can adjust configuration options for your pricing system. (UI placeholder for admin tools.)</p>
+    <h2 class="title-center">Manage Settings</h2>
+    <p style="text-align:center; color:#4b5563; font-size:1rem;">Adjust your preferences, account configurations, and system defaults below.</p>
+
+    <section style="max-width:700px;margin:40px auto;">
+      <form>
+        <label>Default Discount (%)</label>
+        <input type="number" min="0" max="100" placeholder="e.g., 70">
+
+        <label>Default Fuel Surcharge (%)</label>
+        <input type="number" min="0" placeholder="e.g., 25">
+
+        <label>Default MC Floor ($)</label>
+        <input type="number" min="0" placeholder="e.g., 50">
+
+        <label>Default Origin ZIP</label>
+        <input type="text" placeholder="e.g., 30303">
+
+        <label>Default Destination ZIP</label>
+        <input type="text" placeholder="e.g., 60606">
+
+        <div class="actions">
+          <button class="btn-primary" type="submit">Save Changes</button>
+          <button class="btn-subtle" type="reset">Reset</button>
+        </div>
+      </form>
     </section>
   </main>
 
-  <footer class="bottombar">
-    <p class="smc">© 2025 CW LTL Rate Base. All Rights Reserved.</p>
-  </footer>
-
-  <script type="module">
-    import { requireAuth, applyUserToUI } from "./auth.js?v=1";
-    requireAuth();
-    applyUserToUI();
-  </script>
+  <footer>© 2025 CW Czar Pricing. All Rights Reserved.</footer>
 </body>
 </html>
