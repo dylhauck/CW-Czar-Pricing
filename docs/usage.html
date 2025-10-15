@@ -3,42 +3,102 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CW LTL Rate Base | Usage Reports</title>
+  <title>CW LTL Rate Base | Usage Report</title>
+
   <link rel="stylesheet" href="./styles.css?v=25" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    header.topbar, header.topbar * {
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif !important;
+      line-height: 1 !important;
+    }
+    header.topbar {
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      background: #0f3a29 !important;
+      color: #fff !important;
+      padding: 15px 40px !important;
+      flex-wrap: wrap !important;
+      min-height: 64px !important;
+    }
+    .brand-text {
+      font-weight: 700 !important;
+      font-size: 1.4rem !important;
+      letter-spacing: 0.5px !important;
+    }
+    .topnav {
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      flex: 1 !important;
+      gap: 25px !important;
+    }
+    .topnav a {
+      color: #fff !important;
+      text-decoration: none !important;
+      font-weight: 500 !important;
+      font-size: 1rem !important;
+    }
+    .topnav a.active, .topnav a:hover {
+      text-decoration: underline !important;
+      opacity: 0.85 !important;
+    }
+    .account {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: flex-end !important;
+    }
+    .account-link {
+      color: #fff !important;
+      text-decoration: none !important;
+      font-weight: 600 !important;
+      padding: 8px 16px !important;
+      background: rgba(255,255,255,0.1) !important;
+      border-radius: 6px !important;
+    }
+    .account-link:hover { background: rgba(255,255,255,0.25) !important; }
+  </style>
 </head>
 
 <body>
   <header class="topbar">
     <div class="brand"><span class="brand-text">CW Czar Pricing</span></div>
-
     <nav class="topnav">
       <a href="index.html">Rate a Shipment</a>
-      <a href="manage.html" class="active">Manage Settings</a>
-      <a href="usage.html">Usage Report</a>
+      <a href="manage.html">Manage Settings</a>
+      <a href="usage.html" class="active">Usage Report</a>
       <a href="accessorials.html">Accessorials</a>
     </nav>
-
     <div class="account">
       <a href="account.html" class="account-link">My Account</a>
     </div>
   </header>
 
   <main class="container">
-    <section class="card">
-      <h2>Usage Report</h2>
-      <p>This section will display usage analytics and rate lookup activity.</p>
+    <h2 class="title-center">Usage Report</h2>
+    <p style="text-align:center; color:#4b5563;">View recent rate quote activity and overall usage statistics.</p>
+
+    <section style="max-width:900px;margin:40px auto;">
+      <table style="width:100%;border-collapse:collapse;border:1px solid #e5e7eb;">
+        <thead style="background:#f8faf9;">
+          <tr>
+            <th style="text-align:left;padding:10px;border-bottom:1px solid #e5e7eb;">Date</th>
+            <th style="text-align:left;padding:10px;border-bottom:1px solid #e5e7eb;">Origin ZIP</th>
+            <th style="text-align:left;padding:10px;border-bottom:1px solid #e5e7eb;">Destination ZIP</th>
+            <th style="text-align:left;padding:10px;border-bottom:1px solid #e5e7eb;">Weight (lb)</th>
+            <th style="text-align:left;padding:10px;border-bottom:1px solid #e5e7eb;">Class</th>
+            <th style="text-align:left;padding:10px;border-bottom:1px solid #e5e7eb;">Net Charge ($)</th>
+          </tr>
+        </thead>
+        <tbody id="usageTable">
+          <tr><td colspan="6" style="text-align:center;padding:20px;color:#6b7280;">No data yet</td></tr>
+        </tbody>
+      </table>
     </section>
   </main>
 
-  <footer class="bottombar">
-    <p class="smc">© 2025 CW LTL Rate Base. All Rights Reserved.</p>
-  </footer>
-
-  <script type="module">
-    import { requireAuth, applyUserToUI } from "./auth.js?v=1";
-    requireAuth();
-    applyUserToUI();
-  </script>
+  <footer>© 2025 CW Czar Pricing. All Rights Reserved.</footer>
 </body>
 </html>
