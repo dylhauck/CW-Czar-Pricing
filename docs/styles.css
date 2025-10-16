@@ -459,3 +459,12 @@ body.page-rate header.topbar .topnav a {
   letter-spacing: 0 !important;
   line-height: 1 !important;
 }
+/* Unified nav underline style across ALL pages (matches Rate a Shipment) */
+header.topbar .topnav a.active,
+header.topbar .topnav a:hover {
+  text-decoration-line: underline !important;
+  text-decoration-thickness: 2px !important;   /* same as Rate page */
+  text-underline-offset: 6px !important;       /* same as Rate page */
+  text-decoration-color: #fff !important;
+  opacity: .9;
+}
