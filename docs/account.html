@@ -240,13 +240,10 @@
 
       // Log out
       // Log out
+      // Log out
 logoutBtn.addEventListener("click", () => {
   localStorage.removeItem(USER_KEY);
-  sessionStorage.clear(); // extra safety
-  // Optional: fade-out animation or small delay
-  setTimeout(() => {
-    window.location.href = "login.html";
-  }, 200);
+  window.location.href = "login.html";
 });
     })();
   </script>
