@@ -445,15 +445,17 @@ header.topbar .account-link:hover{
   header.topbar .topnav{ flex-wrap: wrap !important; }
 }
 
-/* ===== NAV SPACING + TYPO LOCK (identical across pages) ===== */
-header.topbar .topnav {
-  gap: 6rem !important;              /* consistent horizontal spacing */
+/* ==========================
+   RATE PAGE–ONLY NAV SPACING FIX
+   (keeps other pages unchanged)
+========================== */
+body.page-rate header.topbar .topnav {
+  gap: 4.5rem !important;
 }
-
-header.topbar .topnav a {
-  display: inline-block !important;  /* stable spacing box */
+body.page-rate header.topbar .topnav a {
+  margin: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  letter-spacing: 0 !important;
   line-height: 1 !important;
-  letter-spacing: 0 !important;      /* remove accidental drift */
-  text-decoration-thickness: 2px;    /* makes underline look the same */
-  text-underline-offset: 6px;
 }
