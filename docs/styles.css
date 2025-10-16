@@ -408,3 +408,26 @@ input:focus, select:focus, textarea:focus {
     grid-template-columns: 1fr;
   }
 }
+/* --- Force Fuel Surcharge to stack (TL below LTL) on all screens --- */
+.fuel-wrap {
+  grid-template-columns: 1fr 140px !important;  /* label | input */
+}
+
+.fuel-divider {
+  grid-column: 1 / -1 !important;  /* make divider horizontal across both cols */
+  width: 100% !important;
+  height: 1px !important;
+  margin: 2px 0 !important;
+}
+
+/* disable the wide-layout behavior even on large screens */
+@media (min-width: 1200px) {
+  .fuel-wrap {
+    grid-template-columns: 1fr 140px !important;  /* keep stacked layout */
+  }
+  .fuel-divider {
+    grid-column: 1 / -1 !important;              /* keep horizontal divider */
+    width: 100% !important;
+    height: 1px !important;
+  }
+}
