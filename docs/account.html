@@ -239,10 +239,15 @@
       });
 
       // Log out
-      logoutBtn.addEventListener("click", () => {
-        localStorage.removeItem(USER_KEY);
-        window.location.href = "login.html";
-      });
+      // Log out
+logoutBtn.addEventListener("click", () => {
+  localStorage.removeItem(USER_KEY);
+  sessionStorage.clear(); // extra safety
+  // Optional: fade-out animation or small delay
+  setTimeout(() => {
+    window.location.href = "login.html";
+  }, 200);
+});
     })();
   </script>
 </body>
