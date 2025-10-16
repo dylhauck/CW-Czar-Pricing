@@ -1,85 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- META -->
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <!-- TITLE -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CW Czar Pricing | Rate a Shipment</title>
-
-  <!-- STYLES -->
-  <link rel="stylesheet" href="./styles.css?v=34" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-
-  <!-- FIX HEADER SPACING FOR INDEX ONLY -->
-  <style>
-    body.page-rate header.topbar {
-      display:flex !important;
-      justify-content:space-between !important;
-      align-items:center !important;
-      background:#0f3a29 !important;
-      color:#fff !important;
-      padding:18px 40px !important;
-      min-height:64px !important;
-      flex-wrap:wrap !important;
-      line-height:1 !important;
-    }
-    body.page-rate header.topbar,
-    body.page-rate header.topbar * {
-      font-family:"Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif !important;
-    }
-    body.page-rate header.topbar .brand-text {
-      font-weight:700 !important;
-      font-size:2rem !important;
-      letter-spacing:.5px !important;
-      margin:0 !important;
-    }
-    body.page-rate header.topbar .topnav {
-      flex:1 !important;
-      display:flex !important;
-      justify-content:center !important;
-      align-items:center !important;
-      gap:25px !important;
-    }
-    body.page-rate header.topbar .topnav a {
-      color:#fff !important;
-      text-decoration:none !important;
-      font-weight:600 !important;
-      font-size:1.5rem !important;
-      margin:0 !important;
-      padding:0 !important;
-      line-height:1 !important;
-      letter-spacing:0 !important;
-    }
-    body.page-rate header.topbar .topnav a.active,
-    body.page-rate header.topbar .topnav a:hover {
-      text-decoration:underline !important;
-      opacity:.9 !important;
-      text-decoration-thickness:2px;
-      text-underline-offset:6px;
-    }
-    body.page-rate header.topbar .account {
-      display:flex !important;
-      align-items:center !important;
-      justify-content:flex-end !important;
-    }
-    body.page-rate header.topbar .account-link {
-      color:#fff !important;
-      text-decoration:none !important;
-      font-weight:700 !important;
-      font-size:1.25rem !important;
-      padding:10px 18px !important;
-      background:rgba(255,255,255,.12) !important;
-      border-radius:8px !important;
-    }
-    body.page-rate header.topbar .account-link:hover {
-      background:rgba(255,255,255,.22) !important;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css?v=27" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
-<body class="page-rate">
+<body>
   <!-- HEADER -->
   <header class="topbar">
     <div class="brand"><span class="brand-text">CW Czar Pricing</span></div>
@@ -94,139 +23,169 @@
     </div>
   </header>
 
-  <!-- MAIN -->
+  <!-- MAIN CONTENT -->
   <main class="container">
-    <h1 class="title-center">Rate a Shipment</h1>
+    <h2 class="title-center">Rate a Shipment</h2>
 
     <div class="rate-wrapper">
-      <!-- LEFT SIDE FORM -->
-      <section class="form-section">
-        <label for="originZip">Origin ZIP</label>
-        <input id="originZip" type="text" placeholder="e.g., 30303" />
+      <!-- LEFT COLUMN -->
+      <div class="form-section">
+        <label>Origin ZIP</label>
+        <input type="text" id="originZip" placeholder="e.g., 30303" />
 
-        <label for="destinationZip">Destination ZIP</label>
-        <input id="destinationZip" type="text" placeholder="e.g., 60606" />
+        <label>Destination ZIP</label>
+        <input type="text" id="destinationZip" placeholder="e.g., 60606" />
 
-        <label for="class">Class</label>
-        <input id="class" type="text" placeholder="e.g., 70" />
+        <label>Class</label>
+        <input type="text" id="class" placeholder="e.g., 70" />
 
-        <label for="weight">Weight (lb)</label>
-        <input id="weight" type="number" placeholder="e.g., 500" />
+        <label>Weight (lb)</label>
+        <input type="number" id="weight" placeholder="e.g., 500" />
 
-        <label for="miles">Miles</label>
-        <input id="miles" type="number" placeholder="optional" />
+        <label>Miles</label>
+        <input type="number" id="miles" placeholder="optional" />
 
-<!-- Fuel Surcharge -->
-<section class="form-group">
-  <label class="section-label">Fuel Surcharge</label>
+        <!-- Fuel Surcharge Section -->
+        <div class="form-group">
+          <label class="section-label">Fuel Surcharge</label>
+          <div class="fuel-wrap">
+            <label class="fuel-option active">
+              <input type="radio" name="fuelType" value="ltl" checked />
+              LTL <span class="fuel-sub">(% on linehaul)</span>
+            </label>
+            <div class="fuel-input">
+              <input type="number" id="ltlFuel" placeholder="e.g., 25" />
+              <span class="fuel-unit">%</span>
+            </div>
 
-  <div class="fuel-wrap">
-    <!-- LTL -->
-    <label class="fuel-option">
-      <input type="radio" name="fuelMode" id="fuelModeLTL" value="ltl" checked />
-      <span class="fuel-title">LTL</span>
-      <span class="fuel-sub">(% of linehaul)</span>
-    </label>
+            <div class="fuel-divider"></div>
 
-    <div class="fuel-input">
-      <input id="fuel" type="number" step="0.01" inputmode="decimal" placeholder="e.g., 25" />
-      <span class="fuel-unit">%</span>
-    </div>
-
-    <div class="fuel-divider" aria-hidden="true"></div>
-
-    <!-- TL -->
-    <label class="fuel-option">
-      <input type="radio" name="fuelMode" id="fuelModeTL" value="tl" />
-      <span class="fuel-title">TL</span>
-      <span class="fuel-sub">(¢ per mile)</span>
-    </label>
-
-    <div class="fuel-input">
-      <input id="tlFuelCpm" type="number" step="0.01" inputmode="decimal" placeholder="e.g., 55" disabled />
-      <span class="fuel-unit">¢/mi</span>
-    </div>
-  </div>
-
-  <p class="hint">
-    LTL fuel applies to the linehaul after discount &amp; floor. TL fuel is miles × cents per mile.
-  </p>
-</section>
-
-        <label for="mcFloor">MC Floor ($)</label>
-        <input id="mcFloor" type="number" placeholder="optional" />
-
-        <label for="accessorials">Accessorials ($)</label>
-        <input id="accessorials" type="number" placeholder="0.00" />
-
-        <label for="savedAccessorial">Select Saved Accessorial</label>
-        <div style="display:flex;align-items:center;gap:10px;">
-          <select id="savedAccessorial">
-            <option value="">Select...</option>
-          </select>
-          <button class="btn-subtle" id="addAccessorialBtn">Add</button>
+            <label class="fuel-option">
+              <input type="radio" name="fuelType" value="tl" />
+              TL <span class="fuel-sub">(¢ per mile)</span>
+            </label>
+            <div class="fuel-input">
+              <input type="number" id="tlFuel" placeholder="e.g., 55" disabled />
+              <span class="fuel-unit">¢</span>
+            </div>
+          </div>
         </div>
 
-        <label for="discount">Discount (%)</label>
-        <input id="discount" type="number" placeholder="e.g., 70" />
+        <label>MC Floor ($)</label>
+        <input type="number" id="mcFloor" placeholder="optional" />
+
+        <label>Accessorials ($)</label>
+        <input type="number" id="accessorials" value="0.00" />
+
+        <label>Select Saved Accessorial</label>
+        <select id="savedAccessorials"></select>
+        <button class="btn-subtle small-btn" id="addAccessorial">Add</button>
+
+        <label>Discount (%)</label>
+        <input type="number" id="discount" placeholder="e.g., 70" />
 
         <div class="actions">
-          <button class="btn-primary" id="rateBtn">Rate Shipment</button>
-          <button class="btn-subtle" id="clearBtn">Clear</button>
+          <button class="btn-primary" id="rateShipment">Rate Shipment</button>
+          <button class="btn-subtle" id="clear">Clear</button>
         </div>
-      </section>
+      </div>
 
-      <!-- RIGHT SIDE -->
-      <aside class="right-col">
+      <!-- RIGHT COLUMN -->
+      <div class="right-col">
         <div class="density-card">
-          <h3>Density Calculator (Optional)</h3>
+          <h3>Density Calculator</h3>
           <div class="grid-4">
-            <div>
-              <label>Pallets</label>
-              <input id="pallets" type="number" placeholder="#" />
-            </div>
-            <div>
-              <label>Length (in)</label>
-              <input id="length" type="number" placeholder="L" />
-            </div>
-            <div>
-              <label>Width (in)</label>
-              <input id="width" type="number" placeholder="W" />
-            </div>
-            <div>
-              <label>Height (in)</label>
-              <input id="height" type="number" placeholder="H" />
-            </div>
+            <input type="number" id="length" placeholder="Length (in)" />
+            <input type="number" id="width" placeholder="Width (in)" />
+            <input type="number" id="height" placeholder="Height (in)" />
+            <input type="number" id="pieces" placeholder="Pieces" />
           </div>
-
           <div class="density-meta">
-            <div>Density (lbs/ft³): <span id="densityVal">—</span></div>
-            <div>Suggested Class: <span id="classSuggestion">—</span></div>
+            <div><strong>Density:</strong> <span id="density">—</span></div>
+            <div><strong>Suggested Class:</strong> <span id="suggestedClass">—</span></div>
+            <button class="btn-subtle small-btn" id="useSuggestedClass">Use Suggested Class</button>
           </div>
-
-          <div class="density-actions">
-            <button class="btn-subtle" id="useClassBtn">Use Suggested Class</button>
-          </div>
-
-          <p class="density-note">Density auto-calculates as you enter values.</p>
+          <div class="density-note">Density and suggested class update automatically.</div>
         </div>
 
-        <ul class="results-list">
-          <li><span>Gross</span><span id="grossResult">—</span></li>
-          <li><span>Discount</span><span id="discountResult">—</span></li>
-          <li><span>MC Floor</span><span id="mcResult">—</span></li>
-          <li><span>Fuel Surcharge</span><span id="fuelResult">—</span></li>
-          <li><span>Accessorials</span><span id="accessorialsResult">—</span></li>
-          <li><strong>Net</strong><strong id="netResult">—</strong></li>
+        <ul class="results-list" id="results">
+          <li><strong>Gross</strong><span>—</span></li>
+          <li><strong>Discount</strong><span>—</span></li>
+          <li><strong>MC Floor</strong><span>—</span></li>
+          <li><strong>Fuel Surcharge</strong><span>—</span></li>
+          <li><strong>Accessorials</strong><span>—</span></li>
+          <li><strong>Net</strong><span>—</span></li>
         </ul>
-      </aside>
+      </div>
     </div>
   </main>
 
-  <!-- FOOTER -->
-  <footer>© 2025 CW Czar Pricing. All rights reserved.</footer>
+  <footer>© 2025 CW Czar Pricing. All Rights Reserved.</footer>
 
-  <!-- JS -->
-  <script src="./app.js?v=33"></script>
+  <script>
+  // === FUEL SURCHARGE LOGIC ===
+  document.querySelectorAll('input[name="fuelType"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      document.querySelectorAll('.fuel-option').forEach(opt => opt.classList.remove('active'));
+      document.querySelector('.fuel-divider')?.classList.remove('active');
+      radio.closest('.fuel-option').classList.add('active');
+      document.querySelector('.fuel-divider')?.classList.add('active');
+
+      const ltlInput = document.getElementById('ltlFuel');
+      const tlInput = document.getElementById('tlFuel');
+      if (radio.value === 'ltl') {
+        ltlInput.disabled = false;
+        tlInput.disabled = true;
+      } else {
+        ltlInput.disabled = true;
+        tlInput.disabled = false;
+      }
+    });
+  });
+
+  // === DENSITY CALCULATOR ===
+  const densityInputs = ['length', 'width', 'height', 'pieces', 'weight'];
+  densityInputs.forEach(id => {
+    document.getElementById(id)?.addEventListener('input', calculateDensity);
+  });
+
+  function calculateDensity() {
+    const length = parseFloat(document.getElementById('length').value) || 0;
+    const width = parseFloat(document.getElementById('width').value) || 0;
+    const height = parseFloat(document.getElementById('height').value) || 0;
+    const pieces = parseFloat(document.getElementById('pieces').value) || 0;
+    const weight = parseFloat(document.getElementById('weight').value) || 0;
+
+    if (!length || !width || !height || !pieces || !weight) return;
+
+    const cubicFeet = (length * width * height * pieces) / 1728;
+    const density = weight / cubicFeet;
+    document.getElementById('density').textContent = density.toFixed(2);
+
+    const classTable = [
+      { min: 0, max: 1, class: 400 },
+      { min: 1, max: 2, class: 300 },
+      { min: 2, max: 4, class: 250 },
+      { min: 4, max: 6, class: 175 },
+      { min: 6, max: 8, class: 125 },
+      { min: 8, max: 10, class: 100 },
+      { min: 10, max: 12, class: 92.5 },
+      { min: 12, max: 15, class: 85 },
+      { min: 15, max: 22.5, class: 70 },
+      { min: 22.5, max: 30, class: 65 },
+      { min: 30, max: 35, class: 60 },
+      { min: 35, max: 50, class: 55 },
+      { min: 50, max: Infinity, class: 50 }
+    ];
+
+    const found = classTable.find(row => density >= row.min && density < row.max);
+    document.getElementById('suggestedClass').textContent = found ? found.class : '—';
+  }
+
+  document.getElementById('useSuggestedClass')?.addEventListener('click', () => {
+    const suggested = document.getElementById('suggestedClass').textContent;
+    if (suggested !== '—') document.getElementById('class').value = suggested;
+  });
+  </script>
 </body>
 </html>
