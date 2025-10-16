@@ -1,37 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- ========= META ========= -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CW Czar Pricing | Accessorials</title>
 
-  <!-- ========= TITLE ========= -->
-  <title>CW Czar Pricing | Rate a Shipment</title>
-
-  <!-- ========= STYLES =========
-       Keep the version in sync across all pages to bust cache. -->
+  <!-- Use the same CSS & font as other pages -->
   <link rel="stylesheet" href="./styles.css?v=32" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* Page-specific niceties (non-header) */
+    .page-intro { text-align:center; color:#4b5563; margin-top:6px; }
+    .card {
+      border: 1px solid #e5e7eb; background:#fff; border-radius:12px; 
+      box-shadow:0 2px 8px rgba(0,0,0,.06); padding:18px 18px;
+    }
+    .split {
+      display:grid; grid-template-columns: 1.1fr 1.4fr; gap:24px; align-items:start;
+    }
+    .muted { color:#6b7280; }
+    .help { font-size:.92rem; color:#6b7280; margin-top:6px; }
+    .list-empty {
+      border:2px dashed #e5e7eb; border-radius:12px; padding:18px; text-align:center; color:#6b7280;
+    }
+    .row {
+      display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+    }
+
+    /* Accessorials list (left aligned text + aligned delete buttons) */
+    .accessorials-list { list-style:none; padding:0; margin:0; }
+    .accessorials-item {
+      display:flex; align-items:center; justify-content:space-between;
+      border-bottom:1px solid #e5e7eb; padding:12px 8px;
+    }
+    .acc-info { display:flex; align-items:center; gap:10px; min-width:0; }
+    .acc-name { font-weight:600; color:#0f3a29; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .acc-price { font-weight:600; color:#111827; }
+
+    .btn-delete {
+      background:#0f3a29; color:#fff; border:none; border-radius:8px;
+      padding:8px 14px; font-weight:600; cursor:pointer; display:inline-flex; 
+      align-items:center; justify-content:center; transition:background .2s ease;
+    }
+    .btn-delete:hover { background:#145a3c; }
+
+    /* Inline alerts */
+    .msg { margin-top:10px; font-size:.95rem; }
+    .msg.ok { color:#145a3c; }
+    .msg.err { color:#b91c1c; }
+
+    /* Mobile */
+    @media (max-width: 960px) {
+      .split { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 
-<!-- Add page-rate so nav spacing matches other pages -->
-<body class="page-rate">
-
-  <!-- =========================================================
-       TOP NAV / HEADER — unified across all pages
-       ========================================================= -->
-  <header class="topbar" role="banner" aria-label="Primary">
-    <div class="brand">
-      <span class="brand-text">CW Czar Pricing</span>
-    </div>
-
-    <nav class="topnav" role="navigation" aria-label="Main Navigation">
-      <a href="index.html" class="active">Rate a Shipment</a>
+<body>
+  <!-- Unified header (identical across pages) -->
+  <header class="topbar">
+    <div class="brand"><span class="brand-text">CW Czar Pricing</span></div>
+    <nav class="topnav">
+      <a href="index.html">Rate a Shipment</a>
       <a href="manage.html">Manage Settings</a>
       <a href="usage.html">Usage Report</a>
-      <a href="accessorials.html">Accessorials</a>
+      <a href="accessorials.html" class="active">Accessorials</a>
     </nav>
-
     <div class="account">
       <a href="account.html" class="account-link">My Account</a>
     </div>
