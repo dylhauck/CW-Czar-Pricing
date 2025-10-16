@@ -48,27 +48,30 @@
         <div class="form-group">
           <label class="section-label">Fuel Surcharge</label>
           <div class="fuel-wrap">
-            <label class="fuel-option active">
-              <input type="radio" name="fuelType" value="ltl" checked />
-              LTL <span class="fuel-sub">(% on linehaul)</span>
-            </label>
-            <div class="fuel-input">
-              <input type="number" id="ltlFuel" placeholder="e.g., 25" />
-              <span class="fuel-unit">%</span>
-            </div>
+  <div class="fuel-row">
+    <label>
+      <input type="radio" name="fuelType" value="ltl" checked />
+      LTL <span class="fuel-sub">(% on linehaul)</span>
+    </label>
+    <div class="fuel-input">
+      <input type="number" id="ltlFuel" placeholder="e.g., 25" />
+      <span class="fuel-unit">%</span>
+    </div>
+  </div>
 
-            <div class="fuel-divider"></div>
+  <div class="fuel-divider"></div>
 
-            <label class="fuel-option">
-              <input type="radio" name="fuelType" value="tl" />
-              TL <span class="fuel-sub">(¢ per mile)</span>
-            </label>
-            <div class="fuel-input">
-              <input type="number" id="tlFuel" placeholder="e.g., 55" disabled />
-              <span class="fuel-unit">¢</span>
-            </div>
-          </div>
-        </div>
+  <div class="fuel-row">
+    <label>
+      <input type="radio" name="fuelType" value="tl" />
+      TL <span class="fuel-sub">(¢ per mile)</span>
+    </label>
+    <div class="fuel-input">
+      <input type="number" id="tlFuel" placeholder="e.g., 55" disabled />
+      <span class="fuel-unit">¢</span>
+    </div>
+  </div>
+</div>
 
         <label>MC Floor ($)</label>
         <input type="number" id="mcFloor" placeholder="optional" />
