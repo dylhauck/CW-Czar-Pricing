@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CW Czar Pricing | Rate a Shipment</title>
-  <link rel="stylesheet" href="styles.css?v=27" />
+  <link rel="stylesheet" href="styles.css?v=28" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
@@ -45,7 +45,7 @@
         <label>Miles</label>
         <input type="number" id="miles" placeholder="optional" />
 
-        <!-- Fuel Surcharge Section -->
+        <!-- Fuel Surcharge Section (TL under LTL) -->
         <div class="form-group">
           <label class="section-label">Fuel Surcharge</label>
           <div class="fuel-wrap">
@@ -122,8 +122,9 @@
 
   <footer>© 2025 CW Czar Pricing. All Rights Reserved.</footer>
 
+  <!-- ===== JS: Density + Fuel + Safe Rating ===== -->
   <script>
-  // === FUEL SURCHARGE LOGIC ===
+  // Toggle fuel inputs + active label highlight
   document.querySelectorAll('input[name="fuelType"]').forEach(radio => {
     radio.addEventListener('change', () => {
       document.querySelectorAll('.fuel-option').forEach(opt => opt.classList.remove('active'));
@@ -132,7 +133,7 @@
       document.querySelector('.fuel-divider')?.classList.add('active');
 
       const ltlInput = document.getElementById('ltlFuel');
-      const tlInput = document.getElementById('tlFuel');
+      const tlInput  = document.getElementById('tlFuel');
       if (radio.value === 'ltl') {
         ltlInput.disabled = false;
         tlInput.disabled = true;
@@ -143,26 +144,25 @@
     });
   });
 
-  // === DENSITY CALCULATOR ===
+  // Density calculator
   const densityInputs = ['length', 'width', 'height', 'pieces', 'weight'];
   densityInputs.forEach(id => {
     document.getElementById(id)?.addEventListener('input', calculateDensity);
   });
 
   function calculateDensity() {
-    const length = parseFloat(document.getElementById('length').value) || 0;
-    const width = parseFloat(document.getElementById('width').value) || 0;
-    const height = parseFloat(document.getElementById('height').value) || 0;
-    const pieces = parseFloat(document.getElementById('pieces').value) || 0;
-    const weight = parseFloat(document.getElementById('weight').value) || 0;
+    const L = parseFloat(document.getElementById('length').value) || 0;
+    const W = parseFloat(document.getElementById('width').value) || 0;
+    const H = parseFloat(document.getElementById('height').value) || 0;
+    const P = parseFloat(document.getElementById('pieces').value) || 0;
+    const WT = parseFloat(document.getElementById('weight').value) || 0;
+    if (!L || !W || !H || !P || !WT) return;
 
-    if (!length || !width || !height || !pieces || !weight) return;
+    const cuft = (L * W * H * P) / 1728;
+    const dens = WT / cuft;
+    document.getElementById('density').textContent = dens.toFixed(2);
 
-    const cubicFeet = (length * width * height * pieces) / 1728;
-    const density = weight / cubicFeet;
-    document.getElementById('density').textContent = density.toFixed(2);
-
-    const classTable = [
+    const classes = [
       { min: 0, max: 1, class: 400 },
       { min: 1, max: 2, class: 300 },
       { min: 2, max: 4, class: 250 },
@@ -177,14 +177,79 @@
       { min: 35, max: 50, class: 55 },
       { min: 50, max: Infinity, class: 50 }
     ];
-
-    const found = classTable.find(row => density >= row.min && density < row.max);
+    const found = classes.find(r => dens >= r.min && dens < r.max);
     document.getElementById('suggestedClass').textContent = found ? found.class : '—';
   }
 
   document.getElementById('useSuggestedClass')?.addEventListener('click', () => {
     const suggested = document.getElementById('suggestedClass').textContent;
     if (suggested !== '—') document.getElementById('class').value = suggested;
+  });
+
+  // ===== Safe rating handler (robust against NaN and missing fields) =====
+  function num(v, fallback = 0) {
+    const n = parseFloat(v);
+    return Number.isFinite(n) ? n : fallback;
+  }
+
+  document.getElementById('rateShipment')?.addEventListener('click', () => {
+    const weight = num(document.getElementById('weight')?.value);
+    const miles  = num(document.getElementById('miles')?.value);
+    const disc   = num(document.getElementById('discount')?.value);
+    const mc     = num(document.getElementById('mcFloor')?.value);
+    const accr   = num(document.getElementById('accessorials')?.value);
+
+    // Use your existing linehaul if you already compute it elsewhere:
+    // - computeLinehaul(): project-defined function
+    // - window.__demoLinehaul: optional override for testing
+    let linehaul =
+      (typeof window.computeLinehaul === 'function' ? window.computeLinehaul() : null);
+    if (!Number.isFinite(linehaul)) {
+      // simple fallback so the page still works
+      linehaul = (Math.max(weight, 0) / 100) * 100; // $1.00/cwt placeholder
+    }
+
+    // Fuel calculation
+    const fuelType = (document.querySelector('input[name="fuelType"]:checked')?.value) || 'ltl';
+    let fuel = 0;
+    if (fuelType === 'ltl') {
+      const pct = num(document.getElementById('ltlFuel')?.value);
+      fuel = linehaul * (pct / 100);
+    } else {
+      const cents = num(document.getElementById('tlFuel')?.value);
+      fuel = miles * (cents / 100); // cents/mile -> dollars
+    }
+
+    // Discount + MC floor
+    const discountAmt   = linehaul * (disc / 100);
+    const afterDiscount = linehaul - discountAmt;
+    const netAfterMC    = Math.max(afterDiscount, mc);
+
+    // Final
+    const net = netAfterMC + fuel + accr;
+
+    // Update UI
+    const rows = document.querySelectorAll('#results li span');
+    if (rows.length >= 6) {
+      rows[0].textContent = linehaul.toFixed(2);          // Gross
+      rows[1].textContent = `-${discountAmt.toFixed(2)}`; // Discount
+      rows[2].textContent = mc.toFixed(2);                // MC Floor
+      rows[3].textContent = fuel.toFixed(2);              // Fuel
+      rows[4].textContent = accr.toFixed(2);              // Accessorials
+      rows[5].textContent = net.toFixed(2);               // Net
+    }
+  });
+
+  // Clear button
+  document.getElementById('clear')?.addEventListener('click', () => {
+    ['originZip','destinationZip','class','weight','miles','ltlFuel','tlFuel','mcFloor','accessorials','discount','length','width','height','pieces']
+      .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+    document.querySelectorAll('#results li span').forEach(s => s.textContent = '—');
+    document.getElementById('density').textContent = '—';
+    document.getElementById('suggestedClass').textContent = '—';
+    document.querySelector('input[name="fuelType"][value="ltl"]').checked = true;
+    document.getElementById('ltlFuel').disabled = false;
+    document.getElementById('tlFuel').disabled  = true;
   });
   </script>
 </body>
