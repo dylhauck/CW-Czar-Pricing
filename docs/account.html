@@ -2,11 +2,37 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CW LTL Rate Base | My Account</title>
-  <link rel="stylesheet" href="./styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CW Czar Pricing | My Account</title>
+
+  <link rel="stylesheet" href="./styles.css?v=34" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* Page-specific niceties */
+    .card {
+      border: 1px solid #e5e7eb;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+      padding: 20px 22px;
+      margin-bottom: 20px;
+    }
+    .card h3 { margin: 0 0 12px; color:#0f3a29; }
+    .two-col {
+      display:grid; grid-template-columns: 1fr 1fr; gap:14px;
+    }
+    .muted { color:#6b7280; }
+    .msg { margin-top:10px; font-size:.95rem; }
+    .msg.ok { color:#145a3c; }
+    .msg.err { color:#b91c1c; }
+
+    /* make the "My Account" pill look active on this page */
+    header.topbar .account-link { box-shadow: inset 0 0 0 2px rgba(255,255,255,.18); }
+  </style>
 </head>
 <body>
+  <!-- HEADER (unified) -->
   <header class="topbar">
     <div class="brand"><span class="brand-text">CW Czar Pricing</span></div>
     <nav class="topnav">
@@ -20,11 +46,204 @@
     </div>
   </header>
 
-  <main class="container" style="text-align:center;margin-top:60px;">
-    <h2>My Account</h2>
-    <p>Manage your profile, password, and preferences here.</p>
+  <!-- MAIN -->
+  <main class="container">
+    <h1 class="title-center">My Account</h1>
+
+    <!-- PROFILE -->
+    <section class="card">
+      <h3>Profile</h3>
+      <div class="two-col">
+        <div>
+          <label for="firstName">First Name</label>
+          <input id="firstName" type="text" placeholder="First name" />
+        </div>
+        <div>
+          <label for="lastName">Last Name</label>
+          <input id="lastName" type="text" placeholder="Last name" />
+        </div>
+      </div>
+
+      <label for="email" style="margin-top:12px;">Login Email</label>
+      <input id="email" type="email" placeholder="you@company.com" readonly />
+
+      <div class="actions">
+        <button class="btn-primary" id="saveProfileBtn">Save Profile</button>
+      </div>
+      <div id="profileMsg" class="msg" aria-live="polite"></div>
+    </section>
+
+    <!-- PASSWORD -->
+    <section class="card">
+      <h3>Change Password</h3>
+      <p class="muted" style="margin:4px 0 12px;">
+        This is demo-only front-end auth (localStorage). For production, switch to Firebase/Auth0/cognito.
+      </p>
+
+      <label for="currentPw">Current Password</label>
+      <input id="currentPw" type="password" placeholder="Current password" autocomplete="current-password" />
+
+      <div class="two-col" style="margin-top:10px;">
+        <div>
+          <label for="newPw">New Password</label>
+          <input id="newPw" type="password" placeholder="New password" autocomplete="new-password" />
+        </div>
+        <div>
+          <label for="confirmPw">Confirm New Password</label>
+          <input id="confirmPw" type="password" placeholder="Confirm new password" autocomplete="new-password" />
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn-primary" id="changePwBtn">Change Password</button>
+      </div>
+      <div id="pwMsg" class="msg" aria-live="polite"></div>
+    </section>
+
+    <!-- DANGER / LOG OUT -->
+    <section class="card">
+      <h3>Session</h3>
+      <div class="actions">
+        <button class="btn-subtle" id="logoutBtn">Log Out</button>
+      </div>
+    </section>
   </main>
 
-  <footer>© 2025 CW LTL Rate Base. All Rights Reserved.</footer>
+  <!-- FOOTER -->
+  <footer>© 2025 CW Czar Pricing. All Rights Reserved.</footer>
+
+  <!-- PAGE SCRIPT (demo-only auth) -->
+  <script>
+    (function(){
+      const USER_KEY  = "cwczar.user";     // current session user object
+      const USERS_KEY = "cwczar.users";    // dictionary: email -> user record
+
+      const $ = id => document.getElementById(id);
+
+      const firstNameEl = $("firstName");
+      const lastNameEl  = $("lastName");
+      const emailEl     = $("email");
+      const profileMsg  = $("profileMsg");
+
+      const currentPwEl = $("currentPw");
+      const newPwEl     = $("newPw");
+      const confirmEl   = $("confirmPw");
+      const pwMsg       = $("pwMsg");
+
+      const saveProfileBtn = $("saveProfileBtn");
+      const changePwBtn    = $("changePwBtn");
+      const logoutBtn      = $("logoutBtn");
+
+      // Helpers
+      function loadUsers() {
+        try { return JSON.parse(localStorage.getItem(USERS_KEY) || "{}"); }
+        catch { return {}; }
+      }
+      function saveUsers(obj) {
+        localStorage.setItem(USERS_KEY, JSON.stringify(obj));
+      }
+      function loadSession() {
+        try { return JSON.parse(localStorage.getItem(USER_KEY) || "null"); }
+        catch { return null; }
+      }
+      function saveSession(u) {
+        localStorage.setItem(USER_KEY, JSON.stringify(u));
+      }
+      function requireLoggedIn() {
+        const u = loadSession();
+        if (!u || !u.email) {
+          window.location.href = "login.html";
+        }
+        return u;
+      }
+
+      // Initialize UI with current user
+      const sessionUser = requireLoggedIn();
+      const users = loadUsers();
+      const record = users[(sessionUser.email || "").toLowerCase()] || {};
+
+      // Fill profile fields
+      firstNameEl.value = sessionUser.firstName || record.firstName || sessionUser.name?.split(" ")[0] || "";
+      lastNameEl.value  = sessionUser.lastName  || record.lastName  || sessionUser.name?.split(" ").slice(1).join(" ") || "";
+      emailEl.value     = sessionUser.email || "";
+
+      // Save profile (first/last) back to both session + users store
+      saveProfileBtn.addEventListener("click", () => {
+        profileMsg.textContent = "";
+        const fn = (firstNameEl.value || "").trim();
+        const ln = (lastNameEl.value || "").trim();
+        if (!fn || !ln){ profileMsg.textContent = "Please enter first and last name."; profileMsg.className="msg err"; return; }
+
+        // Update session
+        const u = loadSession() || {};
+        u.firstName = fn;
+        u.lastName  = ln;
+        u.name      = `${fn} ${ln}`.trim();
+        saveSession(u);
+
+        // Update users table
+        const all = loadUsers();
+        const key = (u.email || "").toLowerCase();
+        const rec = all[key] || { email: u.email };
+        rec.firstName = fn; rec.lastName = ln; rec.name = u.name;
+        all[key] = rec;
+        saveUsers(all);
+
+        profileMsg.textContent = "Profile saved.";
+        profileMsg.className = "msg ok";
+      });
+
+      // Change password (demo-only)
+      changePwBtn.addEventListener("click", () => {
+        pwMsg.textContent = "";
+        const curr = currentPwEl.value || "";
+        const npw  = newPwEl.value || "";
+        const cpw  = confirmEl.value || "";
+
+        if (!curr || !npw || !cpw){
+          pwMsg.textContent = "Please complete all password fields.";
+          pwMsg.className = "msg err";
+          return;
+        }
+        if (npw.length < 6){
+          pwMsg.textContent = "New password must be at least 6 characters.";
+          pwMsg.className = "msg err";
+          return;
+        }
+        if (npw !== cpw){
+          pwMsg.textContent = "New passwords do not match.";
+          pwMsg.className = "msg err";
+          return;
+        }
+
+        const u = loadSession();
+        const all = loadUsers();
+        const key = (u.email || "").toLowerCase();
+        const rec = all[key] || {};
+        const storedPw = rec.password || "";
+
+        if (storedPw && curr !== storedPw){
+          pwMsg.textContent = "Current password is incorrect.";
+          pwMsg.className = "msg err";
+          return;
+        }
+        // If no stored password yet (first set), allow as long as user provides currentPw (or ignore)
+        rec.email = u.email;
+        rec.password = npw;           // DEMO ONLY: plain text. Replace with real auth in production.
+        all[key] = rec;
+        saveUsers(all);
+
+        currentPwEl.value = newPwEl.value = confirmEl.value = "";
+        pwMsg.textContent = "Password updated.";
+        pwMsg.className = "msg ok";
+      });
+
+      // Log out
+      logoutBtn.addEventListener("click", () => {
+        localStorage.removeItem(USER_KEY);
+        window.location.href = "login.html";
+      });
+    })();
+  </script>
 </body>
 </html>
