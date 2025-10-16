@@ -444,3 +444,30 @@ header.topbar .account-link:hover{
   header.topbar{ flex-direction: column !important; gap: 10px !important; }
   header.topbar .topnav{ flex-wrap: wrap !important; }
 }
+
+/* ===== NAV SPACING + TYPO LOCK (identical across pages) ===== */
+header.topbar .topnav {
+  gap: 6rem !important;              /* consistent horizontal spacing */
+}
+
+header.topbar .topnav a {
+  display: inline-block !important;  /* stable spacing box */
+  line-height: 1 !important;
+  letter-spacing: 0 !important;      /* remove accidental drift */
+  text-decoration-thickness: 2px;    /* makes underline look the same */
+  text-underline-offset: 6px;
+}
+
+/* big screens keep roomy spacing, scale down gradually */
+@media (max-width: 1600px) {
+  header.topbar .topnav { gap: 5rem !important; }
+}
+@media (max-width: 1400px) {
+  header.topbar .topnav { gap: 4rem !important; }
+}
+@media (max-width: 1200px) {
+  header.topbar .topnav { gap: 3rem !important; }
+}
+@media (max-width: 1000px) {
+  header.topbar .topnav { gap: 2rem !important; }
+}
