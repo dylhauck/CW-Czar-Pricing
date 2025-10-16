@@ -116,8 +116,25 @@
         <label for="miles">Miles</label>
         <input id="miles" type="number" placeholder="optional" />
 
-        <label for="fuel">Fuel Surcharge (%)</label>
-        <input id="fuel" type="number" placeholder="e.g., 25" />
+        <!-- Fuel Surcharge -->
+<label>Fuel Surcharge</label>
+
+<div class="fuel-row" style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+  <label style="display:flex; align-items:center; gap:6px;">
+    <input type="radio" name="fuelMode" id="fuelModeLTL" value="ltl" checked />
+    LTL (% on linehaul)
+  </label>
+
+  <input id="fuel" type="number" step="0.01" placeholder="e.g., 25" style="max-width:140px;" />
+
+  <label style="display:flex; align-items:center; gap:6px; margin-left:18px;">
+    <input type="radio" name="fuelMode" id="fuelModeTL" value="tl" />
+    TL (¢ per mile)
+  </label>
+
+  <input id="tlFuelCpm" type="number" step="0.01" placeholder="e.g., 55" style="max-width:140px;" disabled />
+</div>
+<span class="density-note">For TL, fuel is calculated as (miles × ¢/mile). For LTL, fuel is % of linehaul.</span>
 
         <label for="mcFloor">MC Floor ($)</label>
         <input id="mcFloor" type="number" placeholder="optional" />
