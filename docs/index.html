@@ -116,25 +116,42 @@
         <label for="miles">Miles</label>
         <input id="miles" type="number" placeholder="optional" />
 
-        <!-- Fuel Surcharge -->
-<label>Fuel Surcharge</label>
+<!-- Fuel Surcharge -->
+<section class="form-group">
+  <label class="section-label">Fuel Surcharge</label>
 
-<div class="fuel-row" style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
-  <label style="display:flex; align-items:center; gap:6px;">
-    <input type="radio" name="fuelMode" id="fuelModeLTL" value="ltl" checked />
-    LTL (% on linehaul)
-  </label>
+  <div class="fuel-wrap">
+    <!-- LTL -->
+    <label class="fuel-option">
+      <input type="radio" name="fuelMode" id="fuelModeLTL" value="ltl" checked />
+      <span class="fuel-title">LTL</span>
+      <span class="fuel-sub">(% of linehaul)</span>
+    </label>
 
-  <input id="fuel" type="number" step="0.01" placeholder="e.g., 25" style="max-width:140px;" />
+    <div class="fuel-input">
+      <input id="fuel" type="number" step="0.01" inputmode="decimal" placeholder="e.g., 25" />
+      <span class="fuel-unit">%</span>
+    </div>
 
-  <label style="display:flex; align-items:center; gap:6px; margin-left:18px;">
-    <input type="radio" name="fuelMode" id="fuelModeTL" value="tl" />
-    TL (¢ per mile)
-  </label>
+    <div class="fuel-divider" aria-hidden="true"></div>
 
-  <input id="tlFuelCpm" type="number" step="0.01" placeholder="e.g., 55" style="max-width:140px;" disabled />
-</div>
-<span class="density-note">For TL, fuel is calculated as (miles × ¢/mile). For LTL, fuel is % of linehaul.</span>
+    <!-- TL -->
+    <label class="fuel-option">
+      <input type="radio" name="fuelMode" id="fuelModeTL" value="tl" />
+      <span class="fuel-title">TL</span>
+      <span class="fuel-sub">(¢ per mile)</span>
+    </label>
+
+    <div class="fuel-input">
+      <input id="tlFuelCpm" type="number" step="0.01" inputmode="decimal" placeholder="e.g., 55" disabled />
+      <span class="fuel-unit">¢/mi</span>
+    </div>
+  </div>
+
+  <p class="hint">
+    LTL fuel applies to the linehaul after discount &amp; floor. TL fuel is miles × cents per mile.
+  </p>
+</section>
 
         <label for="mcFloor">MC Floor ($)</label>
         <input id="mcFloor" type="number" placeholder="optional" />
