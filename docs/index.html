@@ -1,277 +1,303 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- ========= META ========= -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CW LTL Rate Base | Rate A Shipment</title>
 
-  <link rel="stylesheet" href="./styles.css?v=31" />
+  <!-- ========= TITLE ========= -->
+  <title>CW Czar Pricing | Rate a Shipment</title>
+
+  <!-- ========= STYLES =========
+       Keep the version in sync across all pages to bust cache. -->
+  <link rel="stylesheet" href="./styles.css?v=32" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-
-  <style>
-    body { background:#f8faf9; font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; margin:0 }
-    header.topbar{display:flex;justify-content:space-between;align-items:center;background:#0f3a29;color:#fff;padding:15px 40px}
-    .brand-text{font-weight:700;font-size:1.25rem}
-    .topnav a{margin-right:20px;color:#fff;text-decoration:none;font-weight:500}
-    main.container{max-width:1100px;margin:60px auto;background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.08);padding:40px 60px}
-    .title-center{text-align:center;color:#0f3a29;font-weight:700;font-size:1.6rem;margin-bottom:30px}
-    .rate-wrapper{display:flex;justify-content:center;align-items:flex-start;gap:60px;width:100%}
-
-    .form-section{flex:1;max-width:420px;display:flex;flex-direction:column}
-    label{font-weight:600;color:#111827;display:block;width:100%;margin-top:10px}
-    input,select{width:100%;border:1px solid #e5e7eb;border-radius:10px;padding:8px 10px;font-size:.95rem;margin-top:4px}
-    .actions{display:flex;justify-content:center;gap:10px;margin-top:20px;width:100%}
-    .btn-primary{background:#0f3a29;color:#fff;border:none;border-radius:8px;padding:10px 16px;cursor:pointer;font-weight:600}
-    .btn-subtle{background:#e9f5ec;color:#0f3a29;border:1px solid #c8dfd1;border-radius:8px;padding:10px 16px;cursor:pointer;font-weight:600}
-
-    .right-col{flex:1;border-left:2px solid #d1d5db;padding-left:50px;margin-top:8px}
-    .density-card{border:1px solid #e5e7eb;border-radius:12px;padding:14px 16px;margin-bottom:18px;background:#f8faf9}
-    .density-card h3{margin:0 0 10px;font-size:1.05rem;color:#0f3a29}
-    .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-    .density-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px;font-weight:600;color:#0f3a29}
-    .density-actions{margin-top:10px;display:flex;gap:10px;flex-wrap:wrap}
-    .density-note{color:#6b7280;font-size:.85rem;margin-top:6px}
-
-    .results-list{list-style:none;padding:0;margin:0}
-    .results-list li{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dotted #d1d5db;font-size:1rem}
-
-    footer{text-align:center;color:#6b7280;font-size:.9rem;margin-top:50px;padding-bottom:20px}
-
-    @media (max-width:900px){
-      main.container{padding:30px}
-      .rate-wrapper{flex-direction:column;gap:30px}
-      .right-col{border-left:none;border-top:2px solid #d1d5db;padding-left:0;padding-top:20px}
-      .grid-4{grid-template-columns:repeat(2,1fr)}
-      .density-meta{grid-template-columns:1fr}
-    }
-  </style>
 </head>
 
-<body>
-  <header class="topbar">
-  <div class="brand"><span class="brand-text">CW Czar Pricing</span></div>
+<!-- Add page-rate so nav spacing matches other pages -->
+<body class="page-rate">
 
-  <nav class="topnav">
-    <a href="index.html">Rate a Shipment</a>
-    <a href="manage.html">Manage Settings</a>
-    <a href="usage.html">Usage Report</a>
-    <a href="accessorials.html">Accessorials</a>
-  </nav>
+  <!-- =========================================================
+       TOP NAV / HEADER — unified across all pages
+       ========================================================= -->
+  <header class="topbar" role="banner" aria-label="Primary">
+    <div class="brand">
+      <span class="brand-text">CW Czar Pricing</span>
+    </div>
 
-  <div class="account">
-    <a href="account.html" class="account-link">My Account</a>
-  </div>
-</header>
+    <nav class="topnav" role="navigation" aria-label="Main Navigation">
+      <a href="index.html" class="active">Rate a Shipment</a>
+      <a href="manage.html">Manage Settings</a>
+      <a href="usage.html">Usage Report</a>
+      <a href="accessorials.html">Accessorials</a>
+    </nav>
 
-  <main class="container">
-    <h2 class="title-center">Rate a Shipment</h2>
+    <div class="account">
+      <a href="account.html" class="account-link">My Account</a>
+    </div>
+  </header>
 
+  <!-- =========================================================
+       MAIN CONTENT WRAPPER
+       ========================================================= -->
+  <main class="container" id="main" role="main" tabindex="-1">
+
+    <!-- Page Title -->
+    <h1 class="title-center">Rate a Shipment</h1>
+
+    <!-- =====================================================
+         TWO-COLUMN LAYOUT
+         Left: Rating inputs
+         Right: Density + Results
+         ===================================================== -->
     <div class="rate-wrapper">
-      <!-- LEFT FORM -->
-      <section class="form-section">
-        <label>Origin ZIP</label>
-        <input id="originZip" type="text" placeholder="e.g., 30303" />
 
-        <label>Destination ZIP</label>
-        <input id="destZip" type="text" placeholder="e.g., 60606" />
+      <!-- ===================================================
+           LEFT COLUMN — RATING FORM
+           =================================================== -->
+      <section class="form-section" aria-labelledby="rateFormTitle">
+        <h2 id="rateFormTitle" class="sr-only">Lane &amp; Charges</h2>
 
-        <label>Class</label>
-        <input id="class" type="text" placeholder="e.g., 70" />
+        <!-- Lane -->
+        <div aria-labelledby="laneHdr">
+          <h3 id="laneHdr" class="sr-only">Lane</h3>
 
-        <label>Weight (lb)</label>
-        <input id="weight" type="text" placeholder="e.g., 500" />
+          <label for="originZip">Origin ZIP</label>
+          <input
+            id="originZip"
+            name="originZip"
+            type="text"
+            inputmode="numeric"
+            pattern="[0-9]*"
+            placeholder="e.g., 30303"
+            autocomplete="postal-code"
+            aria-describedby="originHelp" />
+          <div id="originHelp" class="sr-only">5-digit US ZIP code.</div>
 
-        <label>Miles</label>
-        <input id="miles" type="text" placeholder="optional" />
-
-        <label>Fuel Surcharge (%)</label>
-        <input id="fscPct" type="text" placeholder="e.g., 25" />
-
-        <label>MC Floor ($)</label>
-        <input id="mcFloor" type="text" placeholder="optional" />
-
-        <label>Accessorials ($)</label>
-        <input id="accessorials" type="text" placeholder="0.00" />
-
-        <label>Select Saved Accessorial</label>
-        <div style="display:flex;gap:8px;width:100%;">
-          <select id="savedAccessorial" style="flex:1;"></select>
-          <button id="addAccessorialBtn" type="button" class="btn-subtle">Add</button>
+          <label for="destinationZip">Destination ZIP</label>
+          <input
+            id="destinationZip"
+            name="destinationZip"
+            type="text"
+            inputmode="numeric"
+            pattern="[0-9]*"
+            placeholder="e.g., 60606"
+            autocomplete="postal-code"
+            aria-describedby="destHelp" />
+          <div id="destHelp" class="sr-only">5-digit US ZIP code.</div>
         </div>
 
-        <div id="accChosen" style="margin:8px 0 4px;min-height:6px;"></div>
+        <!-- Charges & Options -->
+        <div aria-labelledby="chargesHdr" style="margin-top:12px;">
+          <h3 id="chargesHdr" class="sr-only">Charges &amp; Options</h3>
 
-        <label>Discount (%)</label>
-        <input id="discountPct" type="text" placeholder="e.g., 70" />
+          <label for="class">Class</label>
+          <input
+            id="class"
+            name="class"
+            type="text"
+            inputmode="numeric"
+            placeholder="e.g., 70"
+            aria-describedby="classHelp" />
+          <div id="classHelp" class="sr-only">NMFC freight class.</div>
 
-        <div class="actions">
-          <button id="rateBtn" class="btn-primary">Rate Shipment</button>
-          <button id="clearBtn" class="btn-subtle" type="button">Clear</button>
+          <label for="weight">Weight (lb)</label>
+          <input
+            id="weight"
+            name="weight"
+            type="number"
+            inputmode="decimal"
+            placeholder="e.g., 500"
+            min="0"
+            step="1"
+            aria-describedby="weightHelp" />
+          <div id="weightHelp" class="sr-only">Shipment weight in pounds.</div>
+
+          <label for="miles">Miles</label>
+          <input
+            id="miles"
+            name="miles"
+            type="number"
+            inputmode="decimal"
+            placeholder="optional"
+            min="0"
+            step="1" />
+
+          <label for="fuel">Fuel Surcharge (%)</label>
+          <input
+            id="fuel"
+            name="fuel"
+            type="number"
+            inputmode="decimal"
+            placeholder="e.g., 25"
+            min="0"
+            step="0.01" />
+
+          <label for="mcFloor">MC Floor ($)</label>
+          <input
+            id="mcFloor"
+            name="mcFloor"
+            type="number"
+            inputmode="decimal"
+            placeholder="optional"
+            min="0"
+            step="0.01" />
+
+          <label for="accessorials">Accessorials ($)</label>
+          <input
+            id="accessorials"
+            name="accessorials"
+            type="number"
+            inputmode="decimal"
+            placeholder="0.00"
+            min="0"
+            step="0.01" />
+
+          <!-- Saved Accessorials selection -->
+          <label for="savedAccessorial" style="margin-top:10px;">Select Saved Accessorial</label>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <select id="savedAccessorial" name="savedAccessorial" aria-label="Saved Accessorial">
+              <option value="">Select...</option>
+            </select>
+            <button type="button" class="btn-subtle" id="addAccessorialBtn" aria-label="Add selected accessorial">
+              Add
+            </button>
+          </div>
+
+          <label for="discount" style="margin-top:10px;">Discount (%)</label>
+          <input
+            id="discount"
+            name="discount"
+            type="number"
+            inputmode="decimal"
+            placeholder="e.g., 70"
+            min="0"
+            max="100"
+            step="0.01" />
+        </div>
+
+        <!-- Actions -->
+        <div class="actions" role="group" aria-label="Rating Actions">
+          <button type="button" class="btn-primary" id="rateBtn">Rate Shipment</button>
+          <button type="button" class="btn-subtle" id="clearBtn">Clear</button>
         </div>
       </section>
 
-      <!-- RIGHT COLUMN -->
-      <section class="right-col">
-        <!-- Optional Density Inputs -->
-        <div class="density-card" id="densityBox">
-          <h3>Optional Density Inputs</h3>
-          <div class="grid-4">
-            <div><label for="densPallets">pallets</label><input id="densPallets" type="number" min="1" step="1" placeholder="e.g., 1" /></div>
-            <div><label for="densLen">Length (in)</label><input id="densLen" type="number" step="0.01" placeholder="e.g., 48" /></div>
-            <div><label for="densWid">Width (in)</label><input id="densWid" type="number" step="0.01" placeholder="e.g., 40" /></div>
-            <div><label for="densHt">Height (in)</label><input id="densHt" type="number" step="0.01" placeholder="e.g., 60" /></div>
+      <!-- ===================================================
+           RIGHT COLUMN — DENSITY + RESULTS
+           =================================================== -->
+      <aside class="right-col" aria-labelledby="rightColTitle">
+        <h2 id="rightColTitle" class="sr-only">Density &amp; Results</h2>
+
+        <!-- Density Card -->
+        <section class="density-card" aria-labelledby="densityTitle">
+          <h3 id="densityTitle">Density Calculator (Optional)</h3>
+
+          <!-- Pallet & Dim grid -->
+          <div class="grid-4" role="group" aria-label="Pallet count and dimensions">
+            <div>
+              <label for="pallets">Pallets</label>
+              <input
+                id="pallets"
+                name="pallets"
+                type="number"
+                inputmode="numeric"
+                min="0"
+                step="1"
+                placeholder="#" />
+            </div>
+
+            <div>
+              <label for="length">Length (in)</label>
+              <input
+                id="length"
+                name="length"
+                type="number"
+                inputmode="decimal"
+                min="0"
+                step="0.01"
+                placeholder="L" />
+            </div>
+
+            <div>
+              <label for="width">Width (in)</label>
+              <input
+                id="width"
+                name="width"
+                type="number"
+                inputmode="decimal"
+                min="0"
+                step="0.01"
+                placeholder="W" />
+            </div>
+
+            <div>
+              <label for="height">Height (in)</label>
+              <input
+                id="height"
+                name="height"
+                type="number"
+                inputmode="decimal"
+                min="0"
+                step="0.01"
+                placeholder="H" />
+            </div>
           </div>
 
-          <div class="density-meta">
-            <div>Cubic Ft: <span id="densCft">—</span></div>
-            <div>Density (lb/ft³): <span id="densLbft">—</span></div>
-            <div>Suggested Class: <span id="densClass">—</span></div>
+          <!-- Density / Class meta -->
+          <div class="density-meta" style="margin-top:10px;">
+            <div>
+              Density (lbs/ft³):
+              <span id="densityVal" aria-live="polite">—</span>
+            </div>
+            <div>
+              Suggested Class:
+              <span id="classSuggestion" aria-live="polite">—</span>
+            </div>
           </div>
 
-          <div id="densHint" class="density-note">Enter weight on the left to calculate density & class.</div>
-
+          <!-- Use Suggested Class -->
           <div class="density-actions">
-            <button class="btn-primary" id="useClassBtn" type="button" disabled>Use suggested class</button>
+            <button type="button" class="btn-subtle" id="useClassBtn">
+              Use Suggested Class
+            </button>
           </div>
-        </div>
 
-        <!-- Totals -->
-        <ul class="results-list">
-          <li><span>Gross</span><span id="tGross">—</span></li>
-          <li><span>Discount</span><span id="tDisc">—</span></li>
-          <li><span>MC Floor</span><span id="tFloor">—</span></li>
-          <li><span>Fuel Surcharge</span><span id="tFsc">—</span></li>
-          <li><span>Accessorials</span><span id="tAcc">—</span></li>
-          <li><strong>Net</strong><strong id="tNet">—</strong></li>
-        </ul>
-      </section>
+          <p class="density-note">
+            Density auto-calculates as you enter values. Class mapping:
+            &lt;1=400; 1–&lt;2=300; 2–&lt;4=250; 4–&lt;6=175; 6–&lt;8=125; 8–&lt;10=100;
+            10–&lt;12=92.5; 12–&lt;15=85; 15–&lt;22.5=70; 22.5–&lt;30=65; 30–&lt;35=60;
+            35–&lt;50=55; ≥50=50.
+          </p>
+        </section>
+
+        <!-- Results -->
+        <section aria-labelledby="resultsTitle">
+          <h3 id="resultsTitle" class="sr-only">Results</h3>
+          <ul class="results-list" aria-live="polite">
+            <li><span>Gross</span><span id="grossResult">—</span></li>
+            <li><span>Discount</span><span id="discountResult">—</span></li>
+            <li><span>MC Floor</span><span id="mcResult">—</span></li>
+            <li><span>Fuel Surcharge</span><span id="fuelResult">—</span></li>
+            <li><span>Accessorials</span><span id="accessorialsResult">—</span></li>
+            <li><strong>Net</strong><strong id="netResult">—</strong></li>
+          </ul>
+        </section>
+      </aside>
     </div>
   </main>
 
-  <footer>© 2025 CW LTL Rate Base. All Rights Reserved.</footer>
+  <!-- =========================================================
+       FOOTER
+       ========================================================= -->
+  <footer role="contentinfo">
+    © 2025 CW Czar Pricing. All rights reserved.
+  </footer>
 
-  <script type="module">
-    import { requireAuth, applyUserToUI } from "./auth.js?v=3";
-    requireAuth();
-    applyUserToUI();
-  </script>
-  <script src="./app.js?v=3"></script>
-
-  <!-- Per-user Saved Accessorials -->
-  <script>
-  (function(){
-    const $=id=>document.getElementById(id);
-    const sel=$('savedAccessorial'),add=$('addAccessorialBtn'),acc=$('accessorials'),clr=$('clearBtn'),chips=$('accChosen');
-    if(!sel||!add||!acc)return;
-
-    const KEY_BASE='CWCZAR_ACCESSORIALS';
-    function getCurrentUserEmail(){try{const u=JSON.parse(localStorage.getItem('cwczar.user')||'null');return(u?.email||'anon').toLowerCase();}catch{return'anon';}}
-    function userKey(){return`${KEY_BASE}:${getCurrentUserEmail()}`;}
-    function toNum(v){const n=parseFloat(String(v??'').replace(/[^0-9.\-]/g,''));return isNaN(n)?0:n;}
-    function loadSaved(){try{return JSON.parse(localStorage.getItem(userKey()))||[];}catch{return[];}}
-
-    function populate(){
-      const items=loadSaved();
-      sel.innerHTML='';
-      if(!items.length){sel.innerHTML='<option value="">No saved accessorials</option>';return;}
-      sel.insertAdjacentHTML('beforeend','<option value="">Choose…</option>');
-      items.forEach(i=>{
-        const o=document.createElement('option');
-        o.value=i.name;o.textContent=`${i.name} ($${Number(i.price).toFixed(2)})`;o.dataset.price=i.price;
-        sel.appendChild(o);
-      });
-    }
-
-    const chosen=new Map();
-    function renderChips(){
-      chips.innerHTML='';
-      chosen.forEach((price,name)=>{
-        const chip=document.createElement('span');
-        chip.style.cssText='display:inline-block;margin:2px 6px 0 0;padding:4px 8px;border:1px solid #c8dfd1;border-radius:999px;background:#eef6f1;color:#0f3a29;font-weight:600;cursor:pointer';
-        chip.title='Remove';
-        chip.textContent=`${name} ($${Number(price).toFixed(2)}) ×`;
-        chip.addEventListener('click',()=>{chosen.delete(name);acc.value=(toNum(acc.value)-toNum(price)).toFixed(2);renderChips();});
-        chips.appendChild(chip);
-      });
-    }
-
-    add.addEventListener('click',()=>{
-      const opt=sel.options[sel.selectedIndex];const name=opt?.value;if(!name)return;
-      const price=toNum(opt.dataset.price);
-      if(!chosen.has(name)){chosen.set(name,price);acc.value=(toNum(acc.value)+price).toFixed(2);renderChips();}
-    });
-    clr&&clr.addEventListener('click',()=>{chosen.clear();renderChips();});
-
-    populate();renderChips();
-  })();
-  </script>
-
-  <!-- Density Calculator -->
-  <script>
-    (function(){
-      const $=id=>document.getElementById(id);
-      const w=$('weight'),p=$('densPallets'),L=$('densLen'),W=$('densWid'),H=$('densHt');
-      const cft=$('densCft'),den=$('densLbft'),cls=$('densClass');
-      const hint=$('densHint'),useBtn=$('useClassBtn'),classInput=$('class');
-
-      function toNum(v){const n=parseFloat(String(v??'').replace(/[^0-9.\-]/g,''));return isNaN(n)?0:n;}
-      function classFromDensity(d){
-        if (d < 1)   return "400";
-        if (d < 2)   return "300";
-        if (d < 4)   return "250";
-        if (d < 6)   return "175";
-        if (d < 8)   return "125";
-        if (d < 10)  return "100";
-        if (d < 12)  return "92.5";
-        if (d < 15)  return "85";
-        if (d < 22.5)return "70";
-        if (d < 30)  return "65";
-        if (d < 35)  return "60";
-        if (d < 50)  return "55";
-        return "50";
-      }
-
-      function setUseBtnEnabled(enabled){
-        useBtn.disabled=!enabled;
-        useBtn.style.opacity=enabled?'1':'.5';
-        useBtn.style.cursor=enabled?'pointer':'not-allowed';
-      }
-
-      function calc(){
-        const pallets=Math.max(1,Math.floor(toNum(p.value)||1));
-        const len=toNum(L.value),wid=toNum(W.value),ht=toNum(H.value),weight=toNum(w.value);
-        if(!len||!wid||!ht){
-          cft.textContent="—";den.textContent="—";cls.textContent="—";
-          if(hint)hint.textContent="Enter length, width, and height to begin.";
-          setUseBtnEnabled(false);return;
-        }
-        const cubicFeet=(len*wid*ht*pallets)/1728;
-        cft.textContent=cubicFeet.toFixed(2);
-        if(!weight){
-          den.textContent="—";cls.textContent="—";
-          if(hint)hint.textContent="Enter weight on the left to calculate density & class.";
-          setUseBtnEnabled(false);return;
-        }
-        const density=weight/cubicFeet;
-        den.textContent=density.toFixed(2);
-        const c=classFromDensity(density);
-        cls.textContent=c;
-        if(hint)hint.textContent="";
-        setUseBtnEnabled(true);
-      }
-
-      ['input','change'].forEach(evt=>[w,p,L,W,H].forEach(el=>el&&el.addEventListener(evt,calc)));
-
-      useBtn.addEventListener('click',()=>{
-        const suggested=cls.textContent.trim();
-        if(!suggested||suggested==="—")return;
-        classInput.value=suggested;
-        classInput.style.boxShadow='0 0 0 2px #c8dfd1 inset';
-        setTimeout(()=>classInput.style.boxShadow='',350);
-      });
-
-      calc();
-    })();
-  </script>
+  <!-- =========================================================
+       SCRIPTS
+       Keep versions in sync with CSS for cache busting
+       ========================================================= -->
+  <script src="./app.js?v=32"></script>
 </body>
 </html>
