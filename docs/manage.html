@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CW Czar Pricing – Manage Settings</title>
+  <title>CW Czar Pricing – Usage Report</title>
   <link rel="stylesheet" href="./styles.css?v=27" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 </head>
@@ -14,8 +14,8 @@
 
     <nav class="topnav">
       <a href="index.html">Rate a Shipment</a>
-      <a href="manage.html" class="active">Manage Settings</a>
-      <a href="usage.html">Usage Report</a>
+      <a href="manage.html">Manage Settings</a>
+      <a href="usage.html" class="active">Usage Report</a>
       <a href="accessorials.html">Accessorials</a>
     </nav>
 
@@ -25,31 +25,25 @@
   </header>
 
   <main class="container">
-    <h2 class="title-center">Manage Settings</h2>
-    <p style="text-align:center; color:#4b5563;">Adjust your preferences, account configurations, and defaults below.</p>
+    <h2 class="title-center">Usage Report</h2>
+    <p style="text-align:center; color:#4b5563;">View recent quote activity and usage statistics below.</p>
 
-    <section style="max-width:700px;margin:40px auto;">
-      <form>
-        <label>Default Discount (%)</label>
-        <input type="number" min="0" max="100" placeholder="e.g., 70" />
-
-        <label>Default Fuel Surcharge (%)</label>
-        <input type="number" min="0" placeholder="e.g., 25" />
-
-        <label>Default MC Floor ($)</label>
-        <input type="number" min="0" placeholder="e.g., 50" />
-
-        <label>Default Origin ZIP</label>
-        <input type="text" placeholder="e.g., 30303" />
-
-        <label>Default Destination ZIP</label>
-        <input type="text" placeholder="e.g., 60606" />
-
-        <div class="actions">
-          <button class="btn-primary" type="submit">Save Changes</button>
-          <button class="btn-subtle" type="reset">Reset</button>
-        </div>
-      </form>
+    <section style="max-width:900px;margin:40px auto;">
+      <table style="width:100%;border-collapse:collapse;border:1px solid #e5e7eb;">
+        <thead style="background:#f8faf9;">
+          <tr>
+            <th style="text-align:left;padding:10px;border-bottom:1px solid #e5e7eb;">Date</th>
+            <th style="text-align:left;padding:10px;border-bottom:1px solid #e5e7eb;">Origin ZIP</th>
+            <th style="text-align:left;padding:10px;border-bottom:1px solid #e5e7eb;">Destination ZIP</th>
+            <th style="text-align:left;padding:10px;border-bottom:1px solid #e5e7eb;">Weight (lb)</th>
+            <th style="text-align:left;padding:10px;border-bottom:1px solid #e5e7eb;">Class</th>
+            <th style="text-align:left;padding:10px;border-bottom:1px solid #e5e7eb;">Net Charge ($)</th>
+          </tr>
+        </thead>
+        <tbody id="usageTable">
+          <tr><td colspan="6" style="text-align:center;padding:20px;color:#6b7280;">No data yet</td></tr>
+        </tbody>
+      </table>
     </section>
   </main>
 
