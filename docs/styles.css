@@ -66,14 +66,13 @@ header.topbar {
   text-decoration: none;
   font-weight: 500;
   font-size: 1rem;
-  transition: opacity 0.2s ease, border-bottom 0.2s ease;
-  border-bottom: 2px solid transparent;
-  padding-bottom: 2px;
+  transition: opacity 0.2s ease;
 }
 
 .topnav a:hover,
 .topnav a.active {
-  border-bottom: 2px solid #fff;
+  opacity: 0.8;
+  text-decoration: underline;
 }
 
 .account {
@@ -176,71 +175,6 @@ input:focus, select:focus, textarea:focus {
   gap: 10px;
   margin-top: 20px;
   width: 100%;
-}
-
-/* ==========================
-   FUEL SURCHARGE SECTION
-========================== */
-.form-group { margin-top: 14px; }
-.section-label { font-weight: 700; color: #0f3a29; display: block; margin-bottom: 10px; }
-
-.fuel-wrap {
-  display: grid;
-  grid-template-columns: auto 170px 1px auto 170px;
-  align-items: center;
-  gap: 12px 16px;
-  background: #f8faf9;
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-  padding: 12px;
-}
-
-.fuel-option {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  white-space: nowrap;
-  user-select: none;
-}
-.fuel-option input[type="radio"] { transform: translateY(1px); }
-.fuel-title { font-weight: 600; color: #111827; }
-.fuel-sub { color: #6b7280; font-size: 0.9rem; }
-
-.fuel-input {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-.fuel-input input {
-  width: 100%;
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-  padding: 8px 32px 8px 10px;
-  font-size: 0.95rem;
-}
-.fuel-input input:disabled { background: #f3f4f6; color: #9ca3af; }
-.fuel-unit {
-  position: absolute;
-  right: 10px;
-  color: #6b7280;
-  font-size: 0.9rem;
-}
-
-.fuel-divider {
-  width: 1px;
-  height: 28px;
-  background: #e5e7eb;
-  justify-self: center;
-}
-
-.hint { margin: 8px 2px 0; color: #6b7280; font-size: 0.9rem; }
-
-@media (max-width: 700px) {
-  .fuel-wrap {
-    grid-template-columns: 1fr 140px;
-    grid-auto-rows: minmax(0, auto);
-  }
-  .fuel-divider { display: none; }
 }
 
 /* ==========================
@@ -428,4 +362,110 @@ input:focus, select:focus, textarea:focus {
   .density-meta {
     grid-template-columns: 1fr;
   }
+}
+
+/* ==========================
+   UNIFIED HEADER FIX
+   (forces identical header on every page)
+========================== */
+:root{
+  --hdr-pad: 18px 40px;   /* header padding */
+  --hdr-brand: 2rem;      /* brand text size */
+  --hdr-link: 1.5rem;     /* nav link size */
+  --hdr-account: 1.25rem; /* "My Account" size */
+}
+
+header.topbar{
+  padding: var(--hdr-pad) !important;
+  min-height: 64px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  background: #0f3a29 !important; /* keep your original green */
+  color: #fff !important;
+  flex-wrap: wrap !important;
+  line-height: 1 !important;
+}
+
+header.topbar,
+header.topbar *{
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif !important;
+}
+
+header.topbar .brand-text{
+  font-weight: 700 !important;
+  font-size: var(--hdr-brand) !important;
+  letter-spacing: .5px !important;
+  margin: 0 !important;
+}
+
+header.topbar .topnav{
+  flex: 1 !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 25px !important;
+}
+
+header.topbar .topnav a{
+  color: #fff !important;
+  text-decoration: none !important;
+  font-weight: 600 !important;
+  font-size: var(--hdr-link) !important;
+}
+
+header.topbar .topnav a.active,
+header.topbar .topnav a:hover{
+  text-decoration: underline !important;
+  opacity: .9 !important;
+}
+
+header.topbar .account{
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+}
+
+header.topbar .account-link{
+  color: #fff !important;
+  text-decoration: none !important;
+  font-weight: 700 !important;
+  font-size: var(--hdr-account) !important;
+  padding: 10px 18px !important;
+  background: rgba(255,255,255,0.12) !important;
+  border-radius: 8px !important;
+}
+
+header.topbar .account-link:hover{
+  background: rgba(255,255,255,0.22) !important;
+}
+
+@media (max-width: 900px){
+  header.topbar{ flex-direction: column !important; gap: 10px !important; }
+  header.topbar .topnav{ flex-wrap: wrap !important; }
+}
+
+/* ==========================
+   RATE PAGE–ONLY NAV SPACING FIX
+   (keeps other pages unchanged)
+========================== */
+body.page-rate header.topbar .topnav {
+  gap: 4.5rem !important;
+}
+body.page-rate header.topbar .topnav a {
+  margin: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  letter-spacing: 0 !important;
+  line-height: 1 !important;
+}
+
+/* Unified nav underline style across ALL pages (matches Rate a Shipment) */
+header.topbar .topnav a.active,
+header.topbar .topnav a:hover {
+  text-decoration-line: underline !important;
+  text-decoration-thickness: 2px !important;   /* same as Rate page */
+  text-underline-offset: 6px !important;       /* same as Rate page */
+  text-decoration-color: #fff !important;
+  opacity: .9;
 }
