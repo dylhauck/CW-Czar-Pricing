@@ -457,17 +457,3 @@ header.topbar .topnav a {
   text-decoration-thickness: 2px;    /* makes underline look the same */
   text-underline-offset: 6px;
 }
-
-/* big screens keep roomy spacing, scale down gradually */
-@media (max-width: 1600px) {
-  header.topbar .topnav { gap: 5rem !important; }
-}
-@media (max-width: 1400px) {
-  header.topbar .topnav { gap: 4rem !important; }
-}
-@media (max-width: 1200px) {
-  header.topbar .topnav { gap: 3rem !important; }
-}
-@media (max-width: 1000px) {
-  header.topbar .topnav { gap: 2rem !important; }
-}
