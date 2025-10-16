@@ -1,337 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- META -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CW Czar Pricing | Accessorials</title>
 
-  <!-- Use the same CSS & font as other pages -->
-  <link rel="stylesheet" href="./styles.css?v=32" />
+  <!-- TITLE -->
+  <title>CW Czar Pricing | Rate a Shipment</title>
+
+  <!-- STYLES -->
+  <link rel="stylesheet" href="./styles.css?v=33" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- FIX HEADER SPACING FOR INDEX ONLY -->
   <style>
-    /* Page-specific niceties (non-header) */
-    .page-intro { text-align:center; color:#4b5563; margin-top:6px; }
-    .card {
-      border: 1px solid #e5e7eb; background:#fff; border-radius:12px; 
-      box-shadow:0 2px 8px rgba(0,0,0,.06); padding:18px 18px;
+    body.page-rate header.topbar {
+      display:flex !important;
+      justify-content:space-between !important;
+      align-items:center !important;
+      background:#0f3a29 !important;
+      color:#fff !important;
+      padding:18px 40px !important;
+      min-height:64px !important;
+      flex-wrap:wrap !important;
+      line-height:1 !important;
     }
-    .split {
-      display:grid; grid-template-columns: 1.1fr 1.4fr; gap:24px; align-items:start;
+    body.page-rate header.topbar,
+    body.page-rate header.topbar * {
+      font-family:"Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif !important;
     }
-    .muted { color:#6b7280; }
-    .help { font-size:.92rem; color:#6b7280; margin-top:6px; }
-    .list-empty {
-      border:2px dashed #e5e7eb; border-radius:12px; padding:18px; text-align:center; color:#6b7280;
+    body.page-rate header.topbar .brand-text {
+      font-weight:700 !important;
+      font-size:2rem !important;
+      letter-spacing:.5px !important;
+      margin:0 !important;
     }
-    .row {
-      display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+    body.page-rate header.topbar .topnav {
+      flex:1 !important;
+      display:flex !important;
+      justify-content:center !important;
+      align-items:center !important;
+      gap:25px !important;
     }
-
-    /* Accessorials list (left aligned text + aligned delete buttons) */
-    .accessorials-list { list-style:none; padding:0; margin:0; }
-    .accessorials-item {
-      display:flex; align-items:center; justify-content:space-between;
-      border-bottom:1px solid #e5e7eb; padding:12px 8px;
+    body.page-rate header.topbar .topnav a {
+      color:#fff !important;
+      text-decoration:none !important;
+      font-weight:600 !important;
+      font-size:1.5rem !important;
+      margin:0 !important;
+      padding:0 !important;
+      line-height:1 !important;
+      letter-spacing:0 !important;
     }
-    .acc-info { display:flex; align-items:center; gap:10px; min-width:0; }
-    .acc-name { font-weight:600; color:#0f3a29; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-    .acc-price { font-weight:600; color:#111827; }
-
-    .btn-delete {
-      background:#0f3a29; color:#fff; border:none; border-radius:8px;
-      padding:8px 14px; font-weight:600; cursor:pointer; display:inline-flex; 
-      align-items:center; justify-content:center; transition:background .2s ease;
+    body.page-rate header.topbar .topnav a.active,
+    body.page-rate header.topbar .topnav a:hover {
+      text-decoration:underline !important;
+      opacity:.9 !important;
+      text-decoration-thickness:2px;
+      text-underline-offset:6px;
     }
-    .btn-delete:hover { background:#145a3c; }
-
-    /* Inline alerts */
-    .msg { margin-top:10px; font-size:.95rem; }
-    .msg.ok { color:#145a3c; }
-    .msg.err { color:#b91c1c; }
-
-    /* Mobile */
-    @media (max-width: 960px) {
-      .split { grid-template-columns: 1fr; }
+    body.page-rate header.topbar .account {
+      display:flex !important;
+      align-items:center !important;
+      justify-content:flex-end !important;
+    }
+    body.page-rate header.topbar .account-link {
+      color:#fff !important;
+      text-decoration:none !important;
+      font-weight:700 !important;
+      font-size:1.25rem !important;
+      padding:10px 18px !important;
+      background:rgba(255,255,255,.12) !important;
+      border-radius:8px !important;
+    }
+    body.page-rate header.topbar .account-link:hover {
+      background:rgba(255,255,255,.22) !important;
     }
   </style>
 </head>
 
-<body>
-  <!-- Unified header (identical across pages) -->
+<body class="page-rate">
+  <!-- HEADER -->
   <header class="topbar">
     <div class="brand"><span class="brand-text">CW Czar Pricing</span></div>
     <nav class="topnav">
-      <a href="index.html">Rate a Shipment</a>
+      <a href="index.html" class="active">Rate a Shipment</a>
       <a href="manage.html">Manage Settings</a>
       <a href="usage.html">Usage Report</a>
-      <a href="accessorials.html" class="active">Accessorials</a>
+      <a href="accessorials.html">Accessorials</a>
     </nav>
     <div class="account">
       <a href="account.html" class="account-link">My Account</a>
     </div>
   </header>
 
-  <!-- =========================================================
-       MAIN CONTENT WRAPPER
-       ========================================================= -->
-  <main class="container" id="main" role="main" tabindex="-1">
-
-    <!-- Page Title -->
+  <!-- MAIN -->
+  <main class="container">
     <h1 class="title-center">Rate a Shipment</h1>
 
-    <!-- =====================================================
-         TWO-COLUMN LAYOUT
-         Left: Rating inputs
-         Right: Density + Results
-         ===================================================== -->
     <div class="rate-wrapper">
+      <!-- LEFT SIDE FORM -->
+      <section class="form-section">
+        <label for="originZip">Origin ZIP</label>
+        <input id="originZip" type="text" placeholder="e.g., 30303" />
 
-      <!-- ===================================================
-           LEFT COLUMN — RATING FORM
-           =================================================== -->
-      <section class="form-section" aria-labelledby="rateFormTitle">
-        <h2 id="rateFormTitle" class="sr-only">Lane &amp; Charges</h2>
+        <label for="destinationZip">Destination ZIP</label>
+        <input id="destinationZip" type="text" placeholder="e.g., 60606" />
 
-        <!-- Lane -->
-        <div aria-labelledby="laneHdr">
-          <h3 id="laneHdr" class="sr-only">Lane</h3>
+        <label for="class">Class</label>
+        <input id="class" type="text" placeholder="e.g., 70" />
 
-          <label for="originZip">Origin ZIP</label>
-          <input
-            id="originZip"
-            name="originZip"
-            type="text"
-            inputmode="numeric"
-            pattern="[0-9]*"
-            placeholder="e.g., 30303"
-            autocomplete="postal-code"
-            aria-describedby="originHelp" />
-          <div id="originHelp" class="sr-only">5-digit US ZIP code.</div>
+        <label for="weight">Weight (lb)</label>
+        <input id="weight" type="number" placeholder="e.g., 500" />
 
-          <label for="destinationZip">Destination ZIP</label>
-          <input
-            id="destinationZip"
-            name="destinationZip"
-            type="text"
-            inputmode="numeric"
-            pattern="[0-9]*"
-            placeholder="e.g., 60606"
-            autocomplete="postal-code"
-            aria-describedby="destHelp" />
-          <div id="destHelp" class="sr-only">5-digit US ZIP code.</div>
+        <label for="miles">Miles</label>
+        <input id="miles" type="number" placeholder="optional" />
+
+        <label for="fuel">Fuel Surcharge (%)</label>
+        <input id="fuel" type="number" placeholder="e.g., 25" />
+
+        <label for="mcFloor">MC Floor ($)</label>
+        <input id="mcFloor" type="number" placeholder="optional" />
+
+        <label for="accessorials">Accessorials ($)</label>
+        <input id="accessorials" type="number" placeholder="0.00" />
+
+        <label for="savedAccessorial">Select Saved Accessorial</label>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <select id="savedAccessorial">
+            <option value="">Select...</option>
+          </select>
+          <button class="btn-subtle" id="addAccessorialBtn">Add</button>
         </div>
 
-        <!-- Charges & Options -->
-        <div aria-labelledby="chargesHdr" style="margin-top:12px;">
-          <h3 id="chargesHdr" class="sr-only">Charges &amp; Options</h3>
+        <label for="discount">Discount (%)</label>
+        <input id="discount" type="number" placeholder="e.g., 70" />
 
-          <label for="class">Class</label>
-          <input
-            id="class"
-            name="class"
-            type="text"
-            inputmode="numeric"
-            placeholder="e.g., 70"
-            aria-describedby="classHelp" />
-          <div id="classHelp" class="sr-only">NMFC freight class.</div>
-
-          <label for="weight">Weight (lb)</label>
-          <input
-            id="weight"
-            name="weight"
-            type="number"
-            inputmode="decimal"
-            placeholder="e.g., 500"
-            min="0"
-            step="1"
-            aria-describedby="weightHelp" />
-          <div id="weightHelp" class="sr-only">Shipment weight in pounds.</div>
-
-          <label for="miles">Miles</label>
-          <input
-            id="miles"
-            name="miles"
-            type="number"
-            inputmode="decimal"
-            placeholder="optional"
-            min="0"
-            step="1" />
-
-          <label for="fuel">Fuel Surcharge (%)</label>
-          <input
-            id="fuel"
-            name="fuel"
-            type="number"
-            inputmode="decimal"
-            placeholder="e.g., 25"
-            min="0"
-            step="0.01" />
-
-          <label for="mcFloor">MC Floor ($)</label>
-          <input
-            id="mcFloor"
-            name="mcFloor"
-            type="number"
-            inputmode="decimal"
-            placeholder="optional"
-            min="0"
-            step="0.01" />
-
-          <label for="accessorials">Accessorials ($)</label>
-          <input
-            id="accessorials"
-            name="accessorials"
-            type="number"
-            inputmode="decimal"
-            placeholder="0.00"
-            min="0"
-            step="0.01" />
-
-          <!-- Saved Accessorials selection -->
-          <label for="savedAccessorial" style="margin-top:10px;">Select Saved Accessorial</label>
-          <div style="display:flex;align-items:center;gap:10px;">
-            <select id="savedAccessorial" name="savedAccessorial" aria-label="Saved Accessorial">
-              <option value="">Select...</option>
-            </select>
-            <button type="button" class="btn-subtle" id="addAccessorialBtn" aria-label="Add selected accessorial">
-              Add
-            </button>
-          </div>
-
-          <label for="discount" style="margin-top:10px;">Discount (%)</label>
-          <input
-            id="discount"
-            name="discount"
-            type="number"
-            inputmode="decimal"
-            placeholder="e.g., 70"
-            min="0"
-            max="100"
-            step="0.01" />
-        </div>
-
-        <!-- Actions -->
-        <div class="actions" role="group" aria-label="Rating Actions">
-          <button type="button" class="btn-primary" id="rateBtn">Rate Shipment</button>
-          <button type="button" class="btn-subtle" id="clearBtn">Clear</button>
+        <div class="actions">
+          <button class="btn-primary" id="rateBtn">Rate Shipment</button>
+          <button class="btn-subtle" id="clearBtn">Clear</button>
         </div>
       </section>
 
-      <!-- ===================================================
-           RIGHT COLUMN — DENSITY + RESULTS
-           =================================================== -->
-      <aside class="right-col" aria-labelledby="rightColTitle">
-        <h2 id="rightColTitle" class="sr-only">Density &amp; Results</h2>
-
-        <!-- Density Card -->
-        <section class="density-card" aria-labelledby="densityTitle">
-          <h3 id="densityTitle">Density Calculator (Optional)</h3>
-
-          <!-- Pallet & Dim grid -->
-          <div class="grid-4" role="group" aria-label="Pallet count and dimensions">
+      <!-- RIGHT SIDE -->
+      <aside class="right-col">
+        <div class="density-card">
+          <h3>Density Calculator (Optional)</h3>
+          <div class="grid-4">
             <div>
-              <label for="pallets">Pallets</label>
-              <input
-                id="pallets"
-                name="pallets"
-                type="number"
-                inputmode="numeric"
-                min="0"
-                step="1"
-                placeholder="#" />
+              <label>Pallets</label>
+              <input id="pallets" type="number" placeholder="#" />
             </div>
-
             <div>
-              <label for="length">Length (in)</label>
-              <input
-                id="length"
-                name="length"
-                type="number"
-                inputmode="decimal"
-                min="0"
-                step="0.01"
-                placeholder="L" />
+              <label>Length (in)</label>
+              <input id="length" type="number" placeholder="L" />
             </div>
-
             <div>
-              <label for="width">Width (in)</label>
-              <input
-                id="width"
-                name="width"
-                type="number"
-                inputmode="decimal"
-                min="0"
-                step="0.01"
-                placeholder="W" />
+              <label>Width (in)</label>
+              <input id="width" type="number" placeholder="W" />
             </div>
-
             <div>
-              <label for="height">Height (in)</label>
-              <input
-                id="height"
-                name="height"
-                type="number"
-                inputmode="decimal"
-                min="0"
-                step="0.01"
-                placeholder="H" />
+              <label>Height (in)</label>
+              <input id="height" type="number" placeholder="H" />
             </div>
           </div>
 
-          <!-- Density / Class meta -->
-          <div class="density-meta" style="margin-top:10px;">
-            <div>
-              Density (lbs/ft³):
-              <span id="densityVal" aria-live="polite">—</span>
-            </div>
-            <div>
-              Suggested Class:
-              <span id="classSuggestion" aria-live="polite">—</span>
-            </div>
+          <div class="density-meta">
+            <div>Density (lbs/ft³): <span id="densityVal">—</span></div>
+            <div>Suggested Class: <span id="classSuggestion">—</span></div>
           </div>
 
-          <!-- Use Suggested Class -->
           <div class="density-actions">
-            <button type="button" class="btn-subtle" id="useClassBtn">
-              Use Suggested Class
-            </button>
+            <button class="btn-subtle" id="useClassBtn">Use Suggested Class</button>
           </div>
 
-          <p class="density-note">
-            Density auto-calculates as you enter values. Class mapping:
-            &lt;1=400; 1–&lt;2=300; 2–&lt;4=250; 4–&lt;6=175; 6–&lt;8=125; 8–&lt;10=100;
-            10–&lt;12=92.5; 12–&lt;15=85; 15–&lt;22.5=70; 22.5–&lt;30=65; 30–&lt;35=60;
-            35–&lt;50=55; ≥50=50.
-          </p>
-        </section>
+          <p class="density-note">Density auto-calculates as you enter values.</p>
+        </div>
 
-        <!-- Results -->
-        <section aria-labelledby="resultsTitle">
-          <h3 id="resultsTitle" class="sr-only">Results</h3>
-          <ul class="results-list" aria-live="polite">
-            <li><span>Gross</span><span id="grossResult">—</span></li>
-            <li><span>Discount</span><span id="discountResult">—</span></li>
-            <li><span>MC Floor</span><span id="mcResult">—</span></li>
-            <li><span>Fuel Surcharge</span><span id="fuelResult">—</span></li>
-            <li><span>Accessorials</span><span id="accessorialsResult">—</span></li>
-            <li><strong>Net</strong><strong id="netResult">—</strong></li>
-          </ul>
-        </section>
+        <ul class="results-list">
+          <li><span>Gross</span><span id="grossResult">—</span></li>
+          <li><span>Discount</span><span id="discountResult">—</span></li>
+          <li><span>MC Floor</span><span id="mcResult">—</span></li>
+          <li><span>Fuel Surcharge</span><span id="fuelResult">—</span></li>
+          <li><span>Accessorials</span><span id="accessorialsResult">—</span></li>
+          <li><strong>Net</strong><strong id="netResult">—</strong></li>
+        </ul>
       </aside>
     </div>
   </main>
 
-  <!-- =========================================================
-       FOOTER
-       ========================================================= -->
-  <footer role="contentinfo">
-    © 2025 CW Czar Pricing. All rights reserved.
-  </footer>
+  <!-- FOOTER -->
+  <footer>© 2025 CW Czar Pricing. All rights reserved.</footer>
 
-  <!-- =========================================================
-       SCRIPTS
-       Keep versions in sync with CSS for cache busting
-       ========================================================= -->
-  <script src="./app.js?v=32"></script>
+  <!-- JS -->
+  <script src="./app.js?v=33"></script>
 </body>
 </html>
